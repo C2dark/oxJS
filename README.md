@@ -1,1 +1,1 @@
-# QuantumultX
+# Q
