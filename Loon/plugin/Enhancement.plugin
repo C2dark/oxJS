@@ -22,28 +22,28 @@ arg6 = switch,true,tag=Fuck Telegram bad IPs,将 tg 的垃圾 IP 转移到好的
 
 [Script]
 #1 SoraRemoveWatermark
-http-request ^https?:\/\/videos\.openai\.com\/.*vg-assets\/assets.*mp4 script-path=https://raw.githubusercontent.com/C2dark/oxJS/refs/heads/dev/Loon/Scripts/enhancement/SoraRemoveWatermark.js, timeout=60, tag=SoraRemoveWatermark
+http-request ^https?:\/\/videos\.openai\.com\/.*vg-assets\/assets.*mp4 script-path=https://raw.githubusercontent.com/C2dark/oxJS/refs/heads/dev/Loon/Scripts/enhancement/SoraRemoveWatermark.js, timeout=60, enable ={arg1},tag=SoraRemoveWatermark
 
 #2 京东比价
 http-response ^https?:\/\/in\.m\.jd\.com\/product\/graphext\/\d+\.html script-path=https://raw.githubusercontent.com/C2dark/oxJS/refs/heads/dev/Loon/Scripts/enhancement/jd_price-wf021325.js, requires-body=true, timeout=60, tag=京东比价
-http-request ^https?:\/\/apapia-sqk-weblogic\.manmanbuy\.com\/baoliao\/center\/menu$ script-path=https://raw.githubusercontent.com/C2dark/oxJS/refs/heads/dev/Loon/Scripts/enhancement/jd_price-wf021325.js, requires-body=true, timeout=60, tag=京东比价
+http-request ^https?:\/\/apapia-sqk-weblogic\.manmanbuy\.com\/baoliao\/center\/menu$ script-path=https://raw.githubusercontent.com/C2dark/oxJS/refs/heads/dev/Loon/Scripts/enhancement/jd_price-wf021325.js, requires-body=true, timeout=60, enable ={arg2},tag=京东比价
 
 #3 Spotify_lyrics_translation
-http-response ^https?:\/\/api\.spotify\.com\/v1\/tracks\? requires-body=true,script-path=https://raw.githubusercontent.com/C2dark/oxJS/refs/heads/dev/Loon/Scripts/enhancement/Spotify_response.js, tag=跟踪响应·JSON
+http-response ^https?:\/\/api\.spotify\.com\/v1\/tracks\? requires-body=true,script-path=https://raw.githubusercontent.com/C2dark/oxJS/refs/heads/dev/Loon/Scripts/enhancement/Spotify_response.js, enable ={arg3},tag=跟踪响应·JSON
 
-http-request ^https?:\/\/spclient\.wg\.spotify\.com\/color-lyrics\/v2\/track\/(.+)\?(.*)format=json requires-body=true,script-path=https://raw.githubusercontent.com/C2dark/oxJS/refs/heads/dev/Loon/Scripts/enhancement/Spotify_request.js, tag=歌词请求·JSON
-http-request ^https?:\/\/spclient\.wg\.spotify\.com\/color-lyrics\/v2\/track\/\w+\?(.*) requires-body=true, binary-body-mode=true,script-path=https://raw.githubusercontent.com/C2dark/oxJS/refs/heads/dev/Loon/Scripts/enhancement/Spotify_request.js, tag=歌词请求·Proto
+http-request ^https?:\/\/spclient\.wg\.spotify\.com\/color-lyrics\/v2\/track\/(.+)\?(.*)format=json requires-body=true,script-path=https://raw.githubusercontent.com/C2dark/oxJS/refs/heads/dev/Loon/Scripts/enhancement/Spotify_request.js, enable ={arg3},tag=歌词请求·JSON
+http-request ^https?:\/\/spclient\.wg\.spotify\.com\/color-lyrics\/v2\/track\/\w+\?(.*) requires-body=true, binary-body-mode=true,script-path=https://raw.githubusercontent.com/C2dark/oxJS/refs/heads/dev/Loon/Scripts/enhancement/Spotify_request.js, enable ={arg3},tag=歌词请求·Proto
 
-http-response ^https?:\/\/spclient\.wg\.spotify\.com\/color-lyrics\/v2\/track\/(.+)\?(.*)format=json(.*)subtype=Translate requires-body=true,script-path=https://raw.githubusercontent.com/C2dark/oxJS/refs/heads/dev/Loon/Scripts/enhancement/Translate_response.js, tag=翻译歌词响应·JSON
-http-response ^https?:\/\/spclient\.wg\.spotify\.com\/color-lyrics\/v2\/track\/\w+\?(.*)subtype=Translate requires-body=true, binary-body-mode=true,script-path=https://raw.githubusercontent.com/C2dark/oxJS/refs/heads/dev/Loon/Scripts/enhancement/Translate_response.js, tag=翻译歌词响应·Proto
+http-response ^https?:\/\/spclient\.wg\.spotify\.com\/color-lyrics\/v2\/track\/(.+)\?(.*)format=json(.*)subtype=Translate requires-body=true,script-path=https://raw.githubusercontent.com/C2dark/oxJS/refs/heads/dev/Loon/Scripts/enhancement/Translate_response.js, enable ={arg3},tag=翻译歌词响应·JSON
+http-response ^https?:\/\/spclient\.wg\.spotify\.com\/color-lyrics\/v2\/track\/\w+\?(.*)subtype=Translate requires-body=true, binary-body-mode=true,script-path=https://raw.githubusercontent.com/C2dark/oxJS/refs/heads/dev/Loon/Scripts/enhancement/Translate_response.js, enable ={arg3},tag=翻译歌词响应·Proto
 
-http-response ^https?:\/\/spclient\.wg\.spotify\.com\/color-lyrics\/v2\/track\/(.+)\?(.*)format=json(.*)subtype=External requires-body=true,script-path=https://raw.githubusercontent.com/C2dark/oxJS/refs/heads/dev/Loon/Scripts/enhancement/External_Lyrics_response.js, tag=外部歌词响应·JSON
-http-response ^https?:\/\/spclient\.wg\.spotify\.com\/color-lyrics\/v2\/track\/\w+\?(.*)subtype=External requires-body=true, binary-body-mode=true,script-path=https://raw.githubusercontent.com/C2dark/oxJS/refs/heads/dev/Loon/Scripts/enhancement/External_Lyrics_response.js, tag=外部歌词响应·Proto
+http-response ^https?:\/\/spclient\.wg\.spotify\.com\/color-lyrics\/v2\/track\/(.+)\?(.*)format=json(.*)subtype=External requires-body=true,script-path=https://raw.githubusercontent.com/C2dark/oxJS/refs/heads/dev/Loon/Scripts/enhancement/External_Lyrics_response.js, enable ={arg3},tag=外部歌词响应·JSON
+http-response ^https?:\/\/spclient\.wg\.spotify\.com\/color-lyrics\/v2\/track\/\w+\?(.*)subtype=External requires-body=true, binary-body-mode=true,script-path=https://raw.githubusercontent.com/C2dark/oxJS/refs/heads/dev/Loon/Scripts/enhancement/External_Lyrics_response.js, enable ={arg3},tag=外部歌词响应·Proto
 
 #4 
 
 #5 UnblockURLinWeChat
-http-response ^https\:\/\/(weixin110\.qq|security.wechat)\.com\/cgi-bin\/mmspamsupport-bin\/newredirectconfirmcgi\? script-path=https://kelee.one/Resource/JavaScript/Weixin/Weixin_external_links_unlock.js, requires-body=true, tag=微信外部链接解锁
+http-response ^https\:\/\/(weixin110\.qq|security.wechat)\.com\/cgi-bin\/mmspamsupport-bin\/newredirectconfirmcgi\? script-path=https://kelee.one/Resource/JavaScript/Weixin/Weixin_external_links_unlock.js, requires-body=true, enable ={arg5},tag=微信外部链接解锁
 
 [Rewrite]
 #JD_Price-wf021325
@@ -51,14 +51,14 @@ http-response ^https\:\/\/(weixin110\.qq|security.wechat)\.com\/cgi-bin\/mmspams
 ^https?:\/\/apapia-sqk-weblogic\.manmanbuy\.com\/baoliao\/center\/menu$ url script-request-body https://raw.githubusercontent.com/wf021325/qx/master/js/jd_price.js
 
 #QQ_Redirect
-(^https:\/\/c\.pc\.qq\.com\/middlem\.html\?pfurl=)(http.*)(&pfuin=.*) 307 $2
-(^https:\/\/c\.pc\.qq\.com\/middlect\.html\?pfuin=.*&pfurl=)(http.*)(&gjsublevel=.*) 307 $2
-(^https:\/\/c\.pc\.qq\.com\/middlect\.html\?iscontinue=.*pfurl=)(http.*)(&pfuin=.*) 307 $2
-(^https:\/\/pingtas\.qq\.com\/webview\/pingd\?dm=c\.pc\.qq\.com&pvi=\d+&si=s\d+&url=\/middlem\.html\?pfurl%3d)(http.*)(%26pfuin%3d.*%26pfuin%3d.*) 307 $2
-(^https:\/\/cgi\.connect\.qq\.com\/qqconnectopen\/get_urlinfoForQQV2\?url=)(http.*) 307 $2
-(^https:\/\/c\.pc\.qq\.com\/index\.html\?pfurl=)(http.*)(&pfuin=.*) 307 $2
-(^https:\/\/c\.pc\.qq\.com\/ios\.html\?url=)(http.*)(&level=.*) 307 $2
-(^https:\/\/pingtas\.qq\.com\/webview\/pingd\?dm=c\.pc\.qq\.com&pvi=\d+&si=s\d+&url=\/ios\.html\?url%3d)(http.*)(%26level.*%26level.*) 307 $2
+(^https:\/\/c\.pc\.qq\.com\/middlem\.html\?pfurl=)(http.*)(&pfuin=.*) 307 $2,enable ={arg4}
+(^https:\/\/c\.pc\.qq\.com\/middlect\.html\?pfuin=.*&pfurl=)(http.*)(&gjsublevel=.*) 307 $2,enable ={arg4}
+(^https:\/\/c\.pc\.qq\.com\/middlect\.html\?iscontinue=.*pfurl=)(http.*)(&pfuin=.*) 307 $2,enable ={arg4}
+(^https:\/\/pingtas\.qq\.com\/webview\/pingd\?dm=c\.pc\.qq\.com&pvi=\d+&si=s\d+&url=\/middlem\.html\?pfurl%3d)(http.*)(%26pfuin%3d.*%26pfuin%3d.*) 307 $2,enable ={arg4}
+(^https:\/\/cgi\.connect\.qq\.com\/qqconnectopen\/get_urlinfoForQQV2\?url=)(http.*) 307 $2,enable ={arg4}
+(^https:\/\/c\.pc\.qq\.com\/index\.html\?pfurl=)(http.*)(&pfuin=.*) 307 $2,enable ={arg4}
+(^https:\/\/c\.pc\.qq\.com\/ios\.html\?url=)(http.*)(&level=.*) 307 $2,enable ={arg4}
+(^https:\/\/pingtas\.qq\.com\/webview\/pingd\?dm=c\.pc\.qq\.com&pvi=\d+&si=s\d+&url=\/ios\.html\?url%3d)(http.*)(%26level.*%26level.*) 307 $2,enable ={arg4}
 
 
 
@@ -73,18 +73,17 @@ hostname = videos.openai.com,in.m.jd.com, apapia-sqk-weblogic.manmanbuy.com,api.
 
 
 #!name=Fuck Telegram bad IPs,将 tg 的垃圾 IP 转移到好的 IP 上
-
 [General]
-use-local-host-item-for-proxy = true
+use-local-host-item-for-proxy = true,enable ={arg6}
 
 [Host]
 # Fuck Telegram bad ips
-91.108.56.100 = 91.108.56.147,91.108.56.135,91.108.56.130
-91.108.56.101 = 91.108.56.147,91.108.56.135,91.108.56.130
-91.108.56.104 = 91.108.56.147,91.108.56.135,91.108.56.130
-91.108.56.107 = 91.108.56.147,91.108.56.135,91.108.56.130
-91.108.56.120 = 91.108.56.147,91.108.56.135,91.108.56.130
-91.108.56.125 = 91.108.56.147,91.108.56.135,91.108.56.130
-91.108.56.126 = 91.108.56.147,91.108.56.135,91.108.56.130
-91.108.56.128 = 91.108.56.147,91.108.56.135,91.108.56.130
-91.108.56.156 = 91.108.56.147,91.108.56.135,91.108.56.130
+91.108.56.100 = 91.108.56.147,91.108.56.135,91.108.56.130,enable ={arg6}
+91.108.56.101 = 91.108.56.147,91.108.56.135,91.108.56.130,enable ={arg6}
+91.108.56.104 = 91.108.56.147,91.108.56.135,91.108.56.130,enable ={arg6}
+91.108.56.107 = 91.108.56.147,91.108.56.135,91.108.56.130,enable ={arg6}
+91.108.56.120 = 91.108.56.147,91.108.56.135,91.108.56.130,enable ={arg6}
+91.108.56.125 = 91.108.56.147,91.108.56.135,91.108.56.130,enable ={arg6}
+91.108.56.126 = 91.108.56.147,91.108.56.135,91.108.56.130,enable ={arg6}
+91.108.56.128 = 91.108.56.147,91.108.56.135,91.108.56.130,enable ={arg6}
+91.108.56.156 = 91.108.56.147,91.108.56.135,91.108.56.130,enable ={arg6}
