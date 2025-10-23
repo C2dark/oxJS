@@ -1,0 +1,18 @@
+Thanks to Everyone
+1、SoraRemoveWatermark：
+https://gist.githubusercontent.com/ddgksf2013/71fca841d34a7b440408276d03da3261/raw/SoraRemoveWatermark.js
+
+2、JD_Price
+https://raw.githubusercontent.com/wf021325/qx/refs/heads/main/js/jd_price.js
+
+3、Spotify歌词翻译可莉版
+https://kelee.one/Tool/Loon/Lpx/Spotify_lyrics_translation.lpx
+
+4、QQ外链
+https://kelee.one/Tool/Loon/Lpx/QQ_Redirect.lpx
+
+5、WeChat外链
+https://kelee.one/Tool/Loon/Lpx/Weixin_external_links_unlock.lpx
+
+6、fuck tg bad IP
+https://raw.githubusercontent.com/Repcz/Tool/X/Surge/Module/Function/FKTG.sgmodule
