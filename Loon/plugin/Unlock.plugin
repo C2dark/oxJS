@@ -1,0 +1,106 @@
+#!name = Unlock
+#!desc = 应用解锁
+Documents解锁,点击恢复购买即可解锁订阅.
+
+#!author = C [From Internet,Thanks Everyauthor]
+#!homePage = https://t.me/
+#!tag = 解锁
+#!category = Unlock
+
+#!system_version = 
+#!loon_version = 3.2.1(749)
+#!date = 2025-07-20 09:50:00
+#!icon=https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/others/cookie.png
+
+[Argument]
+arg1 = switch,true,tag=AppRaven解锁
+arg2 = switch,true,tag=百度网盘解锁
+arg3 = switch,true,tag=百度文库解锁
+arg4 = switch,true,tag=Cubox解锁
+arg5 = switch,true,tag=Documents解锁
+arg6 = switch,true,tag=Drafts解锁
+arg7 = switch,true,tag=Emby解锁
+arg8 = switch,true,tag=Enpass解锁
+arg9 = switch,true,tag=Nicegram解锁
+arg10 = switch,true,tag=Notability解锁
+arg11 = switch,true,tag=Slidebox解锁
+arg12 = switch,true,tag=Xmind解锁
+arg13 = switch,true,tag=Fileball解锁
+arg14 = switch,true,tag=WPS本地会员
+
+
+
+
+
+
+
+
+
+[Script]
+
+#1 AppRaven解锁
+http-response ^https:\/\/appraven\.net\/appraven\/graphql script-path=https://gitlab.com/isous/loonresource/-/raw/main/Script/AppRaven/AppRaven_crack.js,requires-body=true,tag=AppRaven解锁
+
+#2 百度网盘解锁
+http-response ^https:\/\/pan\.baidu\.com\/rest\/\d\.\d\/membership\/user script-path=https://gitlab.com/isous/loonresource/-/raw/main/Script/BaiduNetDisk/BaiduNetDisk_crack.js,requires-body=true,tag=解锁SVIP权益
+
+#3 百度文库解锁
+http-response ^https:\/\/appwk\.baidu\.com\/naapi\/(user\/getinfo|doc\/getdocdownloadcopywriter) script-path=https://gitlab.com/isous/loonresource/-/raw/main/Script/BaiduWenku/BaiduWenku_crack.js,requires-body=true,tag=百度文库解锁
+
+#4 Cubox解锁
+http-response ^https:\/\/cubox\.(pro|cc)\/c\/api\/userInfo script-path=https://gitlab.com/isous/loonresource/-/raw/main/Script/Cubox/Cubox_crack.js,requires-body=true,tag=Cubox解锁
+
+#5 Documents解锁
+http-request ^https:\/\/license\.pdfexpert\.com\/api\/2\.0\/documents\/subscription\/refresh script-path=https://gitlab.com/isous/loonresource/-/raw/main/Script/Documents/Documents_crack.js,requires-body=true,tag=Documents解锁
+
+#6 Drafts解锁
+http-response ^https?:\/\/backend\.getdrafts\.com\/api\/v\d\/verification\/(account_status|verify_receipt) script-path=https://gitlab.com/isous/loonresource/-/raw/main/Script/Drafts/Drafts_crack.js,requires-body=true,tag=Drafts解锁
+
+#7 Emby解锁
+http-response ^https:\/\/mb3admin\.com\/admin\/service(\/registration\/validateDevice|\/appstore\/register|\/registration\/validate|\/registration\/getStatus|\/supporter\/retrievekey) script-path=https://gitlab.com/isous/loonresource/-/raw/main/Script/Emby/Emby_crack.js,requires-body=true,tag=Emby解锁
+
+#8 Enpass解锁
+http-response ^https:\/\/license\.enpass\.io\/api\/v1\/subscription\/me script-path=https://gitlab.com/isous/loonresource/-/raw/main/Script/Enpass_Password_Manager/Enpass_Password_Manager_crack.js,requires-body=true,tag=Enpass解锁
+
+#9 Nicegram解锁
+http-response ^https?:\/\/restore-access\.indream\.app\/restoreAccess script-path=https://gitlab.com/isous/loonresource/-/raw/main/Script/Nicegram/Nicegram_crack.js,requires-body=true,timeout=10,tag=Nicegram解锁
+
+#10 Notability解锁
+http-response ^https:\/\/notability\.com\/(global|subscriptions) script-path=https://gitlab.com/isous/loonresource/-/raw/main/Script/Notability/Notability_crack.js,requires-body=true,tag=Notability解锁
+
+#11 Slidebox解锁
+http-response ^https?:\/\/.*-slidebox-ios-prod\.cloudfunctions\.net\/api_v1 script-path=https://gitlab.com/isous/loonresource/-/raw/main/Script/Slidebox/Slidebox_crack.js,requires-body=true,tag=Slidebox解锁
+
+#12 Xmind解锁
+http-response https?:\/\/www\.xmind\.(cn|net|app)\/\_res\/devices script-path=https://gitlab.com/isous/loonresource/-/raw/main/Script/Xmind/Xmind_crack.js,requires-body=true,tag=Xmind解锁
+
+#13 Fileball解锁
+http-request ^http:\/\/(aliyun|quark|pikpak)\.example\.com script-path=https://kelee.one/Resource/JavaScript/Fileball/Fileball_mount.js, requires-body=true, tag=三合一网盘挂载
+
+#14 WPS本地会员
+http-response ^https?:\/\/.*?account\.wps\.(com|cn)(:\d+)?\/api\/users\/\w+\/overview$ script-path=https://raw.githubusercontent.com/I-am-R-E/Functional-Store-Hub/Master/WPSOffice/Script/WPS.js, requires-body=true, timeout=10, tag=WPS会员
+
+#15 Spotify解锁
+http-request ^https:\/\/(spclient\.wg\.spotify\.com|.*-spclient\.spotify\.com(:443)?)\/(artistview\/v1\/artist|album-entity-view\/v2\/album)\/ script-path=https://raw.githubusercontent.com/app2smile/rules/master/js/spotify-json.js, timeout=10, tag=spotifyJson
+http-response ^https:\/\/(spclient\.wg\.spotify\.com|.*-spclient\.spotify\.com(:443)?)\/(bootstrap\/v1\/bootstrap|user-customization-service\/v1\/customize)$ script-path=https://raw.githubusercontent.com/app2smile/rules/master/js/spotify-proto.js, requires-body=true, binary-body-mode=true, timeout=10, tag=Spotify解锁
+
+#16 爱企查解锁
+http-response ^https?:\/\/aiqicha\.baidu\.com\/usercenter\/getvipinfoajax script-path=https://gitlab.com/isous/loonresource/-/raw/main/Script/Aiinquiry/Aiinquiry_crack.js,requires-body=true,tag=爱企查解锁
+
+
+
+
+
+
+[Rewrite]
+# 百度文库解锁
+^https:\/\/appwk\.baidu\.com\/(naapi\/(recommend\/recommenddoc|wkcircle\/messagetab|search\/wkhotwords|api\/wmadopt)|appapi\/(search\/hot|donate\/detail)|xpage\/interface\/wknaad) reject
+#Spotify解锁
+^https:\/\/(spclient\.wg\.spotify\.com|.*-spclient\.spotify\.com(:443)?)\/user-customization-service\/v1\/customize$ header-del if-none-match
+#爱企查解锁
+^https:\/\/b2baifanfan\.baidu\.com\/crm\/web\/b2b\/im\/common\/getConfigByDeviceNum reject-200
+
+
+
+[MITM]
+hostname = license.pdfexpert.com,appraven.net,cubox.pro,cubox.cc,pan.baidu.com,appwk.baidu.com,backend.getdrafts.com,mb3admin.com,license.enpass.io,restore-access.indream.app,notability.com,*-slidebox-ios-prod.cloudfunctions.net,www.xmind.cn,www.xmind.net,www.xmind.app,aliyun.example.com, quark.example.com, pikpak.example.com,account.wps.cn,*account.wps.com,spclient.wg.spotify.com, *spclient.spotify.com,aiqicha.baidu.com，

@@ -2,12 +2,12 @@
 #!desc = 获取cookie/token
 #!author = C [https://github.com/C2Dark]
 #!homePage = https://t.me/
-#!tag = Sauron
+#!tag = Cookies
 #!category = cookies
-#!icon=https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/others/cookie.png
 #!system_version = 
 #!loon_version = 
 #!date = 2025-07-20 09:50:00
+#!icon=https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/others/cookie.png
 
 [Argument]
 arg1 = switch,true,tag=移动获取参数
