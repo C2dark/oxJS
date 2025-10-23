@@ -24,7 +24,7 @@ arg6 = switch,true,tag=Fuck Telegram bad IPs,将 tg 的垃圾 IP 转移到好的
 http-request ^https?:\/\/videos\.openai\.com\/.*vg-assets\/assets.*mp4 script-path=https://raw.githubusercontent.com/C2dark/oxJS/refs/heads/dev/Loon/Scripts/enhancement/SoraRemoveWatermark.js, timeout=60, enable ={arg1},tag=SoraRemoveWatermark
 
 #2 京东比价
-http-response ^https?:\/\/in\.m\.jd\.com\/product\/graphext\/\d+\.html script-path=https://raw.githubusercontent.com/C2dark/oxJS/refs/heads/dev/Loon/Scripts/enhancement/jd_price-wf021325.js, requires-body=true, timeout=60, tag=京东比价
+http-response ^https?:\/\/in\.m\.jd\.com\/product\/graphext\/\d+\.html script-path=https://raw.githubusercontent.com/C2dark/oxJS/refs/heads/dev/Loon/Scripts/enhancement/jd_price-wf021325.js, requires-body=true, timeout=60, ,enable ={arg2}tag=京东比价
 http-request ^https?:\/\/apapia-sqk-weblogic\.manmanbuy\.com\/baoliao\/center\/menu$ script-path=https://raw.githubusercontent.com/C2dark/oxJS/refs/heads/dev/Loon/Scripts/enhancement/jd_price-wf021325.js, requires-body=true, timeout=60, enable ={arg2},tag=京东比价
 
 #3 Spotify_lyrics_translation
@@ -66,16 +66,16 @@ hostname = videos.openai.com,in.m.jd.com, apapia-sqk-weblogic.manmanbuy.com,api.
 
 
 [General]
-use-local-host-item-for-proxy = true,enable ={arg6}
+use-local-host-item-for-proxy = true
 
 [Host]
 # Fuck Telegram bad ips
-91.108.56.100 = 91.108.56.147,91.108.56.135,91.108.56.130,enable ={arg6}
-91.108.56.101 = 91.108.56.147,91.108.56.135,91.108.56.130,enable ={arg6}
-91.108.56.104 = 91.108.56.147,91.108.56.135,91.108.56.130,enable ={arg6}
-91.108.56.107 = 91.108.56.147,91.108.56.135,91.108.56.130,enable ={arg6}
-91.108.56.120 = 91.108.56.147,91.108.56.135,91.108.56.130,enable ={arg6}
-91.108.56.125 = 91.108.56.147,91.108.56.135,91.108.56.130,enable ={arg6}
-91.108.56.126 = 91.108.56.147,91.108.56.135,91.108.56.130,enable ={arg6}
-91.108.56.128 = 91.108.56.147,91.108.56.135,91.108.56.130,enable ={arg6}
-91.108.56.156 = 91.108.56.147,91.108.56.135,91.108.56.130,enable ={arg6}
+91.108.56.100 = 91.108.56.147,91.108.56.135,91.108.56.130
+91.108.56.101 = 91.108.56.147,91.108.56.135,91.108.56.130
+91.108.56.104 = 91.108.56.147,91.108.56.135,91.108.56.130
+91.108.56.107 = 91.108.56.147,91.108.56.135,91.108.56.130
+91.108.56.120 = 91.108.56.147,91.108.56.135,91.108.56.130
+91.108.56.125 = 91.108.56.147,91.108.56.135,91.108.56.130
+91.108.56.126 = 91.108.56.147,91.108.56.135,91.108.56.130
+91.108.56.128 = 91.108.56.147,91.108.56.135,91.108.56.130
+91.108.56.156 = 91.108.56.147,91.108.56.135,91.108.56.130
