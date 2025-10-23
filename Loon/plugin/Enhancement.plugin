@@ -1,6 +1,5 @@
 #!name = Enhancement
 #!desc = 应用增强
-
 #!author = C [From Internet Thanks Everyauthor]
 #!homePage = https://t.me/
 #!tag = Enhancement
@@ -66,13 +65,6 @@ http-response ^https\:\/\/(weixin110\.qq|security.wechat)\.com\/cgi-bin\/mmspams
 hostname = videos.openai.com,in.m.jd.com, apapia-sqk-weblogic.manmanbuy.com,api.spotify.com, spclient.wg.spotify.com,pingtas.qq.com, c.pc.qq.com, cgi.connect.qq.com,weixin110.qq.com, security.wechat.com,
 
 
-
-
-
-
-
-
-#!name=Fuck Telegram bad IPs,将 tg 的垃圾 IP 转移到好的 IP 上
 [General]
 use-local-host-item-for-proxy = true,enable ={arg6}
 
