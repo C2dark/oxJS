@@ -1,12 +1,10 @@
 #!name = Unlock
 #!desc = 应用解锁
 Documents解锁,点击恢复购买即可解锁订阅.
-
 #!author = C [From Internet,Thanks Everyauthor]
 #!homePage = https://t.me/
 #!tag = 解锁
 #!category = Unlock
-
 #!system_version = 
 #!loon_version = 3.2.1(749)
 #!date = 2025-07-20 09:50:00

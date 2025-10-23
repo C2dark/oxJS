@@ -4,7 +4,6 @@
 #!homePage = https://t.me/
 #!tag = Enhancement
 #!category = 功能增强
-
 #!system_version = 
 #!loon_version = 3.2.1(749)
 #!date = 2025-07-20 09:50:00
@@ -46,6 +45,24 @@ http-response ^https\:\/\/(weixin110\.qq|security.wechat)\.com\/cgi-bin\/mmspams
 #6 移动余量查询接口
 http-request ^https?:\/\/api\.example\.com\/10086\/query script-path=https://raw.githubusercontent.com/C2dark/oxJS/refs/heads/dev/Loon/Scripts/enhancement/10086.js, requires-body=true, timeout=60, enable = {arg6},tag=移动查询接口
 
+
+[General]
+use-local-host-item-for-proxy = true
+
+
+[Host]
+# Fuck Telegram bad IPs,将 tg 的垃圾 IP 转移到好的 IP 上
+91.108.56.100 = 91.108.56.147,91.108.56.135,91.108.56.130
+91.108.56.101 = 91.108.56.147,91.108.56.135,91.108.56.130
+91.108.56.104 = 91.108.56.147,91.108.56.135,91.108.56.130
+91.108.56.107 = 91.108.56.147,91.108.56.135,91.108.56.130
+91.108.56.120 = 91.108.56.147,91.108.56.135,91.108.56.130
+91.108.56.125 = 91.108.56.147,91.108.56.135,91.108.56.130
+91.108.56.126 = 91.108.56.147,91.108.56.135,91.108.56.130
+91.108.56.128 = 91.108.56.147,91.108.56.135,91.108.56.130
+91.108.56.156 = 91.108.56.147,91.108.56.135,91.108.56.130
+
+
 [Rewrite]
 #JD_Price-wf021325
 ^https?:\/\/in\.m\.jd\.com\/product\/graphext\/\d+\.html url script-response-body https://raw.githubusercontent.com/wf021325/qx/master/js/jd_price.js
@@ -61,23 +78,12 @@ http-request ^https?:\/\/api\.example\.com\/10086\/query script-path=https://raw
 (^https:\/\/c\.pc\.qq\.com\/ios\.html\?url=)(http.*)(&level=.*) 307 $2
 (^https:\/\/pingtas\.qq\.com\/webview\/pingd\?dm=c\.pc\.qq\.com&pvi=\d+&si=s\d+&url=\/ios\.html\?url%3d)(http.*)(%26level.*%26level.*) 307 $2
 
+#知识星球去水印
+^https:\/\/api\.zsxq\.com\/v2\/groups\/\d+$ response-body-json-replace resp_data.group.policies.enable_watermark false
+^https:\/\/articles\.zsxq\.com\/inline_form\/id_[a-z0-9]+\.html response-body-replace-regex name="group_enable_watermark"\x20value="true" name="group_enable_watermark"\x20value="false"
 
 
 [MITM]
-hostname = videos.openai.com,in.m.jd.com, apapia-sqk-weblogic.manmanbuy.com,api.spotify.com, spclient.wg.spotify.com,pingtas.qq.com, c.pc.qq.com, cgi.connect.qq.com,weixin110.qq.com, security.wechat.com,api.example.com
+hostname = videos.openai.com,in.m.jd.com, apapia-sqk-weblogic.manmanbuy.com,api.spotify.com, spclient.wg.spotify.com,pingtas.qq.com, c.pc.qq.com, cgi.connect.qq.com,weixin110.qq.com, security.wechat.com,api.example.com,hostname=api.zsxq.com
 
 
-[General]
-use-local-host-item-for-proxy = true
-
-[Host]
-# Fuck Telegram bad IPs,将 tg 的垃圾 IP 转移到好的 IP 上
-91.108.56.100 = 91.108.56.147,91.108.56.135,91.108.56.130
-91.108.56.101 = 91.108.56.147,91.108.56.135,91.108.56.130
-91.108.56.104 = 91.108.56.147,91.108.56.135,91.108.56.130
-91.108.56.107 = 91.108.56.147,91.108.56.135,91.108.56.130
-91.108.56.120 = 91.108.56.147,91.108.56.135,91.108.56.130
-91.108.56.125 = 91.108.56.147,91.108.56.135,91.108.56.130
-91.108.56.126 = 91.108.56.147,91.108.56.135,91.108.56.130
-91.108.56.128 = 91.108.56.147,91.108.56.135,91.108.56.130
-91.108.56.156 = 91.108.56.147,91.108.56.135,91.108.56.130
