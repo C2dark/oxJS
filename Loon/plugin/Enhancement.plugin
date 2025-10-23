@@ -44,7 +44,7 @@ http-response ^https?:\/\/spclient\.wg\.spotify\.com\/color-lyrics\/v2\/track\/\
 http-response ^https\:\/\/(weixin110\.qq|security.wechat)\.com\/cgi-bin\/mmspamsupport-bin\/newredirectconfirmcgi\? script-path=https://kelee.one/Resource/JavaScript/Weixin/Weixin_external_links_unlock.js, requires-body=true, enable ={arg5},tag=微信外部链接解锁
 
 #6 移动余量查询接口
-http-request ^https?:\/\/api\.example\.com\/10086\/query script-path=https://github.com/ChinaTelecomOperators/ChinaMobile/releases/download/Prerelease-Alpha/10086.js, requires-body=true, timeout=60, enable ={arg6}tag=移动查询接口
+http-request ^https?:\/\/api\.example\.com\/10086\/query script-path=https://github.com/ChinaTelecomOperators/ChinaMobile/releases/download/Prerelease-Alpha/10086.js, requires-body=true, timeout=60, enable ={arg6},tag=移动查询接口
 
 [Rewrite]
 #JD_Price-wf021325
