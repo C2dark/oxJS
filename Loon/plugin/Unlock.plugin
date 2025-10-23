@@ -10,7 +10,7 @@ Documents解锁,点击恢复购买即可解锁订阅.
 #!system_version = 
 #!loon_version = 3.2.1(749)
 #!date = 2025-07-20 09:50:00
-#!icon=https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/others/cookie.png
+#!icon=https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Unlock.png
 
 [Argument]
 arg1 = switch,true,tag=AppRaven解锁
