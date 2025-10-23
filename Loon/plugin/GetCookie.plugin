@@ -1,0 +1,119 @@
+#!name = GetCookie
+#!desc = 获取cookie/token
+#!author = C [https://github.com/C2Dark]
+#!homePage = https://t.me/
+#!tag = Sauron
+#!category = cookies
+#!icon=https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/others/cookie.png
+#!system_version = 
+#!loon_version = 
+#!date = 2025-07-20 09:50:00
+
+[Argument]
+arg1 = switch,true,tag=移动获取参数
+arg2 = switch,true,tag=联通获取Cookie
+arg3 = switch,true,tag=电信登录地址
+arg4 = switch,true,tag=奶茶多合一获取token
+arg5 = switch,true,tag=阿里云盘获取Cookie
+arg6 = switch,true,tag=阿里云社区获取token
+arg7 = switch,true,tag=高德地图获取token
+arg8 = switch,true,tag=v2ex获取token
+arg9 = switch,true,tag=sfExpress获取token
+arg10 = switch,true,tag=Bilibili获取token
+arg11 = switch,true,tag=WPS捕获Cookie
+arg12 = switch,true,tag=获取托迈酷客Cookie
+arg13 = switch,true,tag=获取JD Cookie
+arg14 = switch,true,tag=达美乐披萨获取token
+arg15 = switch,true,tag=蜜雪冰城获取token
+arg16 = switch,true,tag=酷狗获取数据
+arg17 = switch,true,tag=吾爱破解获取Cookie
+arg18 = switch,true,tag=获取万达cookie
+arg19 = switch,true,tag=获取美团cookie
+arg20 = switch,true,tag=获取美团旧版cookie
+arg21 = switch,true,tag=美团外卖
+arg22 = switch,true,tag=微付金币token
+arg23 = switch,true,tag=Babycare cookie
+
+
+
+
+
+
+
+[Script]
+#1 移动获取参数
+http-request ^https?:\/\/client\.app\.coc\.10086\.cn\/biz-orange\/[LD]N\/uam(onekey|randcode)login\/autoLogin script-path = https://github.com/C2Dark/oxJS/Loon/Scripts/10086.js, requires-body = true, timeout=60, enable = {arg1}, tag = 移动获取参数
+
+#2 联通获取Cookie
+http-request https:\/\/m\.client\.10010\.com\/(.*)\/smartwisdomCommon script-path=https://raw.githubusercontent.com/dompling/Script/master/10010/index.js, requires-body=true, timeout=60, enable = {arg2}, tag=联通获取Cookie
+
+#3 电信登录地址
+http-request ^https:\/\/e\.dlife\.cn\/user\/loginMiddle script-path=https://raw.githubusercontent.com/dompling/Script/master/10000/index.js, requires-body=true, timeout=60, enable = {arg3}, tag=电信登录地址
+
+#4 奶茶多合一获取token
+http-response ^https:\/\/(webapi|webapi2)\.qmai\.cn\/web\/seller\/(oauth\/flash-sale-login|account\/login-minp) script-path=https://gist.githubusercontent.com/Sliverkiss/8b4f5487e0f28786c7dec9c7484dcd5e/raw/teaMilk.js, requires-body=true, timeout=60, enable = {arg4}, tag=奶茶获取token
+
+#5 阿里云盘获取Cookie
+http-request ^https:\/\/(auth|aliyundrive)\.alipan\.com\/v2\/account\/token script-path=https://gist.githubusercontent.com/Sliverkiss/33800a98dcd029ba09f8b6fc6f0f5162/raw/aliyun.js, requires-body=true, enable = {arg5}, timeout=60, tag=阿里云盘获取cookie
+
+#6 阿里云社区获取token
+http-response ^https?:\/\/developer\.aliyun\.com\/developer\/api\/my\/user\/getUser script-path=https://raw.githubusercontent.com/leiyiyan/resource/main/script/aliyun_web/aliyun_web.js, requires-body=true, timeout=60,enable = {arg6}, tag=阿里云社区获取token
+
+#7 高德地图获取token
+http-response ^https?:\/\/(m5(|-zb)|dache)\.amap\.com\/(ws\/yuece\/(act|openapi\/activity\/current)\/query|common\/(alipaymini|wxmini)\?_ENCRYPT=) script-path=https://raw.githubusercontent.com/wf021325/qx/master/task/ampDache.js, requires-body=true, timeout=60,enable = {arg7}, tag=高德地图获取token
+
+#8 v2ex获取token
+http-request https:/\/www.v2ex\.com\/b\/i\/
+script-path=https://raw.githubusercontent.com/anyehttp/qua
+ntumult-x/main/task/v2ex.js, requires-body=true, timeout=60,enable = {arg8}, tag=v2ex获取token
+
+#9 sfExpress获取token
+http-request ^https:\/\/ccsp-egmas.sf-express.com\/cx-app-member\/member\/app\/user\/universalSign script-path=https://raw.githubusercontent.com/chavyleung/scripts/master/sfexpress/sfexpress.cookie.js, requires-body=true, timeout=60,enable = {arg9}, tag=sfExpress获取token
+
+#10 Bilibili获取Cookie
+http-request ^https?:\/\/(grpc\.biliapi\.net|app\.bilibili\.com)\/bilibili\.app\.wall\.v1\.Wall\/RuleInfo script-path=https://gitlab.com/isous/loonresource/-/raw/main/Script/Bilibili/Bilibili_cookie_extraction.js, requires-body=true, timeout=60,enable = {arg10}, tag=Bilibili获取Cookie
+
+#11 WPS捕获Cookie
+http-request ^https:\/\/moapi\.wps\.cn\/app\/ios\/v1\/app$ script-path=https://kelee.one/Resource/Script/WPS/WPS_checkin.js, requires-body=true, timeout=20, enabled= {arg11}, tag=WPS捕获Cookie
+
+#12 获取托迈酷客Cookie
+http-request ^https:\/\/apis\.folidaymall\.com\/online\/capi\/uc\/getCount script-path=https://raw.githubusercontent.com/FoKit/Scripts/main/scripts/ThomasCook.js, requires-body=true, timeout=20, enabled= {arg12}, tag=获取托迈酷客Cookie
+
+#13 获取JD Cookie
+http-request,requires-body=1,pattern=^https:\/\/(api\.m|me-api|ms\.jr)\.jd\.com\/(client\.action\?functionId=signBean|user_new\/info\/GetJDUserInfoUnion\?|gw\/generic\/hy\/h5\/m\/appSign\?),script-path=https://raw.githubusercontent.com/NobyDa/Script/master/JD-DailyBonus/JD_DailyBonus.js, requires-body=true, timeout=20, enabled= {arg13}, tag=获取JD Cookie
+
+#14 达美乐披萨获取token
+http-request ^https:\/\/game\.dominos\.com\.cn\/.+\/game\/gameDone script-path=https://gist.githubusercontent.com/Sliverkiss/6b4da0d367d13790a9fd1d928c82bdf8/raw/dlm.js, requires-body=true, timeout=10, enable = {arg14}, tag=达美乐披萨获取token
+
+#15 获取蜜雪冰城Cookie
+http-response ^https:\/\/mxsa\.mxbc\.net\/api\/v1\/customer\/info script-path=https://gist.githubusercontent.com/Sliverkiss/865c82e42a5730bb696f6700ebb94cee/raw/mxbc.js, requires-body=true, timeout=60,  enable = {arg15}, tag=蜜雪冰城获取token
+
+#16 酷狗数据
+http-request https://(gateway|gatewayretry|gateway3).kugou.com/youth/v1/(recharge/receive_vip_listen_song|activity/get_month_vip_record).* script-path=https://gist.githubusercontent.com/Alex0510/1c389019c264a7d3ddbe4dbcf77d4295/raw/kugou.js, requires-body=true, timeout=60, enable = {arg16},tag=酷狗数据
+
+#17 吾爱破解获取Cookie
+http-request ^https:\/\/www\.52pojie\.cn\/home\.php\? script-path=https://raw.githubusercontent.com/Yuheng0101/X/main/Tasks/52pojie.js,requires-body=0, enable={arg17}, tag=吾爱破解获取Cookie
+
+#18 获取万达cookie
+http-request ^https:\/\/user-api-prd-mx\.wandafilm\.com script-path=https://raw.githubusercontent.com/chavyleung/scripts/master/wanda/wanda.cookie.js, timeout=20, enable = {arg18}, tag=获取万达cookie
+
+#19 获取美团cookie
+# 进入“完善资料”，这一步可以获取到用户ID用于更新多账号信息
+http-response https://open.meituan.com/user/v1/info/auditting script-path=https://raw.githubusercontent.com/fmz200/wool_scripts/main/Scripts/cookie/get_cookie.js, requires-body=true, timeout=60,enable = {arg19}, tag=美团token
+#20 美团旧版本token
+http-request https://gaea.meituan.com/mapi/usercenter script-path=https://raw.githubusercontent.com/fmz200/wool_scripts/main/Scripts/cookie/get_cookie.js, timeout=60, enable = {arg20}, tag=美团旧版本token
+#21 美团外卖
+http-request ^https:\/\/promotion.waimai.meituan.com\/playcenter\/signIn\/doaction script-path=https://raw.githubusercontent.com/chavyleung/scripts/master/wmmeituan/wmmeituan.cookie.js, requires-body=true, timeout=60, enable ={arg21}, tag=美团外卖
+
+#22 微付金币token
+http-response https:\/\/payapp\.weixin\.qq\.com\/(coupon-center-user\/home\/login|coupon-center-award\/award\/detail) script-path=https://raw.githubusercontent.com/FoKit/Scripts/main/scripts/wechat_pay_coupon.js, requires-body=true, timeout=20, enabled= {arg22}, tag=微付金币token
+
+#23 Babycare cookie
+http-response ^https:\/\/api\.bckid\.com\.cn\/operation\/front\/bonus\/userSign,script-path=https://raw.githubusercontent.com/AZ-Y/scriptable/main/Babycarerw.js,requires-body=1,timeout=60, enabled= {arg23}, tag=Babycare cookie
+
+
+
+
+[MITM]
+hostname = client.app.coc.10086.cn, m.client.10010.com,e.dlife.cn,webapi2.qmai.cn,webapi.qmai.cn,qmwebapi.qmai.cn,auth.alipan.com,auth.aliyundrive.com,developer.aliyun.com, *.amap.com,www.v2ex.com,mcs-mimp-web.sf-express.com,grpc.biliapi.net,app.bilibili.com,vip.wps.cn,apis.folidaymall.com,ms.jr.jd.com, me-api.jd.com, api.m.jd.com,m.hualala.com,mxsa.mxbc.net, *.kugou.com, www.52pojie.cn,
+user-api-prd-mx.wandafilm.com,i.meituan.com,mall.meituan.com,promotion.waimai.meituan.com,payapp.weixin.qq.com,api.bckid.com.cn
