@@ -73,7 +73,7 @@ http-request ^https:\/\/ccsp-egmas.sf-express.com\/cx-app-member\/member\/app\/u
 http-request ^https?:\/\/(grpc\.biliapi\.net|app\.bilibili\.com)\/bilibili\.app\.wall\.v1\.Wall\/RuleInfo script-path=https://raw.githubusercontent.com/C2dark/oxJS/refs/heads/dev/Loon/Scripts/cookies/bilicookie.js, requires-body=true, timeout=60,enable = {arg10}, tag=Bilibili获取Cookie
 
 #11 WPS捕获Cookie
-http-request ^https:\/\/moapi\.wps\.cn\/app\/ios\/v1\/app$ script-path=https://kelee.one/Resource/Script/WPS/WPS_checkin.js, requires-body=true, timeout=20, enabled= {arg11}, tag=WPS捕获Cookie
+http-request ^https:\/\/moapi\.wps\.cn\/app\/ios\/v1\/app$ script-path=https://raw.githubusercontent.com/C2dark/oxJS/refs/heads/dev/Loon/Scripts/cookies/wps.js, requires-body=true, timeout=20, enabled= {arg11}, tag=WPS捕获Cookie
 
 #12 获取托迈酷客Cookie
 http-request ^https:\/\/apis\.folidaymall\.com\/online\/capi\/uc\/getCount script-path=https://raw.githubusercontent.com/C2dark/oxJS/refs/heads/dev/Loon/Scripts/cookies/ThomasCook.js, requires-body=true, timeout=20, enabled= {arg12}, tag=获取托迈酷客Cookie
