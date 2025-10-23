@@ -16,8 +16,7 @@ arg2 = switch,true,tag=京东比价
 arg3 = switch,true,tag=Spotify_lyrics_translation
 arg4 = switch,true,tag=QQ_Redirect
 arg5 = switch,true,tag=微信外部链接解锁
-arg6 = switch,true,tag=Fuck Telegram bad IPs,将 tg 的垃圾 IP 转移到好的 IP 上
-
+arg6 = switch,true,tag=移动余量查询接口
 
 [Script]
 #1 SoraRemoveWatermark
@@ -44,6 +43,9 @@ http-response ^https?:\/\/spclient\.wg\.spotify\.com\/color-lyrics\/v2\/track\/\
 #5 UnblockURLinWeChat
 http-response ^https\:\/\/(weixin110\.qq|security.wechat)\.com\/cgi-bin\/mmspamsupport-bin\/newredirectconfirmcgi\? script-path=https://kelee.one/Resource/JavaScript/Weixin/Weixin_external_links_unlock.js, requires-body=true, enable ={arg5},tag=微信外部链接解锁
 
+#6 移动余量查询接口
+http-request ^https?:\/\/api\.example\.com\/10086\/query script-path=https://github.com/ChinaTelecomOperators/ChinaMobile/releases/download/Prerelease-Alpha/10086.js, requires-body=true, timeout=60, enable ={arg6}tag=移动查询接口
+
 [Rewrite]
 #JD_Price-wf021325
 ^https?:\/\/in\.m\.jd\.com\/product\/graphext\/\d+\.html url script-response-body https://raw.githubusercontent.com/wf021325/qx/master/js/jd_price.js
@@ -62,14 +64,14 @@ http-response ^https\:\/\/(weixin110\.qq|security.wechat)\.com\/cgi-bin\/mmspams
 
 
 [MITM]
-hostname = videos.openai.com,in.m.jd.com, apapia-sqk-weblogic.manmanbuy.com,api.spotify.com, spclient.wg.spotify.com,pingtas.qq.com, c.pc.qq.com, cgi.connect.qq.com,weixin110.qq.com, security.wechat.com,
+hostname = videos.openai.com,in.m.jd.com, apapia-sqk-weblogic.manmanbuy.com,api.spotify.com, spclient.wg.spotify.com,pingtas.qq.com, c.pc.qq.com, cgi.connect.qq.com,weixin110.qq.com, security.wechat.com,api.example.com
 
 
 [General]
 use-local-host-item-for-proxy = true
 
 [Host]
-# Fuck Telegram bad ips
+# Fuck Telegram bad IPs,将 tg 的垃圾 IP 转移到好的 IP 上
 91.108.56.100 = 91.108.56.147,91.108.56.135,91.108.56.130
 91.108.56.101 = 91.108.56.147,91.108.56.135,91.108.56.130
 91.108.56.104 = 91.108.56.147,91.108.56.135,91.108.56.130
