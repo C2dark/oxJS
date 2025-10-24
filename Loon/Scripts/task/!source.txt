@@ -1,0 +1,13 @@
+https://raw.githubusercontent.com/FoKit/Scripts/main/scripts/wechat_pay_coupon.js
+https://gist.githubusercontent.com/Sliverkiss/33800a98dcd029ba09f8b6fc6f0f5162/raw/aliyun.js
+https://raw.githubusercontent.com/sooyaaabo/Loon/main/Script/CookieTask/WeiboCookieTask.js
+https://raw.githubusercontent.com/ClydeTime/BiliBili/main/js/BiliBiliDailyBonus.js
+https://gist.githubusercontent.com/Alex0510/8b958bcf53ed1271e03bb5130b2206ec/raw/kugou_cookie.js
+https://raw.githubusercontent.com/chavyleung/scripts/master/meituan/meituan.js
+https://raw.githubusercontent.com/chavyleung/scripts/master/sfexpress/sfexpress.js
+https://raw.githubusercontent.com/FoKit/Scripts/main/scripts/ThomasCook.js
+https://raw.githubusercontent.com/wf021325/qx/master/task/ampDache.js
+https://gist.githubusercontent.com/Sliverkiss/865c82e42a5730bb696f6700ebb94cee/raw/mxbc.js
+https://gist.githubusercontent.com/Sliverkiss/8b4f5487e0f28786c7dec9c7484dcd5e/raw/teaMilk.js
+https://raw.githubusercontent.com/leiyiyan/resource/main/script/aliyun_web/aliyun_web.js
+https://raw.githubusercontent.com/anyehttp/quantumult-x/main/task/v2ex.js

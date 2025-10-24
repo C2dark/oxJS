@@ -70,7 +70,7 @@ DOMAIN-SUFFIX, biz.weibo.com, REJECT
 
 
 
-# >>>>>>>>>>>>>>> ✅ zhihu rules ✅ <<<<<<<<<<<<<<
+#7 >>>>>>>>>>>>>>> ✅ zhihu rules ✅ <<<<<<<<<<<<<<
 DOMAIN, appcloud.zhihu.com, REJECT
 DOMAIN, appcloud2.in.zhihu.com, REJECT
 DOMAIN, crash2.zhihu.com, REJECT
@@ -84,7 +84,7 @@ IP-CIDR6, 2402:4e00:1200:ed00:0:9089:6dac:96b6/128, REJECT, no-resolve
 
 
 
-# >>>>>>>>>>>>>>> ✅ tieba rules ✅ <<<<<<<<<<<<<<
+#8 >>>>>>>>>>>>>>> ✅ tieba rules ✅ <<<<<<<<<<<<<<
 DOMAIN, 180.76.76.200, REJECT
 IP-CIDR, 180.76.76.200/32, REJECT, no-resolve
 

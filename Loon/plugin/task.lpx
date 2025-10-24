@@ -1,0 +1,137 @@
+#!name = Cookie & Task
+#!desc = 自动完成每日签到任务，按需开启相应功能即可。\n具体使用方法请查看所引用脚本或插件内详细说明。
+#!openUrl = 
+#!tag = 定时任务
+#!system = 
+#!system_version = 
+#!loon_version = 3.3.4(898)
+#!icon = https://raw.githubusercontent.com/sooyaaabo/Loon/main/Icon/App-Icon/Notifyman.png
+#!date = 2025-10-24 12:00
+
+[Argument]
+# 微信支付有优惠
+arg1 = switch, true, false, tag = [微信支付有优惠]领金币Token
+arg2 = switch, true, false, tag = [微信支付有优惠]领金币Task
+arg3 = input, "0 0 9 * * *", tag = [微信支付有优惠]定时参数Cron
+
+# 阿里云盘
+arg4 = switch, true, false, tag = [阿里云盘]每日签到Token
+arg5 = switch, true, false, tag = [阿里云盘]每日签到Task
+arg6 = input, "0 0 9 * * *", tag = [阿里云盘]定时参数Cron
+
+# 微博
+arg7 = switch, true, false, tag = [微博]每日签到Token
+arg8 = switch, true, false, tag = [微博]每日签到Task
+arg9 = input, "0 0 9 * * *", tag = [微博]定时参数Cron
+
+# Bilibili
+arg10 = switch, true, false, tag = [哔哩哔哩App]每日等级任务Token
+arg11 = switch, false, true, tag = [哔哩哔哩QR Code]每日等级任务Token
+arg12 = switch, true, false, tag = [哔哩哔哩]每日等级任务Task
+arg13 = input, "0 0 9 * * *", tag = [哔哩哔哩]定时参数Cron
+
+#酷狗概念版
+arg14 = switch, true, false, tag = [酷狗签到Token]
+arg15 = switch, true, false, tag = [酷狗签到Task]
+arg16 = input, "10 0 * * *" ,tag = [酷狗领取VIP]定时参数Cron
+
+#美团红包签到
+arg17 = switch, true, false, tag = [美团签到Token]
+arg18 = switch, true, false, tag = [美团签到Task]
+arg19 = input, "10 0 * * *" ,tag = [美团签到]定时参数Cron
+
+#sfexpress
+arg20 = switch, true, false, tag = [sfExpress获取token]
+arg21 = switch, true, false, tag = [sfExpress签到]
+arg22 = input, "10 0 * * *" ,tag = [sfExpress签到]定时参数Cron
+
+#复游会微信小程序
+arg23 = switch, true, false, tag = [复游会签到Token]
+arg24 = switch, true, false, tag = [复游会签到Task]
+arg25 = input, "10 0 * * *" ,tag = [复游会签到]定时参数Cron
+
+#高德打车
+arg26 = switch, true, false, tag = [高德打车Token]
+arg27 = switch, true, false, tag = [高德打车Task]
+arg28 = input, "10 0 * * *" ,tag = [高德打车]定时参数Cron
+
+#蜜雪冰城
+arg29 = switch, true, false, tag = [蜜雪冰城Token]
+arg30 = switch, true, false, tag = [蜜雪冰城Task]
+arg31 = input, "10 0 * * *" ,tag = [蜜雪冰城]定时参数Cron
+#奶茶多合一
+arg32 = switch, true, false, tag = [奶茶多合一Token]
+arg33 = switch, true, false, tag = [奶茶多合一Task]
+arg34 = input, "10 0 * * *" ,tag = [奶茶多合一]定时参数Cron
+
+#阿里云社区
+arg35 = switch, true, false, tag = [阿里云社区Token]
+arg36 = switch, true, false, tag = [阿里云社区Task]
+arg37 = input, "0 7,13 * * *" ,tag = [阿里云社区]定时参数Cron
+
+#V2EX
+arg38 = switch, true, false, tag = [V2EXToken]
+arg39 = switch, true, false, tag = [V2EXTask]
+arg40 = input, "0 0 * * *" ,tag = [V2EX]定时参数Cron
+
+
+
+[Script]
+# 微信支付有优惠 - payapp.weixin.qq.com
+http-response https:\/\/payapp\.weixin\.qq\.com\/(coupon-center-user\/home\/login|coupon-center-award\/award\/detail) script-path = https://raw.githubusercontent.com/FoKit/Scripts/main/scripts/wechat_pay_coupon.js, requires-body = true, enable= {arg1}, tag = [微信支付有优惠]领金币Token
+cron {arg3} script-path = https://raw.githubusercontent.com/FoKit/Scripts/main/scripts/wechat_pay_coupon.js, enable= {arg2}, tag = [微信支付有优惠]领金币Task
+
+# 阿里云盘 - auth.alipan.com, auth.aliyundrive.com
+http-request ^https:\/\/(auth|aliyundrive)\.alipan\.com\/v2\/account\/token script-path = https://gist.githubusercontent.com/Sliverkiss/33800a98dcd029ba09f8b6fc6f0f5162/raw/aliyun.js, requires-body = true, enable= {arg4}, tag = [阿里云盘]每日签到Token
+cron {arg6} script-path = https://gist.githubusercontent.com/Sliverkiss/33800a98dcd029ba09f8b6fc6f0f5162/raw/aliyun.js, enable= {arg5}, tag = [阿里云盘]每日签到Task
+
+
+# 微博 - api.weibo.cn
+http-request ^https?:\/\/api\.weibo\.cn\/\d\/users\/show script-path = https://raw.githubusercontent.com/sooyaaabo/Loon/main/Script/CookieTask/WeiboCookieTask.js, enable={arg7}, tag = [微博]每日签到Token
+cron {arg9} script-path = https://raw.githubusercontent.com/sooyaaabo/Loon/main/Script/CookieTask/WeiboCookieTask.js, enable={arg8}, tag = [微博]每日签到Task
+
+
+# Bilibili - cm.bilibili.com, m.bilibili.com
+http-request ^https?:\/\/app\.bilibili\.com\/x\/resource\/fingerprint\? script-path = https://raw.githubusercontent.com/ClydeTime/BiliBili/main/js/BiliBiliDailyBonus.js, enable={arg10}, tag = [哔哩哔哩App]每日等级任务Token
+http-response ^https?:\/\/app\.bilibili\.com\/x\/resource\/fingerprint\? script-path = https://raw.githubusercontent.com/ClydeTime/BiliBili/main/js/BiliBiliDailyBonus.js, enable={arg11}, tag = [哔哩哔哩QR Code]每日等级任务Token
+cron {arg13} script-path = https://raw.githubusercontent.com/ClydeTime/BiliBili/main/js/BiliBiliDailyBonus.js, enable={arg12}, tag = [哔哩哔哩]每日等级任务Task
+
+#酷狗概念版 - *.kugou.com
+http-request https://(gateway|gatewayretry|gateway3).kugou.com/youth/v1/activity/get_month_vip_record.* script-path=https://gist.githubusercontent.com/Alex0510/8b958bcf53ed1271e03bb5130b2206ec/raw/kugou_cookie.js, enable={arg14}, tag=酷狗签到Token
+cron {arg16} script-path=https://gist.githubusercontent.com/Alex0510/8b958bcf53ed1271e03bb5130b2206ec/raw/kugou_vip.js, enable={arg15}, tag=酷狗签到Task
+
+#美团签到 - i.meituan.com,mall.meituan.com,promotion.waimai.meituan.com
+http-response https://open.meituan.com/user/v1/info/auditting script-path=https://raw.githubusercontent.com/C2dark/oxJS/refs/heads/dev/Loon/Scripts/cookies/meituan_cookie.js, requires-body=true, timeout=60,enable = {arg17}, tag=美团签到Token
+cron {arg19} script-path=https://raw.githubusercontent.com/chavyleung/scripts/master/meituan/meituan.js, requires-body=true, timeout=60,enable = {arg18}, tag=美团签到Task
+
+#顺丰签到 - mcs-mimp-web.sf-express.com
+http-request ^https:\/\/ccsp-egmas.sf-express.com\/cx-app-member\/member\/app\/user\/universalSign script-path=https://raw.githubusercontent.com/C2dark/oxJS/refs/heads/dev/Loon/Scripts/cookies/sfexpress.js, requires-body=true, timeout=60,enable = {arg20}, tag=顺丰签到Token
+cron {arg22} script-path=https://raw.githubusercontent.com/chavyleung/scripts/master/sfexpress/sfexpress.js, requires-body=true, timeout=60,enable = {arg21}, tag=顺丰签到Task
+
+#复游会 - apis.folidaymall.com
+http-request ^https:\/\/apis\.folidaymall\.com\/online\/capi\/uc\/getCount script-path=https://raw.githubusercontent.com/C2dark/oxJS/refs/heads/dev/Loon/Scripts/cookies/ThomasCook.js, requires-body=true, timeout=20, enabled= {arg23}, tag=复游会签到Token
+corn {arg25} script-path=https://raw.githubusercontent.com/FoKit/Scripts/main/scripts/ThomasCook.js, requires-body=true, timeout=20, enabled= {arg24}, tag=复游会签到Task
+
+#高德打车 - *.amap.com
+http-response ^https?:\/\/(m5(|-zb)|dache)\.amap\.com\/(ws\/yuece\/(act|openapi\/activity\/current)\/query|common\/(alipaymini|wxmini)\?_ENCRYPT=) script-path=https://raw.githubusercontent.com/C2dark/oxJS/refs/heads/dev/Loon/Scripts/cookies/amp.js, requires-body=true, timeout=60, enable = {arg26}, tag=高德打车Token
+cron {arg28} script-path=https://raw.githubusercontent.com/wf021325/qx/master/task/ampDache.js, timeout=120,enable= {arg27}, tag=高德打车Task
+
+#蜜雪冰城 - mxsa.mxbc.net
+http-response ^https:\/\/mxsa\.mxbc\.net\/api\/v1\/customer\/info script-path=https://raw.githubusercontent.com/C2dark/oxJS/refs/heads/dev/Loon/Scripts/cookies/mxbc.js, requires-body=true, timeout=60,  enable = {arg29}, tag=蜜雪冰城Token
+cron {arg31} script-path=https://gist.githubusercontent.com/Sliverkiss/865c82e42a5730bb696f6700ebb94cee/raw/mxbc.js, timeout=120, enable={arg30}, tag=蜜雪冰城Task
+
+#奶茶多合一 - webapi2.qmai.cn,webapi.qmai.cn,qmwebapi.qmai.cn
+http-response ^https:\/\/(webapi|webapi2)\.qmai\.cn\/web\/seller\/(oauth\/flash-sale-login|account\/login-minp) script-path=https://raw.githubusercontent.com/C2dark/oxJS/refs/heads/dev/Loon/Scripts/cookies/teamilk.js, requires-body=true, timeout=60, enable = {arg32}, tag=奶茶多合一Token
+cron {arg34} script-path=https://gist.githubusercontent.com/Sliverkiss/8b4f5487e0f28786c7dec9c7484dcd5e/raw/teaMilk.js, timeout=120, enable= {arg33}, tag=奶茶多合一Task
+
+#阿里云社区 - developer.aliyun.com
+http-response ^https?:\/\/developer\.aliyun\.com\/developer\/api\/my\/user\/getUser script-path=https://raw.githubusercontent.com/leiyiyan/resource/main/script/aliyun_web/aliyun_web.js, requires-body=true, timeout=60, enable= {arg35}, tag=阿里云社区Token
+cron {arg37} script-path=https://raw.githubusercontent.com/leiyiyan/resource/main/script/aliyun_web/aliyun_web.js, enable= {arg36}, tag=阿里云社区Task
+
+#v2ex - www.v2ex.com
+http-request, pattern=^https:\/\/www\.v2ex\.com\/b\/i\/, script-path=https://raw.githubusercontent.com/anyehttp/quantumult-x/main/task/v2ex.js, enable= {arg38}, tag=V2EXToken
+cron {arg40} script-path=https://raw.githubusercontent.com/anyehttp/quantumult-x/main/task/v2ex.js, enable= {arg39}, tag=V2EXTask
+
+
+[MitM]
+hostname = payapp.weixin.qq.com, auth.alipan.com, auth.aliyundrive.com, api.weibo.cn, cm.bilibili.com, m.bilibili.com, *.kugou.com, i.meituan.com,mall.meituan.com,promotion.waimai.meituan.com, mcs-mimp-web.sf-express.com, apis.folidaymall.com, *.amap.com, mxsa.mxbc.net, webapi2.qmai.cn, webapi.qmai.cn, qmwebapi.qmai.cn, developer.aliyun.com, www.v2ex.com
