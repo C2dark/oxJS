@@ -129,7 +129,7 @@ http-response ^https?:\/\/developer\.aliyun\.com\/developer\/api\/my\/user\/getU
 cron {arg37} script-path=https://raw.githubusercontent.com/leiyiyan/resource/main/script/aliyun_web/aliyun_web.js, enable= {arg36}, tag=阿里云社区Task
 
 #v2ex - www.v2ex.com
-http-request, pattern=^https:\/\/www\.v2ex\.com\/b\/i\/  script-path=https://raw.githubusercontent.com/anyehttp/quantumult-x/main/task/v2ex.js, enable= {arg38}, tag=V2EXToken
+http-request ^https:\/\/www\.v2ex\.com\/b\/i\/  script-path=https://raw.githubusercontent.com/anyehttp/quantumult-x/main/task/v2ex.js, enable= {arg38}, tag=V2EXToken
 cron {arg40} script-path=https://raw.githubusercontent.com/anyehttp/quantumult-x/main/task/v2ex.js, enable= {arg39}, tag=V2EXTask
 
 
