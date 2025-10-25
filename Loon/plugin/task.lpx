@@ -106,11 +106,11 @@ cron {arg19} script-path=https://raw.githubusercontent.com/chavyleung/scripts/ma
 
 #顺丰签到 - mcs-mimp-web.sf-express.com
 http-request ^https:\/\/ccsp-egmas.sf-express.com\/cx-app-member\/member\/app\/user\/universalSign script-path=https://raw.githubusercontent.com/C2dark/oxJS/refs/heads/dev/Loon/Scripts/cookies/sfexpress.js, requires-body=true, timeout=60,enable = {arg20}, tag=顺丰签到Token
-cron {arg22} script-path=https://raw.githubusercontent.com/chavyleung/scripts/master/sfexpress/sfexpress.js, requires-body=true, timeout=60,enable = {arg21}, tag=顺丰签到Task
+cron {arg22} script-path=https://raw.githubusercontent.com/chavyleung/scripts/master/sfexpress/sfexpress.js, requires-body=true, timeout=60, enable = {arg21}, tag=顺丰签到Task
 
 #复游会 - apis.folidaymall.com
 http-request ^https:\/\/apis\.folidaymall\.com\/online\/capi\/uc\/getCount script-path=https://raw.githubusercontent.com/C2dark/oxJS/refs/heads/dev/Loon/Scripts/cookies/ThomasCook.js, requires-body=true, timeout=20, enabled= {arg23}, tag=复游会签到Token
-corn {arg25} script-path=https://raw.githubusercontent.com/FoKit/Scripts/main/scripts/ThomasCook.js, requires-body=true, timeout=20, enabled= {arg24}, tag=复游会签到Task
+cron {arg25} script-path=https://raw.githubusercontent.com/FoKit/Scripts/main/scripts/ThomasCook.js, requires-body=true, timeout=20, enabled= {arg24}, tag=复游会签到Task
 
 #高德打车 - *.amap.com
 http-response ^https?:\/\/(m5(|-zb)|dache)\.amap\.com\/(ws\/yuece\/(act|openapi\/activity\/current)\/query|common\/(alipaymini|wxmini)\?_ENCRYPT=) script-path=https://raw.githubusercontent.com/C2dark/oxJS/refs/heads/dev/Loon/Scripts/cookies/amp.js, requires-body=true, timeout=60, enable = {arg26}, tag=高德打车Token
@@ -129,7 +129,7 @@ http-response ^https?:\/\/developer\.aliyun\.com\/developer\/api\/my\/user\/getU
 cron {arg37} script-path=https://raw.githubusercontent.com/leiyiyan/resource/main/script/aliyun_web/aliyun_web.js, enable= {arg36}, tag=阿里云社区Task
 
 #v2ex - www.v2ex.com
-http-request, pattern=^https:\/\/www\.v2ex\.com\/b\/i\/, script-path=https://raw.githubusercontent.com/anyehttp/quantumult-x/main/task/v2ex.js, enable= {arg38}, tag=V2EXToken
+http-request, pattern=^https:\/\/www\.v2ex\.com\/b\/i\/  script-path=https://raw.githubusercontent.com/anyehttp/quantumult-x/main/task/v2ex.js, enable= {arg38}, tag=V2EXToken
 cron {arg40} script-path=https://raw.githubusercontent.com/anyehttp/quantumult-x/main/task/v2ex.js, enable= {arg39}, tag=V2EXTask
 
 
