@@ -110,7 +110,7 @@ cron {arg22} script-path=https://raw.githubusercontent.com/chavyleung/scripts/ma
 
 #复游会 - apis.folidaymall.com
 http-request ^https:\/\/apis\.folidaymall\.com\/online\/capi\/uc\/getCount script-path=https://raw.githubusercontent.com/C2dark/oxJS/refs/heads/dev/Loon/Scripts/cookies/ThomasCook.js, requires-body=true, timeout=20, enabled= {arg23}, tag=复游会签到Token
-cron {arg25} script-path=https://raw.githubusercontent.com/FoKit/Scripts/main/scripts/ThomasCook.js, requires-body=true, timeout=20, enabled= {arg24}, tag=复游会签到Task
+cron {arg25} script-path=https://raw.githubusercontent.com/FoKit/Scripts/main/scripts/ThomasCook.js, enabled= {arg24}, tag=复游会签到Task
 
 #高德打车 - *.amap.com
 http-response ^https?:\/\/(m5(|-zb)|dache)\.amap\.com\/(ws\/yuece\/(act|openapi\/activity\/current)\/query|common\/(alipaymini|wxmini)\?_ENCRYPT=) script-path=https://raw.githubusercontent.com/C2dark/oxJS/refs/heads/dev/Loon/Scripts/cookies/amp.js, requires-body=true, timeout=60, enable = {arg26}, tag=高德打车Token
