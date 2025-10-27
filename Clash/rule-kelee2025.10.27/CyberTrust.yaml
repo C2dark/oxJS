@@ -1,0 +1,5 @@
+# UpdateTime：2025-10-26 03:05:58
+# RuleCount：2
+payload:
+  - DOMAIN-SUFFIX,cybertrust.co.jp
+  - DOMAIN-SUFFIX,cybertrust.ne.jp

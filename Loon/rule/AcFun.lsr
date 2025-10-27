@@ -1,0 +1,7 @@
+# UpdateTime：2025-10-26 03:05:44
+# RuleCount：5
+DOMAIN-SUFFIX, acfun.cn
+DOMAIN-SUFFIX, acfun.com
+DOMAIN-SUFFIX, aixifan.com
+DOMAIN-SUFFIX, acfun.tv
+USER-AGENT, AcFun*

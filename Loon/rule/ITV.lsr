@@ -1,0 +1,6 @@
+# UpdateTime：2025-10-26 03:05:45
+# RuleCount：4
+DOMAIN, itvpnpmobile-a.akamaihd.net
+DOMAIN-SUFFIX, itv.com
+DOMAIN-SUFFIX, itvstatic.com
+USER-AGENT, ITV_Player*

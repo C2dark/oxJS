@@ -1,0 +1,15 @@
+# UpdateTime：2025-10-26 03:05:50
+# RuleCount：12
+payload:
+  - DOMAIN,imap.gmail.com
+  - DOMAIN,pop.gmail.com
+  - DOMAIN,smtp.gmail.com
+  - DOMAIN,outlook.office365.com
+  - DOMAIN,smtp.office365.com
+  - DOMAIN,imap-mail.outlook.com
+  - DOMAIN,smtp-mail.outlook.com
+  - DOMAIN,apple.imap.mail.yahoo.com
+  - DOMAIN,apple.smtp.mail.yahoo.com
+  - DOMAIN-SUFFIX,m.hotmail.com
+  - DOMAIN-SUFFIX,imap.yandex.com
+  - DOMAIN-SUFFIX,smtp.yandex.com

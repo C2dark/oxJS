@@ -1,0 +1,6 @@
+# UpdateTime：2025-10-26 03:09:39
+# RuleCount：3
+payload:
+  - DOMAIN-SUFFIX,pddpic.com
+  - DOMAIN-SUFFIX,pinduoduo.com
+  - DOMAIN-SUFFIX,yangkeduo.com

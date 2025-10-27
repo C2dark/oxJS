@@ -1,0 +1,7 @@
+# UpdateTime：2025-10-26 03:06:20
+# RuleCount：4
+payload:
+  - DOMAIN-SUFFIX,comox.cn
+  - DOMAIN-SUFFIX,comum.cn
+  - DOMAIN-SUFFIX,ifanfou.cn
+  - DOMAIN-SUFFIX,mlj130.cn

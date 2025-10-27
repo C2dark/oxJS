@@ -1,0 +1,6 @@
+# UpdateTime：2025-10-26 03:10:00
+# RuleCount：3
+payload:
+  - DOMAIN,cdn.usefathom.com
+  - DOMAIN-SUFFIX,claude.ai
+  - DOMAIN-SUFFIX,anthropic.com

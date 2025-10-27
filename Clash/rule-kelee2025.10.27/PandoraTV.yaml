@@ -1,0 +1,5 @@
+# UpdateTime：2025-10-26 03:05:51
+# RuleCount：2
+payload:
+  - DOMAIN-SUFFIX,kmplayer.com
+  - DOMAIN-SUFFIX,pandora.tv

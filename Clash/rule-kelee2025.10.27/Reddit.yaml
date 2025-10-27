@@ -1,0 +1,11 @@
+# UpdateTime：2025-10-26 03:05:48
+# RuleCount：8
+payload:
+  - DOMAIN-SUFFIX,reddituploads.com.cdn-cf.dropbox.com
+  - DOMAIN-SUFFIX,reddit.com
+  - DOMAIN-SUFFIX,redditmail.com
+  - DOMAIN-SUFFIX,redditmedia.com
+  - DOMAIN-SUFFIX,redditstatic.com
+  - DOMAIN-SUFFIX,reddituploads.com
+  - DOMAIN-SUFFIX,redd.it
+  - DOMAIN-SUFFIX,reddituploads.com.cdn-cf.behance.net

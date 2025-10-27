@@ -1,0 +1,8 @@
+# UpdateTime：2025-10-26 03:05:52
+# RuleCount：6
+DOMAIN, mask-api.icloud.com
+DOMAIN, mask-api.fe.apple-dns.net
+DOMAIN, mask.apple-dns.net
+DOMAIN, mask-t.apple-dns.net
+DOMAIN-SUFFIX, mask.icloud.com
+DOMAIN-SUFFIX, mask-h2.icloud.com

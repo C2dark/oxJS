@@ -1,0 +1,6 @@
+# UpdateTime：2025-10-26 03:05:51
+# RuleCount：3
+payload:
+  - DOMAIN-SUFFIX,amazontrust.com
+  - DOMAIN-SUFFIX,awstrust.com
+  - DOMAIN-SUFFIX,ss2.us

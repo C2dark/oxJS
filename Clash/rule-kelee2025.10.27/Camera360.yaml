@@ -1,0 +1,11 @@
+# UpdateTime：2025-10-26 03:05:43
+# RuleCount：8
+payload:
+  - DOMAIN-SUFFIX,ypjc.cloud
+  - DOMAIN-SUFFIX,360in.com
+  - DOMAIN-SUFFIX,52photo.com
+  - DOMAIN-SUFFIX,c360dn.com
+  - DOMAIN-SUFFIX,camera360.com
+  - DOMAIN-SUFFIX,saladvideo.com
+  - DOMAIN-SUFFIX,yipai360.com
+  - DOMAIN-SUFFIX,yipai.info

@@ -1,0 +1,7 @@
+# UpdateTime：2025-10-26 03:06:34
+# RuleCount：4
+payload:
+  - DOMAIN-SUFFIX,ctfile.com
+  - DOMAIN-SUFFIX,n802.com
+  - DOMAIN-SUFFIX,tv002.com
+  - DOMAIN-SUFFIX,ctfile.net

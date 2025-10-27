@@ -1,0 +1,7 @@
+# UpdateTime：2025-10-26 03:06:20
+# RuleCount：4
+payload:
+  - DOMAIN-SUFFIX,intercom.com
+  - DOMAIN-SUFFIX,intercomassets.com
+  - DOMAIN-SUFFIX,intercomcdn.com
+  - DOMAIN-SUFFIX,intercom.io

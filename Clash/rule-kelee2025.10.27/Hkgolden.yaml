@@ -1,0 +1,5 @@
+# UpdateTime：2025-10-26 03:07:00
+# RuleCount：2
+payload:
+  - DOMAIN-SUFFIX,hkgolden.com
+  - DOMAIN-SUFFIX,hkgolden.media

@@ -1,0 +1,9 @@
+# UpdateTime：2025-10-26 03:05:52
+# RuleCount：6
+payload:
+  - DOMAIN-SUFFIX,aqara.cn
+  - DOMAIN-SUFFIX,aqara.com.cn
+  - DOMAIN-SUFFIX,lumiunited.com.cn
+  - DOMAIN-SUFFIX,lumiunited.cn
+  - DOMAIN-SUFFIX,aqara.com
+  - DOMAIN-SUFFIX,lumiunited.com

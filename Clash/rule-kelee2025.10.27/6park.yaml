@@ -1,0 +1,7 @@
+# UpdateTime：2025-10-26 03:09:50
+# RuleCount：4
+payload:
+  - DOMAIN-SUFFIX,6park.com
+  - DOMAIN-SUFFIX,6parkbbs.com
+  - DOMAIN-SUFFIX,6parknews.com
+  - DOMAIN-SUFFIX,cool18.com

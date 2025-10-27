@@ -1,0 +1,6 @@
+# UpdateTime：2025-10-26 03:09:51
+# RuleCount：3
+payload:
+  - DOMAIN,servd-anthropic-website.b-cdn.net
+  - DOMAIN-SUFFIX,claude.ai
+  - DOMAIN-SUFFIX,anthropic.com

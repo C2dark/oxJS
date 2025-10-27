@@ -1,0 +1,5 @@
+# UpdateTime：2025-10-26 03:05:44
+# RuleCount：3
+DOMAIN-SUFFIX, disqus.com
+DOMAIN-SUFFIX, disquscdn.com
+DOMAIN-SUFFIX, disqusservice.com

@@ -1,0 +1,11 @@
+# UpdateTime：2025-10-26 03:05:44
+# RuleCount：8
+payload:
+  - DOMAIN-SUFFIX,hifuntv.com
+  - DOMAIN-SUFFIX,hitv.com
+  - DOMAIN-SUFFIX,hunaniptv.com
+  - DOMAIN-SUFFIX,hunantv.com
+  - DOMAIN-SUFFIX,mgtv.com
+  - DOMAIN-SUFFIX,tazai.com
+  - DOMAIN-SUFFIX,imgo.tv
+  - USER-AGENT,MGTV*

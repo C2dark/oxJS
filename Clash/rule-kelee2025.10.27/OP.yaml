@@ -1,0 +1,5 @@
+# UpdateTime：2025-10-26 03:05:45
+# RuleCount：2
+payload:
+  - DOMAIN-SUFFIX,op.gg
+  - DOMAIN-SUFFIX,opgg-static.akamaized.net

@@ -1,0 +1,11 @@
+# UpdateTime：2025-10-26 03:05:50
+# RuleCount：8
+payload:
+  - DOMAIN-SUFFIX,17u.cn
+  - DOMAIN-SUFFIX,40017.cn
+  - DOMAIN-SUFFIX,17usoft.com
+  - DOMAIN-SUFFIX,elong.com
+  - DOMAIN-SUFFIX,elongstatic.com
+  - DOMAIN-SUFFIX,ly.com
+  - DOMAIN-SUFFIX,17u.net
+  - DOMAIN-SUFFIX,17usoft.net

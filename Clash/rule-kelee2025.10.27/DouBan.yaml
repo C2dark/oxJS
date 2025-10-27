@@ -1,0 +1,6 @@
+# UpdateTime：2025-10-26 03:06:11
+# RuleCount：3
+payload:
+  - DOMAIN-SUFFIX,douban.com
+  - DOMAIN-SUFFIX,doubanio.com
+  - DOMAIN-SUFFIX,douban.fm

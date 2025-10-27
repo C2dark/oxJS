@@ -1,0 +1,8 @@
+# UpdateTime：2025-10-26 03:05:45
+# RuleCount：5
+payload:
+  - DOMAIN-SUFFIX,acer.com.cn
+  - DOMAIN-SUFFIX,founderpc.cn
+  - DOMAIN-SUFFIX,acer.com
+  - DOMAIN-SUFFIX,acer-group.com
+  - DOMAIN-SUFFIX,founderpc.com

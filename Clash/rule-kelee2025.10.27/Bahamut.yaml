@@ -1,0 +1,11 @@
+# UpdateTime：2025-10-26 03:07:03
+# RuleCount：8
+payload:
+  - DOMAIN,bahamut.akamaized.net
+  - DOMAIN-SUFFIX,digicert.com
+  - DOMAIN-SUFFIX,gvt1.com
+  - DOMAIN-SUFFIX,viblast.com
+  - DOMAIN-SUFFIX,hinet.net
+  - DOMAIN-SUFFIX,bahamut.com.tw
+  - DOMAIN-SUFFIX,gamer.com.tw
+  - USER-AGENT,Anime*

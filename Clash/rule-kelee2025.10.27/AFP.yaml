@@ -1,0 +1,5 @@
+# UpdateTime：2025-10-26 03:06:13
+# RuleCount：2
+payload:
+  - DOMAIN-SUFFIX,afp.com
+  - DOMAIN-SUFFIX,afpforum.com

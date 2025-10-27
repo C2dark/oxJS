@@ -1,0 +1,5 @@
+# UpdateTime：2025-10-26 03:05:45
+# RuleCount：3
+DOMAIN-SUFFIX, c4assets.com
+DOMAIN-SUFFIX, channel4.com
+USER-AGENT, All4*

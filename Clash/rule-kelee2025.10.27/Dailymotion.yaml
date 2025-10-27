@@ -1,0 +1,8 @@
+# UpdateTime：2025-10-26 03:05:50
+# RuleCount：5
+payload:
+  - DOMAIN-SUFFIX,dailymotion.com
+  - DOMAIN-SUFFIX,dmxleo.com
+  - DOMAIN-SUFFIX,dai.ly
+  - DOMAIN-SUFFIX,dm-event.net
+  - DOMAIN-SUFFIX,dmcdn.net

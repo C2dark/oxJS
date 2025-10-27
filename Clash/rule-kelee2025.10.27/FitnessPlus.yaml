@@ -1,0 +1,5 @@
+# UpdateTime：2025-10-26 03:09:50
+# RuleCount：2
+payload:
+  - DOMAIN,amp-api.fitness.apple.com
+  - DOMAIN,hls-svod.itunes.apple.com

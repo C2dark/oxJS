@@ -1,0 +1,5 @@
+# UpdateTime：2025-10-26 03:06:33
+# RuleCount：2
+payload:
+  - DOMAIN,apps.apple.com
+  - DOMAIN,itunes.apple.com

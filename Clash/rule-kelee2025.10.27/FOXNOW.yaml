@@ -1,0 +1,7 @@
+# UpdateTime：2025-10-26 03:06:02
+# RuleCount：4
+payload:
+  - DOMAIN-SUFFIX,fox.com
+  - DOMAIN-SUFFIX,foxdcg.com
+  - DOMAIN-SUFFIX,uplynk.com
+  - USER-AGENT,FOX%20NOW*

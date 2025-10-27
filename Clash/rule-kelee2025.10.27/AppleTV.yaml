@@ -1,0 +1,12 @@
+# UpdateTime：2025-10-26 03:05:50
+# RuleCount：9
+payload:
+  - DOMAIN,hls.itunes.apple.com
+  - DOMAIN,hls-amt.itunes.apple.com
+  - DOMAIN,np-edge.itunes.apple.com
+  - DOMAIN,play-edge.itunes.apple.com
+  - DOMAIN,uts-api.itunes.apple.com
+  - DOMAIN,tv.applemusic.com
+  - DOMAIN-SUFFIX,tv.apple.com
+  - USER-AGENT,AppleTV*
+  - USER-AGENT,com.apple.tv*

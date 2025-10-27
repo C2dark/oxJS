@@ -1,0 +1,6 @@
+# UpdateTime：2025-10-26 03:09:57
+# RuleCount：3
+payload:
+  - DOMAIN-SUFFIX,liveperson.com
+  - DOMAIN-SUFFIX,liveperson.net
+  - DOMAIN-SUFFIX,lpsnmedia.net

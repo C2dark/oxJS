@@ -1,0 +1,8 @@
+# UpdateTime：2025-10-26 03:05:53
+# RuleCount：5
+payload:
+  - DOMAIN-SUFFIX,haiwaikan.com
+  - DOMAIN-SUFFIX,olehd.com
+  - DOMAIN-SUFFIX,olelive.com
+  - DOMAIN-SUFFIX,iole.tv
+  - DOMAIN-KEYWORD,olevod

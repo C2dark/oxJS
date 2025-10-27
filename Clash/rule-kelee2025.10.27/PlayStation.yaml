@@ -1,0 +1,7 @@
+# UpdateTime：2025-10-26 03:05:49
+# RuleCount：4
+payload:
+  - DOMAIN-SUFFIX,playstation.com
+  - DOMAIN-SUFFIX,playstationnetwork.com
+  - DOMAIN-SUFFIX,sonyentertainmentnetwork.com
+  - DOMAIN-SUFFIX,playstation.net

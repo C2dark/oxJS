@@ -1,0 +1,5 @@
+# UpdateTime：2025-10-26 03:05:54
+# RuleCount：2
+payload:
+  - DOMAIN-SUFFIX,anon-v.com
+  - DOMAIN-SUFFIX,anon-v.lol

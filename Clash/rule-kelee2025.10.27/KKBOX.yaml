@@ -1,0 +1,12 @@
+# UpdateTime：2025-10-26 03:05:47
+# RuleCount：9
+payload:
+  - DOMAIN-SUFFIX,kkbox.com
+  - DOMAIN-SUFFIX,kkbox-prime.com
+  - DOMAIN-SUFFIX,kktix.com
+  - DOMAIN-SUFFIX,kfs.io
+  - DOMAIN-SUFFIX,kktv.me
+  - DOMAIN-SUFFIX,theater-kktv.cdn.hinet.net
+  - DOMAIN-SUFFIX,kk.stream
+  - DOMAIN-SUFFIX,kkbox.com.tw
+  - DOMAIN-SUFFIX,kktv.com.tw

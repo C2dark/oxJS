@@ -1,0 +1,7 @@
+# UpdateTime：2025-10-26 03:05:49
+# RuleCount：5
+DOMAIN, amp.akamaized.net
+DOMAIN-SUFFIX, ampproject.com
+DOMAIN-SUFFIX, amp.dev
+DOMAIN-SUFFIX, ampproject.net
+DOMAIN-SUFFIX, ampproject.org

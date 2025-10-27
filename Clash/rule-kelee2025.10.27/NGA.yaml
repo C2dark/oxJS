@@ -1,0 +1,7 @@
+# UpdateTime：2025-10-26 03:05:52
+# RuleCount：4
+payload:
+  - DOMAIN-SUFFIX,ngacn.cc
+  - DOMAIN-SUFFIX,nga.cn
+  - DOMAIN-SUFFIX,178.com
+  - DOMAIN-SUFFIX,ngabbs.com

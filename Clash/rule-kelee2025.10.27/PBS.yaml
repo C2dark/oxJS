@@ -1,0 +1,5 @@
+# UpdateTime：2025-10-26 03:09:58
+# RuleCount：2
+payload:
+  - DOMAIN-SUFFIX,pbs.org
+  - USER-AGENT,PBS*

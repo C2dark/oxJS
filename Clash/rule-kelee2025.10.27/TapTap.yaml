@@ -1,0 +1,5 @@
+# UpdateTime：2025-10-26 03:06:57
+# RuleCount：2
+payload:
+  - DOMAIN-SUFFIX,tap.io
+  - DOMAIN-SUFFIX,taptap.tw

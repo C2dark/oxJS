@@ -1,0 +1,9 @@
+# UpdateTime：2025-10-26 03:05:45
+# RuleCount：6
+payload:
+  - DOMAIN-SUFFIX,jos.com
+  - DOMAIN-SUFFIX,hkbn.com.hk
+  - DOMAIN-SUFFIX,speedtest.com.hk
+  - DOMAIN-SUFFIX,hkbn.net
+  - DOMAIN-SUFFIX,hkbnes.net
+  - DOMAIN-SUFFIX,csifund.org

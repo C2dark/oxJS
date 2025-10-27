@@ -1,0 +1,7 @@
+# UpdateTime：2025-10-26 03:10:05
+# RuleCount：4
+payload:
+  - DOMAIN-SUFFIX,cgbchina.cn
+  - DOMAIN-SUFFIX,cgbchina.com.cn
+  - DOMAIN-SUFFIX,gdb.com.cn
+  - DOMAIN-SUFFIX,95508.com

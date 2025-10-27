@@ -1,0 +1,6 @@
+# UpdateTime：2025-10-26 03:09:46
+# RuleCount：3
+payload:
+  - DOMAIN-SUFFIX,deezer.com
+  - DOMAIN-SUFFIX,dzcdn.net
+  - USER-AGENT,Deezer*

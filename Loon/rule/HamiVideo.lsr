@@ -1,0 +1,6 @@
+# UpdateTime：2025-10-26 03:09:49
+# RuleCount：4
+DOMAIN, hls-hichannel.cdn.hinet.net
+DOMAIN-SUFFIX, hamivideo.hinet.net
+DOMAIN-SUFFIX, ott.hinet.net
+DOMAIN-KEYWORD, hamivideo.cdn.hinet.net

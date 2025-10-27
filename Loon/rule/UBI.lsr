@@ -1,0 +1,7 @@
+# UpdateTime：2025-10-26 03:05:43
+# RuleCount：5
+DOMAIN-SUFFIX, ubisoft-orbit-savegames.s3.amazonaws.com
+DOMAIN-SUFFIX, ubisoft-uplay-savegames.s3.amazonaws.com
+DOMAIN-SUFFIX, ubi.com
+DOMAIN-SUFFIX, ubisoft.com
+DOMAIN-SUFFIX, uplay.com

@@ -1,0 +1,9 @@
+# UpdateTime：2025-10-26 03:07:42
+# RuleCount：6
+payload:
+  - DOMAIN-SUFFIX,10044.cn
+  - DOMAIN-SUFFIX,hainanairlines.com
+  - DOMAIN-SUFFIX,hnacargo.com
+  - DOMAIN-SUFFIX,hnair.com
+  - DOMAIN-SUFFIX,hnair.net
+  - DOMAIN-KEYWORD,hnagroup

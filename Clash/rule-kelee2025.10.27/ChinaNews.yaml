@@ -1,0 +1,7 @@
+# UpdateTime：2025-10-26 03:05:43
+# RuleCount：4
+payload:
+  - DOMAIN-SUFFIX,chinanews.com.cn
+  - DOMAIN-SUFFIX,cns.com.cn
+  - DOMAIN-SUFFIX,ecns.cn
+  - DOMAIN-SUFFIX,chinanews.com

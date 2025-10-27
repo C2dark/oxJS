@@ -1,0 +1,10 @@
+# UpdateTime：2025-10-26 03:06:30
+# RuleCount：7
+payload:
+  - DOMAIN-SUFFIX,emome.net
+  - DOMAIN-SUFFIX,hinet.net
+  - DOMAIN-SUFFIX,xuite.net
+  - DOMAIN-SUFFIX,litv.tv
+  - DOMAIN-SUFFIX,cht.com.tw
+  - DOMAIN-SUFFIX,gtlsca.nat.gov.tw
+  - DOMAIN-SUFFIX,chtf.org.tw

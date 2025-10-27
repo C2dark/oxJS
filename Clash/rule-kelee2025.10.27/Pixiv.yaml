@@ -1,0 +1,11 @@
+# UpdateTime：2025-10-26 03:05:55
+# RuleCount：8
+payload:
+  - DOMAIN-SUFFIX,pixiv.cat
+  - DOMAIN-SUFFIX,fanbox.cc
+  - DOMAIN-SUFFIX,pixiv.co.jp
+  - DOMAIN-SUFFIX,pixiv.me
+  - DOMAIN-SUFFIX,pixiv.net
+  - DOMAIN-SUFFIX,pximg.net
+  - DOMAIN-SUFFIX,pixiv.org
+  - DOMAIN-SUFFIX,booth.pm

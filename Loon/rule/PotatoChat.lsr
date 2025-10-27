@@ -1,0 +1,5 @@
+# UpdateTime：2025-10-26 03:10:02
+# RuleCount：3
+IP-CIDR, 13.251.24.0/24, no-resolve
+IP-CIDR, 13.251.41.0/24, no-resolve
+IP-CIDR, 17.252.156.0/23, no-resolve

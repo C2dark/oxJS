@@ -1,0 +1,5 @@
+# UpdateTime：2025-10-26 03:06:19
+# RuleCount：2
+payload:
+  - DOMAIN-SUFFIX,terabox.com
+  - DOMAIN-SUFFIX,teraboxcdn.com
