@@ -74,6 +74,25 @@ arg38 = switch, true, false, tag = [V2EXToken]
 arg39 = switch, true, false, tag = [V2EXTask]
 arg40 = input, "0 0 * * *" ,tag = [V2EX]定时参数Cron
 
+#WPS
+arg41 = switch, true, false, tag = [WPS签到Token]
+arg42 = switch, true, false, tag = [WPS签到Task]
+
+#彩云天气
+arg43 = switch, true, false, tag = [彩云天气]Task
+arg44 = input,"0 0 8, 22 * * ?", tag = [彩云天气]定时参数Cron
+
+#EPIC
+arg45 = switch, true, false, tag = [EPIC签到Task]
+arg46 = input, "0 0 20 * * 5", tag = [EPIC签到]定时参数Cron
+
+#汇率
+arg47 = switch, true, false, tag = [汇率]Task
+arg48 = input, "0 0 9 * * *", tag = [汇率]定时参数Cron
+
+
+
+
 
 
 [Script]
@@ -132,6 +151,17 @@ cron {arg37} script-path=https://raw.githubusercontent.com/leiyiyan/resource/mai
 http-request ^https:\/\/www\.v2ex\.com\/b\/i\/  script-path=https://raw.githubusercontent.com/anyehttp/quantumult-x/main/task/v2ex.js, enable= {arg38}, tag=V2EXToken
 cron {arg40} script-path=https://raw.githubusercontent.com/anyehttp/quantumult-x/main/task/v2ex.js, enable= {arg39}, tag=V2EXTask
 
+#彩云天气
+cron {arg44} script-path=https://raw.githubusercontent.com/Peng-YM/QuanX/master/Tasks/caiyun.js, enable= {arg43}, tag=彩云天气
+
+#EPIC
+cron {arg46} script-path=https://raw.githubusercontent.com/lowking/Scripts/master/epic/freeGames.js, enable= {arg45}, tag=EPIC签到
+
+#汇率
+cron {arg48} script-path=https://raw.githubusercontent.com/Peng-YM/QuanX/master/Tasks/exchange.js, enable= {arg47}, tag=汇率
+
+
+
 
 [MitM]
-hostname = payapp.weixin.qq.com, auth.alipan.com, auth.aliyundrive.com, api.weibo.cn, cm.bilibili.com, m.bilibili.com, *.kugou.com, i.meituan.com,mall.meituan.com,promotion.waimai.meituan.com, mcs-mimp-web.sf-express.com, apis.folidaymall.com, *.amap.com, mxsa.mxbc.net, webapi2.qmai.cn, webapi.qmai.cn, qmwebapi.qmai.cn, developer.aliyun.com, www.v2ex.com
+hostname = payapp.weixin.qq.com, auth.alipan.com, auth.aliyundrive.com, api.weibo.cn, cm.bilibili.com, m.bilibili.com, *.kugou.com, i.meituan.com,mall.meituan.com,promotion.waimai.meituan.com, mcs-mimp-web.sf-express.com, apis.folidaymall.com, *.amap.com, mxsa.mxbc.net, webapi2.qmai.cn, webapi.qmai.cn, qmwebapi.qmai.cn, developer.aliyun.com, www.v2ex.com, 
