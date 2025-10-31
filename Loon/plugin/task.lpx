@@ -155,7 +155,7 @@ cron {arg40} script-path=https://raw.githubusercontent.com/anyehttp/quantumult-x
 cron {arg44} script-path=https://raw.githubusercontent.com/Peng-YM/QuanX/master/Tasks/caiyun.js, enable= {arg43}, tag=彩云天气
 
 #EPIC
-cron {arg46} script-path=https://raw.githubusercontent.com/lowking/Scripts/master/epic/freeGames.js, enable= {arg45}, tag=EPIC签到
+cron {arg46} script-path=https://raw.githubusercontent.com/lowking/Scripts/master/epic/freeGames.js, enable= {arg45}, tag=EPIC
 
 #汇率
 cron {arg48} script-path=https://raw.githubusercontent.com/Peng-YM/QuanX/master/Tasks/exchange.js, enable= {arg47}, tag=汇率
