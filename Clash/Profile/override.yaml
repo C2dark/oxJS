@@ -1,0 +1,238 @@
+# ==============================
+# 0. 全局配置模板 (定义锚点)
+# ==============================
+common-config:
+  # 模板1: 时延优选 (自动选择)
+  - &auto
+    type: url-test
+    url: 'http://www.gstatic.com/generate_204'
+    interval: 300
+    tolerance: 50
+    lazy: true
+    expected-status: 204
+    hidden: true
+    include-all: true
+  
+  # 模板2: 故障转移
+  - &fallback
+    type: fallback
+    url: 'http://www.gstatic.com/generate_204'
+    interval: 300
+    lazy: true
+    expected-status: 204
+    hidden: true
+    include-all: true
+
+  # 模板3: 负载均衡
+  - &lb
+    type: load-balance
+    strategy: consistent-hashing
+    url: 'http://www.gstatic.com/generate_204'
+    interval: 300
+    lazy: true
+    expected-status: 204
+    hidden: true
+    include-all: true
+
+  # 规则集模板: 经典模式、YAML格式、一天一更
+  - &p-standard
+    type: http
+    behavior: classical
+    format: yaml
+    interval: 86400
+
+# ==============================
+# 1. 代理组配置
+# ==============================
+proxy-groups:
+# --- 核心功能组 ---
+  - {name: 手动切换, type: select, include-all: true, icon: https://raw.githubusercontent.com/Orz-3/mini/master/Color/Static.png }
+  - {name: Global, type: select, proxies: [手动切换, DIRECT, 美国策略, 香港策略, 狮城策略, 台湾策略, 日本策略, 韩国策略, 欧洲策略], icon: https://raw.githubusercontent.com/Orz-3/mini/master/Color/Global.png }
+  - {name: FINAL, type: select, proxies: [手动切换, DIRECT, 美国策略, 香港策略, 狮城策略, 台湾策略, 日本策略, 韩国策略, 欧洲策略], icon: https://raw.githubusercontent.com/Orz-3/mini/master/Color/Final.png }
+  
+  # 应用分组
+  - {name: Telegram, type: select, proxies: [手动切换, 美国策略, 香港策略, 狮城策略, 台湾策略, 日本策略, 韩国策略, 欧洲策略], icon: https://raw.githubusercontent.com/Orz-3/mini/master/Color/Telegram.png }
+  - {name: YouTube,   type: select, proxies: [手动切换, 美国策略, 香港策略, 狮城策略, 台湾策略, 日本策略, 韩国策略, 欧洲策略], icon: https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/YouTube.png }
+  - {name: Twitter, type: select, proxies: [手动切换, 美国策略, 香港策略, 狮城策略, 台湾策略, 日本策略, 韩国策略, 欧洲策略], icon: https://raw.githubusercontent.com/Orz-3/mini/master/Color/Twitter.png }
+  - {name: TikTok,   type: select, proxies: [手动切换, 美国策略, 香港策略, 狮城策略, 台湾策略, 日本策略, 韩国策略, 欧洲策略], icon: https://raw.githubusercontent.com/Orz-3/mini/master/Color/TikTok.png }
+  - {name: Netflix, type: select, proxies: [手动切换, 美国策略, 香港策略, 狮城策略, 台湾策略, 日本策略, 韩国策略, 欧洲策略], icon: https://raw.githubusercontent.com/Orz-3/mini/master/Color/Netflix.png }
+  - {name: Bing, type: select, proxies: [手动切换, DIRECT, 美国策略, 香港策略, 狮城策略, 台湾策略, 日本策略, 韩国策略, 欧洲策略], icon: https://raw.githubusercontent.com/Orz-3/mini/master/Color/Bing.png }
+  - {name: Apple, type: select, proxies: [DIRECT, 手动切换, 美国策略, 香港策略, 狮城策略, 台湾策略, 日本策略, 韩国策略, 欧洲策略], icon: https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Apple.png }
+  - {name: Google, type: select, proxies: [手动切换, 美国策略, 香港策略, 狮城策略, 台湾策略, 日本策略, 韩国策略, 欧洲策略], icon: https://raw.githubusercontent.com/Orz-3/mini/master/Color/Google.png }
+  - {name: Microsoft, type: select, proxies: [手动切换, DIRECT, 美国策略, 香港策略, 狮城策略, 台湾策略, 日本策略, 韩国策略, 欧洲策略], icon: https://raw.githubusercontent.com/Orz-3/mini/master/Color/Microsoft.png }
+  - {name: Facebook,   type: select, proxies: [手动切换, 美国策略, 香港策略, 狮城策略, 台湾策略, 日本策略, 韩国策略, 欧洲策略], icon: https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Facebook.png }
+  - {name: GlobalDL, type: select, proxies: [手动切换, DIRECT, 美国策略, 香港策略, 狮城策略, 台湾策略, 日本策略, 韩国策略, 欧洲策略, 低倍率策略, IPv6策略], icon: https://raw.githubusercontent.com/Orz-3/mini/master/Color/Global.png }
+
+  # 全局时延优选
+  - {name: 时延优选, <<: *auto, hidden: false, icon: https://raw.githubusercontent.com/Orz-3/mini/master/Color/Urltest.png }
+
+# --- 地区主策略 ---
+  - {name: 美国策略, type: select, proxies: [美国-时延优选, 美国-故障转移, 美国-负载均衡], include-all: true, filter: "美|US|(?i)States|American", icon: https://raw.githubusercontent.com/Orz-3/mini/master/Color/US.png }
+  - {name: 香港策略, type: select, proxies: [香港-时延优选, 香港-故障转移, 香港-负载均衡], include-all: true, filter: "港|HK|(?i)Hong", icon: https://raw.githubusercontent.com/Orz-3/mini/master/Color/HK.png }
+  - {name: 狮城策略, type: select, proxies: [狮城-时延优选, 狮城-故障转移, 狮城-负载均衡], include-all: true, filter: "新|坡|SG|(?i)Singapore", icon: https://raw.githubusercontent.com/Orz-3/mini/master/Color/SG.png }
+  - {name: 台湾策略, type: select, proxies: [台湾-时延优选, 台湾-故障转移, 台湾-负载均衡], include-all: true, filter: "台|湾|TW|(?i)Taiwan", icon: https://raw.githubusercontent.com/Orz-3/mini/master/Color/TW.png }
+  - {name: 日本策略, type: select, proxies: [日本-时延优选, 日本-故障转移, 日本-负载均衡], include-all: true, filter: "日|东京|JP|(?i)Japan", icon: https://raw.githubusercontent.com/Orz-3/mini/master/Color/JP.png }
+  - {name: 韩国策略, type: select, proxies: [韩国-时延优选, 韩国-故障转移, 韩国-负载均衡], include-all: true, filter: "KR|韩国|韓|首尔|(?i)Korea", icon: https://raw.githubusercontent.com/Orz-3/mini/master/Color/KR.png }
+  - {name: 欧洲策略, type: select, proxies: [欧洲-时延优选, 欧洲-故障转移, 欧洲-负载均衡], include-all: true, filter: "🇬🇧|俄罗斯|🇷🇺|英国|法国|🇫🇷|德国|🇩🇪|瑞典|🇸🇪|西班牙|🇪🇸|伦敦|荷兰|🇳🇱|塞尔维亚|🇷🇸|挪威|丹麦|🇩🇰|🇳🇴|欧洲", icon: https://raw.githubusercontent.com/Orz-3/mini/master/Color/EU.png }
+
+# --- 特殊功能策略 (新增) ---
+  # 筛选 0.1 / 0.3 / 0.5 / 0.75 倍率
+  - {name: 低倍率策略, type: select, include-all: true, filter: "0\\.1|0\\.3|0\\.5|0\\.75", icon: https://raw.githubusercontent.com/Orz-3/mini/master/Color/Saved.png }
+  # 筛选 IPv6 节点
+  - {name: IPv6策略, type: select, include-all: true, filter: "(?i)ipv6", icon: https://raw.githubusercontent.com/Orz-3/mini/master/Color/Server.png }
+
+# --- 地区子分组 (隐藏式) ---
+  # 美国
+  - {name: 美国-时延优选, <<: *auto, filter: "美|US|(?i)States|American", icon: https://raw.githubusercontent.com/Orz-3/mini/master/Color/Urltest.png }
+  - {name: 美国-故障转移, <<: *fallback, filter: "美|US|(?i)States|American", icon: https://raw.githubusercontent.com/Orz-3/mini/master/Color/Available.png }
+  - {name: 美国-负载均衡, <<: *lb, filter: "美|US|(?i)States|American", icon: https://raw.githubusercontent.com/Orz-3/mini/master/Color/Round_Robin.png }
+
+  # 香港
+  - {name: 香港-时延优选, <<: *auto, filter: "港|HK|(?i)Hong", icon: https://raw.githubusercontent.com/Orz-3/mini/master/Color/Urltest.png }
+  - {name: 香港-故障转移, <<: *fallback, filter: "港|HK|(?i)Hong", icon: https://raw.githubusercontent.com/Orz-3/mini/master/Color/Available.png }
+  - {name: 香港-负载均衡, <<: *lb, filter: "港|HK|(?i)Hong", icon: https://raw.githubusercontent.com/Orz-3/mini/master/Color/Round_Robin.png }
+
+  # 狮城
+  - {name: 狮城-时延优选, <<: *auto, filter: "新|坡|SG|(?i)Singapore", icon: https://raw.githubusercontent.com/Orz-3/mini/master/Color/Urltest.png }
+  - {name: 狮城-故障转移, <<: *fallback, filter: "新|坡|SG|(?i)Singapore", icon: https://raw.githubusercontent.com/Orz-3/mini/master/Color/Available.png }
+  - {name: 狮城-负载均衡, <<: *lb, filter: "新|坡|SG|(?i)Singapore", icon: https://raw.githubusercontent.com/Orz-3/mini/master/Color/Round_Robin.png }
+
+  # 日本
+  - {name: 日本-时延优选, <<: *auto, filter: "日|东京|JP|(?i)Japan", icon: https://raw.githubusercontent.com/Orz-3/mini/master/Color/Urltest.png }
+  - {name: 日本-故障转移, <<: *fallback, filter: "日|东京|JP|(?i)Japan", icon: https://raw.githubusercontent.com/Orz-3/mini/master/Color/Available.png }
+  - {name: 日本-负载均衡, <<: *lb, filter: "日|东京|JP|(?i)Japan", icon: https://raw.githubusercontent.com/Orz-3/mini/master/Color/Round_Robin.png }
+
+  # 台湾
+  - {name: 台湾-时延优选, <<: *auto, filter: "台|湾|TW|(?i)Taiwan", icon: https://raw.githubusercontent.com/Orz-3/mini/master/Color/Urltest.png }
+  - {name: 台湾-故障转移, <<: *fallback, filter: "台|湾|TW|(?i)Taiwan", icon: https://raw.githubusercontent.com/Orz-3/mini/master/Color/Available.png }
+  - {name: 台湾-负载均衡, <<: *lb, filter: "台|湾|TW|(?i)Taiwan", icon: https://raw.githubusercontent.com/Orz-3/mini/master/Color/Round_Robin.png }
+  # --- 新增地区子分组 ---
+  # 韩国
+  - {name: 韩国-时延优选, <<: *auto, filter: "KR|韩国|韓|首尔|(?i)Korea", icon: https://raw.githubusercontent.com/Orz-3/mini/master/Color/Urltest.png }
+  - {name: 韩国-故障转移, <<: *fallback, filter: "KR|韩国|韓|首尔|(?i)Korea", icon: https://raw.githubusercontent.com/Orz-3/mini/master/Color/Available.png }
+  - {name: 韩国-负载均衡, <<: *lb, filter: "KR|韩国|韓|首尔|(?i)Korea", icon: https://raw.githubusercontent.com/Orz-3/mini/master/Color/Round_Robin.png }
+
+  # 欧洲
+  - {name: 欧洲-时延优选, <<: *auto, filter: "🇬🇧|俄罗斯|🇷🇺|英国|法国|🇫🇷|德国|🇩🇪|瑞典|🇸🇪|西班牙|🇪🇸|伦敦|荷兰|🇳🇱|塞尔维亚|🇷🇸|挪威|丹麦|🇩🇰|🇳🇴|欧洲", icon: https://raw.githubusercontent.com/Orz-3/mini/master/Color/Urltest.png }
+  - {name: 欧洲-故障转移, <<: *fallback, filter: "🇬🇧|俄罗斯|🇷🇺|英国|法国|🇫🇷|德国|🇩🇪|瑞典|🇸🇪|西班牙|🇪🇸|伦敦|荷兰|🇳🇱|塞尔维亚|🇷🇸|挪威|丹麦|🇩🇰|🇳🇴|欧洲", icon: https://raw.githubusercontent.com/Orz-3/mini/master/Color/Available.png }
+  - {name: 欧洲-负载均衡, <<: *lb, filter: "🇬🇧|俄罗斯|🇷🇺|英国|法国|🇫🇷|德国|🇩🇪|瑞典|🇸🇪|西班牙|🇪🇸|伦敦|荷兰|🇳🇱|塞尔维亚|🇷🇸|挪威|丹麦|🇩🇰|🇳🇴|欧洲", icon: https://raw.githubusercontent.com/Orz-3/mini/master/Color/Round_Robin.png }
+
+# ==============================
+# 2. 分流规则 (请修正 REJECT 拼写)
+# ==============================
+rules:
+  # 1. 广告拦截
+  - RULE-SET,AdBlock,REJECT
+
+  # 2. 局域网与直连
+  - RULE-SET,Lan,DIRECT
+ # - RULE-SET,Direct,DIRECT
+  
+  # 3. 国内应用
+  - RULE-SET,WeChat,DIRECT
+  - RULE-SET,BiliBili,DIRECT
+  - RULE-SET,Game,DIRECT
+  - RULE-SET,Download,DIRECT
+
+  # 4. 特殊应用
+  - RULE-SET,Imgur,香港策略
+  - RULE-SET,PayPal,DIRECT
+  - RULE-SET,Speedtest,DIRECT
+  
+  # 5. 国际媒体/社交
+  - RULE-SET,AI,美国策略
+  - RULE-SET,Spotify,香港策略
+  - RULE-SET,Notion,香港策略
+  - RULE-SET,Discord,香港策略
+  - RULE-SET,Line,香港策略
+  - RULE-SET,Twitch,香港策略
+  - RULE-SET,Whatsapp,香港策略
+
+  - RULE-SET,Bing,Bing
+  - RULE-SET,Twitter,Twitter
+  - RULE-SET,Telegram,Telegram
+  - RULE-SET,YouTube,YouTube
+  - RULE-SET,TikTok,TikTok
+  - RULE-SET,Netflix,Netflix
+  # 6. 国外下载
+  - RULE-SET,OneDrive,GlobalDL
+  - RULE-SET,GoogleDrive,GlobalDL
+  - RULE-SET,PikPak,GlobalDL
+  
+  # 7. 国际大厂服务
+  - RULE-SET,Apple,Apple
+  - RULE-SET,Google,Google
+  - RULE-SET,Microsoft,Microsoft
+  - RULE-SET,Facebook,Facebook
+  
+
+  # 8. 国外兜底
+  - RULE-SET,Proxy,Global
+  - RULE-SET,Global,Global
+  - RULE-SET,GlobalMedia,Global
+  
+  # 9. 国内兜底
+  - RULE-SET,ChinaMedia,DIRECT
+  - RULE-SET,ChinaASN,DIRECT
+  - RULE-SET,ChinaIP,DIRECT
+  - GEOIP,CN,DIRECT
+  - MATCH,FINAL
+
+# ==============================
+# 3. 规则集定义 (顺序严格匹配 rules)
+# ==============================
+rule-providers:
+  # 1. 广告拦截
+  AdBlock:     {<<: *p-standard, url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Advertising/Advertising.yaml , path: ./ruleset/Advertising.yaml }
+  
+  # 2. 局域网与直连
+  Lan:         {<<: *p-standard, url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Lan/Lan.yaml ,                      path: ./ruleset/Lan.yaml         }
+# Direct:      {<<: *p-standard, url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Direct/Direct.yaml ,                path: ./ruleset/Direct.yaml      }
+  
+  # 3. 国内应用
+  WeChat:      {<<: *p-standard, url: https://github.com/blackmatrix7/ios_rule_script/raw/refs/heads/master/rule/Clash/WeChat/WeChat.yaml ,                path: ./ruleset/WeChat.yaml      }
+  BiliBili:    {<<: *p-standard, url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/BiliBili/BiliBili.yaml ,            path: ./ruleset/BiliBili.yaml    }
+  Game:        {<<: *p-standard, url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Game/Game.yaml ,                    path: ./ruleset/Game.yaml        }
+  Download:    {<<: *p-standard, url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Download/Download.yaml ,            path: ./ruleset/Download.yaml    }
+  
+  # 4. 特殊应用
+  Imgur:       {<<: *p-standard, url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/refs/heads/master/rule/Clash/Imgur/Imgur.yaml ,       path: ./ruleset/Imgur.yaml       }
+  PayPal:      {<<: *p-standard, url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/refs/heads/master/rule/Clash/PayPal/PayPal.yaml ,       path: ./ruleset/PayPal.yaml      }
+  Speedtest:   {<<: *p-standard, url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/refs/heads/master/rule/Clash/Speedtest/Speedtest.yaml , path: ./ruleset/Speedtest.yaml   }
+
+  # 5. 国际媒体/社交
+  AI:          {<<: *p-standard, url: https://gist.githubusercontent.com/ddgksf2013/cb4121e8b5c5d865cc949cb8120320c4/raw/Ai.yaml , path: ./ruleset/AI.yaml } 
+  Spotify:     {<<: *p-standard, url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Spotify/Spotify.yaml ,   path: ./ruleset/Spotify.yaml     }
+  Notion:      {<<: *p-standard, url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Notion/Notion.yaml ,   path: ./ruleset/Notion.yaml     }
+  Discord:     {<<: *p-standard, url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Discord/Discord.yaml ,   path: ./ruleset/Discord.yaml     }
+  Line:        {<<: *p-standard, url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Line/Line.yaml ,   path: ./ruleset/Line.yaml     }
+  Twitch:      {<<: *p-standard, url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Twitch/Twitch.yaml ,   path: ./ruleset/Twitch.yaml     }
+  Whatsapp:    {<<: *p-standard, url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Whatsapp/Whatsapp.yaml ,   path: ./ruleset/Whatsapp.yaml     }
+
+  Bing:        {<<: *p-standard, url: https://rule.kelee.one/Clash/Bing.yaml ,                               path: ./ruleset/Bing.yaml        }
+  Twitter:     {<<: *p-standard, url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Twitter/Twitter.yaml ,   path: ./ruleset/Twitter.yaml     }
+  Telegram:    {<<: *p-standard, url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Telegram/Telegram.yaml ,            path: ./ruleset/Telegram.yaml    }
+  YouTube:     {<<: *p-standard, url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/refs/heads/master/rule/Clash/YouTube/YouTube.yaml ,   path: ./ruleset/YouTube.yaml     }
+  TikTok:      {<<: *p-standard, url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/refs/heads/master/rule/Clash/TikTok/TikTok.yaml ,     path: ./ruleset/TikTok.yaml      }
+  Netflix:     {<<: *p-standard, url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/refs/heads/master/rule/Clash/Netflix/Netflix.yaml ,   path: ./ruleset/Netflix.yaml     }
+
+  # 6. 国际大厂服务
+  Apple:       {<<: *p-standard, url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Apple/Apple_Classical.yaml ,          path: ./ruleset/Apple.yaml       }
+  Google:      {<<: *p-standard, url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Google/Google.yaml ,                path: ./ruleset/Google.yaml      }
+  Microsoft:   {<<: *p-standard, url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Microsoft/Microsoft.yaml ,          path: ./ruleset/Microsoft.yaml   }
+  Facebook:    {<<: *p-standard, url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/refs/heads/master/rule/Clash/Facebook/Facebook.yaml ,          path: ./ruleset/Facebook.yaml    }
+  
+  # 7. 国外下载
+  OneDrive:    {<<: *p-standard, url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/OneDrive/OneDrive.yaml ,            path: ./ruleset/OneDrive.yaml    }
+  GoogleDrive: {<<: *p-standard, url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/GoogleDrive/GoogleDrive.yaml ,      path: ./ruleset/GoogleDrive.yaml }
+  PikPak:      {<<: *p-standard, url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/refs/heads/master/rule/Clash/PikPak/PikPak.yaml ,     path: ./ruleset/PikPak.yaml      }  
+  
+  # 8. 国外兜底
+  Proxy:       {<<: *p-standard, url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/refs/heads/master/rule/Clash/Proxy/Proxy_Classical.yaml , path: ./ruleset/Proxy_Classical.yaml     }
+  Global:      {<<: *p-standard, url: https://github.com/blackmatrix7/ios_rule_script/raw/refs/heads/master/rule/Clash/Global/Global_Classical.yaml ,      path: ./ruleset/Global_Classical.yaml      }
+  GlobalMedia: {<<: *p-standard, url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/GlobalMedia/GlobalMedia_Classical.yaml , path: ./ruleset/GlobalMedia_Classical.yaml }
+  
+  # 9. 国内兜底
+  ChinaMedia:  {<<: *p-standard, url: https://rule.kelee.one/Clash/ChinaMedia.yaml ,     path: ./ruleset/ChinaMedia.yaml  }
+  ChinaASN:    {<<: *p-standard, url: https://rule.kelee.one/Clash/ChinaASN.yaml ,       path: ./ruleset/ChinaASN.yaml    } 
+  ChinaIP:     {<<: *p-standard, url: https://rule.kelee.one/Clash/ChinaIPs.yaml, path: ./ruleset/ChinaIPs.yaml }
