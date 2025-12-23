@@ -181,10 +181,10 @@ rules:
   - RULE-SET,iCloudPrivateRelay,Global
   
   # 5. 国际媒体/社交
-  - RULE-SET,Copilot,AI
-  - RULE-SET,Claude,AI
-  - RULE-SET,Gemini,AI
-  - RULE-SET,OpenAI,AI
+  #- RULE-SET,Copilot,AI
+  #- RULE-SET,Claude,AI
+  #- RULE-SET,Gemini,AI
+  #- RULE-SET,OpenAI,AI
   - RULE-SET,AI,美国策略
 
   - RULE-SET,GitHub,香港策略
