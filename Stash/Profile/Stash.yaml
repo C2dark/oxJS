@@ -1,0 +1,313 @@
+#------------------------------------------
+# Stash Config V1.1 (Refactored with Anchors)
+#------------------------------------------
+
+#----------------通用设置----------------
+mode: rule
+log-level: info
+ipv6: false
+allow-lan: true
+mixed-port: 7890
+unified-delay: true
+tcp-concurrent: true
+
+external-controller: 127.0.0.1:9090
+secret: "ChangeMe888" # ⚠️ 请修改密码
+
+sniffer:
+  enable: true
+  sniff:
+    HTTP: {ports: [80, 8080-8880], override-destination: true}
+    TLS: {ports: [443, 8443]}
+    QUIC: {ports: [443, 8443]}
+  force-domain: ["*.v2ex.com"]
+  skip-domain: ["Mijia Cloud", "dlg.io.mi.com", "+.push.apple.com", "+.apple.com", "+.wechat.com", "+.qq.com"]
+
+find-process-mode: strict
+global-client-fingerprint: chrome
+
+tun:
+  enable: true
+  stack: system
+  mtu: 1500
+  dns-hijack: ["any:53"]
+  auto-route: true
+  auto-redirect: true
+  auto-detect-interface: true
+
+dns:
+  enable: true
+  listen: 0.0.0.0:1053
+  ipv6: false
+  prefer-h3: false
+  respect-rules: true
+  enhanced-mode: fake-ip
+  fake-ip-range: 198.18.0.1/16
+  fake-ip-filter-mode: blacklist
+  fake-ip-filter: ['*.lan', '*.local', '+.msftconnecttest.com', '+.msftncsi.com', '+.ntp.org.cn', '+.pool.ntp.org', '+.push.apple.com', '+.localhost']
+  default-nameserver: [223.5.5.5, 119.29.29.29]
+  nameserver: [https://dns.alidns.com/dns-query, https://doh.pub/dns-query]
+
+#===========================================
+# ⚓️ YAML 锚点定义区 (Definitions)
+# 这里的配置会被下文反复引用，修改这里会影响全局
+#===========================================
+_definitions:
+  # 1. 常用节点列表锚点
+  common-proxies: &pr [Proxy, US, HK, SG, TW, JP]
+  hk-proxies: &hk [HK-Auto, HK-LoadBalance]
+  tw-proxies: &tw [TW-Auto, TW-LoadBalance]
+  jp-proxies: &jp [JP-Auto, JP-LoadBalance]
+  sg-proxies: &sg [SG-Auto, SG-LoadBalance]
+  us-proxies: &us [US-Auto, US-LoadBalance]
+
+  # 2. 策略组模板锚点
+  auto-group: &auto-base
+    type: url-test
+    hidden: true
+    use: [Airport_01]
+    interval: 300
+    tolerance: 50
+  
+  lb-group: &lb-base
+    type: load-balance
+    hidden: true
+    use: [Airport_01]
+    strategy: consistent-hashing
+    interval: 300
+  
+  region-select: &reg-base
+    type: select
+    use: [Airport_01]
+
+  # 3. 规则源模板锚点
+  rule-base: &rb
+    behavior: classical
+    format: yaml
+    interval: 86400
+
+#------------------------------------------
+
+#----------------机场订阅----------------
+proxy-providers:
+  Airport_01:
+    # 🚨🚨🚨 填入链接 🚨🚨🚨
+    url: "https://example.com/api/v1/client/subscribe?token=YOUR_TOKEN"
+    type: http
+    interval: 86400
+    health-check: {enable: true, url: https://www.gstatic.com/generate_204, interval: 300}
+    exclude-filter: "(?i)(拒绝|直连|群|邀请|返利|循环|官网|客服|网站|网址|获取|订阅|流量|到期|机场|下次|版本|官址|备用|过期|已用|联系|邮箱|工单|贩卖|通知|倒卖|防止|国内|地址|频道|无法|说明|使用|提示|特别|访问|支持|教程|关注|更新|作者|加入|USE|USED|TOTAL|EXPIRE|EMAIL|Panel|Channel|Author|traffic)"
+    override: {additional-prefix: '[机场] ', skip-cert-verify: true, udp: true}
+
+#----------------手动策略组 (引用锚点)------
+proxy-groups:
+  # === 核心策略 ===
+  - name: Proxy
+    type: select
+    proxies: [US, HK, SG, TW, JP] # 主策略不建议循环引用自己
+    
+  - name: Telegram
+    type: select
+    proxies: *pr # 引用上面定义的 [Proxy, US, HK...]
+
+  - name: YouTube
+    type: select
+    proxies: *pr
+
+  - name: NETFLIX
+    type: select
+    proxies: *pr
+
+  - name: TikTok
+    type: select
+    proxies: [US, HK, SG, TW, JP]
+
+  - name: OpenAI
+    type: select
+    proxies: [US, SG, JP, TW]
+
+  - name: Google
+    type: select
+    proxies: [Proxy, US, HK, SG]
+
+  - name: Apple
+    type: select
+    proxies: [DIRECT, US, HK, SG, TW, JP]
+
+  - name: Microsoft
+    type: select
+    proxies: [DIRECT, Proxy, US, HK]
+
+  - name: Final
+    type: select
+    proxies: [DIRECT, US, SG, HK]
+
+  # === 地区手动选择 (使用了模板 &reg-base) ===
+  - name: HK
+    <<: *reg-base  # 继承 type: select 和 use: [Airport_01]
+    proxies: *hk
+    filter: "港|🇭🇰|HK|(?i)Hong"
+
+  - name: TW
+    <<: *reg-base
+    proxies: *tw
+    filter: "台|🇨🇳|🇹🇼|湾|TW|(?i)Taiwan"
+
+  - name: JP
+    <<: *reg-base
+    proxies: *jp
+    filter: "日本|🇯🇵|东京|JP|(?i)Japan"
+
+  - name: SG
+    <<: *reg-base
+    proxies: *sg
+    filter: "新加坡|坡|狮城|🇸🇬|SG|(?i)Singapore"
+
+  - name: US
+    <<: *reg-base
+    proxies: *us
+    filter: "美|🇺🇲|US|(?i)States|American"
+
+  # === 自动测速 (使用了模板 &auto-base) ===
+  - name: HK-Auto
+    <<: *auto-base # 继承 type, hidden, interval, tolerance, use
+    filter: "港|🇭🇰|HK|(?i)Hong"
+
+  - name: TW-Auto
+    <<: *auto-base
+    filter: "台|🇨🇳|🇹🇼|湾|TW|(?i)Taiwan"
+
+  - name: JP-Auto
+    <<: *auto-base
+    filter: "日本|🇯🇵|东京|JP|(?i)Japan"
+
+  - name: SG-Auto
+    <<: *auto-base
+    filter: "新加坡|坡|狮城|🇸🇬|SG|(?i)Singapore"
+
+  - name: US-Auto
+    <<: *auto-base
+    filter: "美|🇺🇲|US|(?i)States|American"
+
+  # === 负载均衡 (使用了模板 &lb-base) ===
+  - name: HK-LoadBalance
+    <<: *lb-base
+    filter: "港|🇭🇰|HK|(?i)Hong"
+
+  - name: TW-LoadBalance
+    <<: *lb-base
+    filter: "台|🇨🇳|🇹🇼|湾|TW|(?i)Taiwan"
+
+  - name: JP-LoadBalance
+    <<: *lb-base
+    filter: "日本|🇯🇵|东京|JP|(?i)Japan"
+
+  - name: SG-LoadBalance
+    <<: *lb-base
+    filter: "新加坡|坡|狮城|🇸🇬|SG|(?i)Singapore"
+
+  - name: US-LoadBalance
+    <<: *lb-base
+    filter: "美|🇺🇲|US|(?i)States|American"
+
+#----------------分流规则匹配----------------
+rules:
+  - PROCESS-NAME,Stash,DIRECT
+  - RULE-SET,Block iOS Upgrade,REJECT
+  - RULE-SET,Advertising,REJECT
+  - RULE-SET,Hijacking,REJECT
+  - RULE-SET,Privacy,REJECT
+  - RULE-SET,EasyPrivacy,REJECT
+  - RULE-SET,BlockHttpDNS,REJECT
+  - RULE-SET,AdGuardDNSFliter,REJECT
+  - RULE-SET,OpenAI,OpenAI
+  - RULE-SET,Telegram,Telegram
+  - RULE-SET,YouTube,YouTube
+  - RULE-SET,TikTok,TikTok
+  - RULE-SET,Netflix,NETFLIX
+  - RULE-SET,Google,Google
+  - RULE-SET,Microsoft,Microsoft
+  - RULE-SET,PayPal,DIRECT
+  - RULE-SET,WeChat,DIRECT
+  - RULE-SET,Apple,Apple
+  - RULE-SET,Games,DIRECT
+  - GEOIP,CN,DIRECT
+  - RULE-SET,China,DIRECT
+  - RULE-SET,ChinaMedia,DIRECT
+  - GEOIP,LAN,DIRECT
+  - MATCH,Final
+
+#----------------规则源 (引用锚点 *rb)-------
+rule-providers:
+  OpenAI:
+    <<: *rb # 自动填入 behavior, format, interval
+    url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/OpenAI/OpenAI.yaml
+  YouTube:
+    <<: *rb
+    url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/YouTube/YouTube.yaml
+  Netflix:
+    <<: *rb
+    url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Netflix/Netflix.yaml
+  Emby:
+    <<: *rb
+    url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Emby/Emby.yaml
+  TikTok:
+    <<: *rb
+    url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/TikTok/TikTok.yaml
+  Spotify:
+    <<: *rb
+    url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Spotify/Spotify.yaml
+  GlobalMedia:
+    <<: *rb
+    url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/GlobalMedia/GlobalMedia.yaml
+  WeChat:
+    <<: *rb
+    url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/WeChat/WeChat.yaml
+  Telegram:
+    <<: *rb
+    url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Telegram/Telegram.yaml
+  Apple:
+    <<: *rb
+    url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Apple/Apple.yaml
+  Google:
+    <<: *rb
+    url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Google/Google.yaml
+  Microsoft:
+    <<: *rb
+    url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Microsoft/Microsoft.yaml
+  Games:
+    <<: *rb
+    url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Game/Game.yaml
+  China:
+    <<: *rb
+    url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/China/China.yaml
+  Proxy:
+    <<: *rb
+    url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Proxy/Proxy.yaml
+  Block iOS Upgrade:
+    <<: *rb
+    url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/SystemOTA/SystemOTA.yaml
+  Advertising:
+    <<: *rb
+    url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Advertising/Advertising.yaml
+  AdGuardDNSFliter:
+    <<: *rb
+    url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/AdGuardSDNSFilter/AdGuardSDNSFilter.yaml
+  EasyPrivacy:
+    <<: *rb
+    url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/EasyPrivacy/EasyPrivacy.yaml
+  BlockHttpDNS:
+    <<: *rb
+    url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/BlockHttpDNS/BlockHttpDNS.yaml
+  Privacy:
+    <<: *rb
+    url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Privacy/Privacy.yaml
+  Hijacking:
+    <<: *rb
+    url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Hijacking/Hijacking.yaml
+  PayPal:
+    <<: *rb
+    url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/PayPal/PayPal.yaml
+  ChinaMedia:
+    <<: *rb
+    url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/ChinaMedia/ChinaMedia.yaml
