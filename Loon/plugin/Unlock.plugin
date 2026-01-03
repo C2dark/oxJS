@@ -33,6 +33,7 @@ arg19 = switch,true,tag=闪电水印
 arg20 = switch,true,tag=haijiaoshequ1
 arg21 = switch,true,tag=haijiaoshequ2
 arg22 = switch,true,tag=扫描全能王
+#arg23 = switch,true,tag=Fimlix
 
 
 
@@ -110,6 +111,9 @@ http-response ^https:\/\/api2\.xivjndn\.xyz\/(?:api\.php\/api|api)\/(?:mv\/detai
 http-response https:\/\/(api|api-cs)\.intsig\.net\/purchase\/cs\/query_property\? requires-body=1, script-path=https://raw.githubusercontent.com/NobyDa/Script/master/Surge/JS/CamScanner.js, enable ={arg22}, tag=扫描全能王
 
 
+
+
+
 [Rewrite]
 # 百度文库解锁
 ^https:\/\/appwk\.baidu\.com\/(naapi\/(recommend\/recommenddoc|wkcircle\/messagetab|search\/wkhotwords|api\/wmadopt)|appapi\/(search\/hot|donate\/detail)|xpage\/interface\/wknaad) reject
@@ -121,6 +125,8 @@ http-response https:\/\/(api|api-cs)\.intsig\.net\/purchase\/cs\/query_property\
 #FT中文网
 ^https?:\/\/ftmailbox\.cn\/ad_impression\/.+ - reject-200
 
+#filmix-ai影视库重命名整理刮削
+^https:\/\/appv3\.filmix\.com\.cn\/api\/v2\/user\/user\/info url script-response-body https://raw.githubusercontent.com/WeiGiegie/666/main/filmix.js
 
 [MITM]
-hostname = license.pdfexpert.com,appraven.net,cubox.pro,cubox.cc,pan.baidu.com,appwk.baidu.com,backend.getdrafts.com,mb3admin.com,license.enpass.io,restore-access.indream.app,notability.com,*-slidebox-ios-prod.cloudfunctions.net,www.xmind.cn,www.xmind.net,www.xmind.app,aliyun.example.com, quark.example.com, pikpak.example.com,account.wps.cn,*account.wps.com,spclient.wg.spotify.com,*spclient.spotify.com,aiqicha.baidu.com,lcs-mobile-cops.adobe.io,createpdf.acrobat.com,*.cloudfront.net, ftmailbox.cn,watershandiana.yunxiaoguo.cn,*.upwqjcun.cc, api2.xivjndn.xyz,ap*.intsig.net,
+hostname = license.pdfexpert.com,appraven.net,cubox.pro,cubox.cc,pan.baidu.com,appwk.baidu.com,backend.getdrafts.com,mb3admin.com,license.enpass.io,restore-access.indream.app,notability.com,*-slidebox-ios-prod.cloudfunctions.net,www.xmind.cn,www.xmind.net,www.xmind.app,aliyun.example.com, quark.example.com, pikpak.example.com,account.wps.cn,*account.wps.com,spclient.wg.spotify.com,*spclient.spotify.com,aiqicha.baidu.com,lcs-mobile-cops.adobe.io,createpdf.acrobat.com,*.cloudfront.net, ftmailbox.cn,watershandiana.yunxiaoguo.cn,*.upwqjcun.cc, api2.xivjndn.xyz,ap*.intsig.net,appv3.filmix.com.cn
