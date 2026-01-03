@@ -169,7 +169,7 @@ rules:
   # 3. 国内直连与下载
   - RULE-SET,WeChat,DIRECT
   - RULE-SET,BiliBili,DIRECT
-  - RULE-SET,Download,DIRECT
+
   - RULE-SET,PrivateTracker,DIRECT
     #游戏下载
   - RULE-SET,SteamCN,DIRECT
@@ -230,6 +230,7 @@ rules:
   - RULE-SET,GlobalMedia,Global
   
   # 9. 国内兜底
+  - RULE-SET,Download,DIRECT
   - RULE-SET,China,DIRECT
   - RULE-SET,ChinaMedia,DIRECT
   - RULE-SET,ChinaASN,DIRECT
