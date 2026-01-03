@@ -107,10 +107,10 @@ http-response ^https:\/\/api2\.xivjndn\.xyz\/api\/(?:mv\/detail|users\/base_info
 #hj社区转换版
 http-response ^https:\/\/api2\.xivjndn\.xyz\/(?:api\.php\/api|api)\/(?:mv\/detail|users\/base_info|home\/getconfig|novel\/detail|novel\/recommend|novel\/chaptersList|novel\/chapterDetail|navigation\/index(?:_aw)?|tabnew\/list_construct|porngame\/nav)(?:\?.*)?$ script-path=https://raw.githubusercontent.com/Yu9191/Rewrite/refs/heads/main/haijiaoshequ.js, requires-body=true, timeout=60, enable ={arg21}, tag=haijiaoshequ2
 
-#扫描全能王
+#22扫描全能王
 http-response https:\/\/(api|api-cs)\.intsig\.net\/purchase\/cs\/query_property\? requires-body=1, script-path=https://raw.githubusercontent.com/NobyDa/Script/master/Surge/JS/CamScanner.js, enable ={arg22}, tag=扫描全能王
 
-#filmix-ai影视库重命名整理刮削
+#23filmix-ai影视库重命名整理刮削
 http-response ^https:\/\/appv3\.filmix\.com\.cn\/api\/v2\/user\/user\/info script-path=https://raw.githubusercontent.com/WeiGiegie/666/main/filmix.js, requires-body=true, timeout=60, enable ={arg23},tag=filmix
 
 
