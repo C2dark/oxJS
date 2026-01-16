@@ -1,5 +1,5 @@
-#override_V2.0
-#2025.12.23 更新
+#override_V2.1
+#2026.01.16 更新
 dns:
   enable: true
   ipv6: true      #如网络环境不支持IPv6请设为false
@@ -8,18 +8,31 @@ dns:
   fake-ip-filter:     #使用geosite域名集合以精简配置，也可使用规则集（ruleset）
     - geosite:private
     - geosite:category-ntp
+  # 新增：防止 Windows 网络探测误报
+    - "dns.msftncsi.com"
+    - "www.msftncsi.com"
+    - "www.msftconnecttest.com"
   use-hosts: false     #如有特殊需求请设为true
   use-system-hosts: true     #如有特殊需求请设为true
-  nameserver:
+  nameserver:   #没有命中其他特定策略的兜底解析
     - https://1.1.1.1/dns-query
     - https://8.8.8.8/dns-query
-  proxy-server-nameserver:
+  proxy-server-nameserver:   #解析代理服务器（机场节点）本身的域名，必须直连
     - https://223.5.5.5/dns-query
     - https://223.6.6.6/dns-query
-  direct-nameserver:
+  direct-nameserver:   #直连时专门用于国内直连域名的解析
     - https://223.5.5.5/dns-query
     - https://223.6.6.6/dns-query
   respect-rules: true
+sniffer:
+  enable: true
+  parse-pure-ip: true  # 对纯 IP 请求也进行嗅探（强制重置目标为域名）
+  sniff:
+    TLS:
+      ports: [443, 8443]
+    HTTP:
+      ports: [80, 8080, 8880]
+      override-destination: true
 # ==============================
 # 0. 全局配置模板 (定义锚点)
 # ==============================
@@ -28,8 +41,9 @@ common-config:
   - &auto
     type: url-test
     url: 'http://www.gstatic.com/generate_204'
-    interval: 300
+    interval: 600
     tolerance: 50
+    timeout: 5000
     lazy: true
     expected-status: 204
     hidden: true
@@ -39,7 +53,8 @@ common-config:
   - &fallback
     type: fallback
     url: 'http://www.gstatic.com/generate_204'
-    interval: 300
+    interval: 600
+    timeout: 3000
     lazy: true
     expected-status: 204
     hidden: true
@@ -48,9 +63,10 @@ common-config:
   # 模板3: 负载均衡
   - &lb
     type: load-balance
-    strategy: consistent-hashing
+    strategy: consistent-hashing  #round-robin (轮询/极速模式)第1个请求走节点A，第2个走节点B。consistent-hashing对目标域名（如 google.com）进行哈希计算。只要你访问的是 google.com，它就固定分配给节点 A。
     url: 'http://www.gstatic.com/generate_204'
-    interval: 300
+    interval: 600
+    timeout: 5000
     lazy: true
     expected-status: 204
     hidden: true
@@ -68,6 +84,12 @@ common-config:
     behavior: ipcidr
     format: yaml
     interval: 86400
+# [新增] 规则集模板: MRS 二进制格式
+  - &p-mrs
+    type: http
+    format: mrs
+    interval: 86400
+    behavior: domain # 默认用于域名，如果是 IP 类 MRS，需在 rule-providers 里手动写 behavior: ipcidr 覆盖
 # ==============================
 # 1. 代理组配置
 # ==============================
@@ -76,9 +98,10 @@ proxy-groups:
   - {name: 手动切换, type: select, include-all: true, icon: https://raw.githubusercontent.com/Orz-3/mini/master/Color/Static.png }
   - {name: Global, type: select, proxies: [手动切换, DIRECT, 美国策略, 香港策略, 狮城策略, 台湾策略, 日本策略, 韩国策略, 欧洲策略], icon: https://raw.githubusercontent.com/Orz-3/mini/master/Color/Global.png }
   - {name: GlobalDL, type: select, proxies: [手动切换, DIRECT, 美国策略, 香港策略, 狮城策略, 台湾策略, 日本策略, 韩国策略, 欧洲策略, 低倍率策略, IPv6策略], icon: https://raw.githubusercontent.com/Orz-3/mini/master/Color/Global.png }
-  - {name: FINAL, type: select, proxies: [手动切换, DIRECT, 美国策略, 香港策略, 狮城策略, 台湾策略, 日本策略, 韩国策略, 欧洲策略], icon: https://raw.githubusercontent.com/Orz-3/mini/master/Color/Final.png }
+  - {name: FINAL, type: select, proxies: [手动切换, DIRECT, 美国策略, 香港策略, 狮城策略, 台湾策略, 日本策略, 韩国策略, 欧洲策略], icon: https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Final.png }
   
   # 应用分组
+  - {name: AI, type: select, proxies: [手动切换, 美国策略, 香港策略, 狮城策略, 台湾策略, 日本策略, 韩国策略, 欧洲策略], icon: https://raw.githubusercontent.com/lige47/QuanX-icon-rule/main/icon/04ProxySoft/chatgpt(white1).png }
   - {name: Telegram, type: select, proxies: [手动切换, 美国策略, 香港策略, 狮城策略, 台湾策略, 日本策略, 韩国策略, 欧洲策略], icon: https://raw.githubusercontent.com/Orz-3/mini/master/Color/Telegram.png }
   - {name: YouTube,   type: select, proxies: [手动切换, 美国策略, 香港策略, 狮城策略, 台湾策略, 日本策略, 韩国策略, 欧洲策略], icon: https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/YouTube.png }
   - {name: Twitter, type: select, proxies: [手动切换, 美国策略, 香港策略, 狮城策略, 台湾策略, 日本策略, 韩国策略, 欧洲策略], icon: https://raw.githubusercontent.com/Orz-3/mini/master/Color/Twitter.png }
@@ -101,12 +124,12 @@ proxy-groups:
   - {name: 台湾策略, type: select, proxies: [台湾-时延优选, 台湾-故障转移, 台湾-负载均衡], include-all: true, filter: "台|湾|TW|(?i)Taiwan", icon: https://raw.githubusercontent.com/Orz-3/mini/master/Color/TW.png }
   - {name: 日本策略, type: select, proxies: [日本-时延优选, 日本-故障转移, 日本-负载均衡], include-all: true, filter: "日|东京|JP|(?i)Japan", icon: https://raw.githubusercontent.com/Orz-3/mini/master/Color/JP.png }
   - {name: 韩国策略, type: select, proxies: [韩国-时延优选, 韩国-故障转移, 韩国-负载均衡], include-all: true, filter: "KR|韩国|韓|首尔|(?i)Korea", icon: https://raw.githubusercontent.com/Orz-3/mini/master/Color/KR.png }
-  - {name: 欧洲策略, type: select, proxies: [欧洲-时延优选, 欧洲-故障转移, 欧洲-负载均衡], include-all: true, filter: "🇬🇧|俄罗斯|🇷🇺|英国|法国|🇫🇷|德国|🇩🇪|瑞典|🇸🇪|西班牙|🇪🇸|伦敦|荷兰|🇳🇱|塞尔维亚|🇷🇸|挪威|丹麦|🇩🇰|🇳🇴|欧洲", icon: https://raw.githubusercontent.com/Orz-3/mini/master/Color/EU.png }
+  - {name: 欧洲策略, type: select, proxies: [欧洲-时延优选, 欧洲-故障转移, 欧洲-负载均衡], include-all: true, filter: "🇬🇧|俄罗斯|🇷🇺|英国|法国|🇫🇷|德国|🇩🇪|瑞典|🇸🇪|西班牙|🇪🇸|伦敦|荷兰|🇳🇱|塞尔维亚|🇷🇸|挪威|丹麦|🇩🇰|🇳🇴|欧洲", icon: https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/European_Union.png }
 # --- 特殊功能策略 ---
   # 筛选 IPv6 节点
-  - {name: IPv6策略, type: select, include-all: true, filter: "(?i)ipv6", icon: https://raw.githubusercontent.com/Orz-3/mini/master/Color/Server.png }
+  - {name: IPv6策略, type: select, include-all: true, filter: "(?i)ipv6", icon: https://raw.githubusercontent.com/Orz-3/mini/master/Color/Nucleus.png }
   # 筛选 0.1 / 0.3 / 0.5 / 0.75 倍率
-  - {name: 低倍率策略, type: select, include-all: true, filter: "0\\.1|0\\.3|0\\.5|0\\.75", icon: https://raw.githubusercontent.com/Orz-3/mini/master/Color/Saved.png }
+  - {name: 低倍率策略, type: select, include-all: true, filter: "0\\.1|0\\.3|0\\.5|0\\.75", icon: https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Download.png }
 
 
 # --- 地区子分组 (隐藏式) ---
@@ -150,64 +173,53 @@ proxy-groups:
 # ==============================
 rules:
   # 1. 广告拦截
+  - GEOSITE,Category-ads-all,REJECT
   - RULE-SET,AdBlock,REJECT
   - RULE-SET,Hijacking,REJECT
   - RULE-SET,Privacy,REJECT
-  #- RULE-SET,EasyPrivacy,REJECT
   - RULE-SET,BlockHttpDNS,REJECT
-  - RULE-SET,AdGuardSDNSFilter_Classical,REJECT
 
-
-  # 2. 局域网与特殊直连
-  - RULE-SET,Lan,DIRECT
-  - RULE-SET,AmazonCN,DIRECT
+  # 2. 特殊直连
   - RULE-SET,PayPal,DIRECT
+  - RULE-SET,AmazonCN,DIRECT
   - RULE-SET,Speedtest,DIRECT
- # - RULE-SET,Direct,DIRECT
-
-  
   # 3. 国内直连与下载
   - RULE-SET,WeChat,DIRECT
   - RULE-SET,BiliBili,DIRECT
-
-  - RULE-SET,PrivateTracker,DIRECT
     #游戏下载
-  - RULE-SET,SteamCN,DIRECT
   - RULE-SET,Game,DIRECT
-  - RULE-SET,GameDownloadCN,DIRECT
+  - RULE-SET,SteamCN,DIRECT
   - RULE-SET,GameDownload,DIRECT
+  - RULE-SET,GameDownloadCN,DIRECT
+  - RULE-SET,PrivateTracker,DIRECT
 
 
-
-  # 4. 特殊代理
+  # 4. 前置特殊代理
+  - RULE-SET,special,GlobalDL
   - RULE-SET,Imgur,香港策略
   - RULE-SET,AppleDev,Global
   - RULE-SET,AppleProxy,Global
   - RULE-SET,iCloudPrivateRelay,Global
-  - RULE-SET,Cloudflare,香港策略
+ 
   # 5. 国际媒体/社交
-  #- RULE-SET,Copilot,AI
-  #- RULE-SET,Claude,AI
-  #- RULE-SET,Gemini,AI
-  #- RULE-SET,OpenAI,AI
-  - RULE-SET,AI,美国策略
-  
-  - RULE-SET,special,GlobalDL
+  - RULE-SET,AI,AI
   - RULE-SET,GitHub,香港策略
+  - RULE-SET,Cloudflare,香港策略
   - RULE-SET,Developer,香港策略
+  - RULE-SET,Spotify,香港策略
+  - RULE-SET,Twitch,香港策略
   - RULE-SET,Notion,香港策略
   - RULE-SET,Line,香港策略
   - RULE-SET,Discord,香港策略
   - RULE-SET,Whatsapp,香港策略
+  #
   - RULE-SET,Bing,Bing
   - RULE-SET,Twitter,Twitter
   - RULE-SET,TelegramUS,Telegram
   - RULE-SET,TelegramSG,Telegram
   - RULE-SET,TelegramNL,Telegram
   - RULE-SET,Telegram,Telegram
-  
-  - RULE-SET,Spotify,香港策略
-  - RULE-SET,Twitch,香港策略
+  #流媒体
   - RULE-SET,YouTube,YouTube
   - RULE-SET,TikTok,TikTok
   - RULE-SET,Netflix,Netflix
@@ -233,103 +245,90 @@ rules:
   - RULE-SET,Download,DIRECT
   - RULE-SET,China,DIRECT
   - RULE-SET,ChinaMedia,DIRECT
-  - RULE-SET,ChinaASN,DIRECT
   - RULE-SET,ChinaIPsBGP_IP,DIRECT
-  - RULE-SET,ChinaIPs_IP,DIRECT  
-  - RULE-SET,ChinaMax_IP,DIRECT
+
+  - GEOIP,lan,DIRECT
+  - GEOIP,private,DIRECT
   - GEOIP,CN,DIRECT
+  - GEOSITE,private,DIRECT
+  - GEOSITE,CN,DIRECT
   - MATCH,FINAL
 
 # ==============================
-# 3. 规则集定义 (顺序严格匹配 rules)
+# 3. 规则集定义 (顺序已与 rules 严格对应)
 # ==============================
 rule-providers:
   # 1. 广告拦截
-  AdBlock:     {<<: *p-standard, url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Advertising/Advertising.yaml , path: ./ruleset/Advertising.yaml }
-  Hijacking:   {<<: *p-standard, url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Hijacking/Hijacking.yaml , path: ./ruleset/Hijacking.yaml }
-  Privacy:     {<<: *p-standard, url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Privacy/Privacy.yaml , path: ./ruleset/Privacy.yaml }
-  EasyPrivacy: {<<: *p-standard, url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/EasyPrivacy/EasyPrivacy_Classical.yaml , path: ./ruleset/EasyPrivacy_Classical.yaml }
-  BlockHttpDNS:     {<<: *p-standard, url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/BlockHttpDNS/BlockHttpDNS.yaml , path: ./ruleset/BlockHttpDNS.yaml }
-  AdGuardSDNSFilter_Classical:     {<<: *p-standard, url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/AdGuardSDNSFilter/AdGuardSDNSFilter_Classical.yaml , path: ./ruleset/AdGuardSDNSFilter_Classical.yaml }
-  
-  # 2. 局域网与直连
-  Lan:         {<<: *p-standard, url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Lan/Lan.yaml ,                      path: ./ruleset/Lan.yaml         }
-# Direct:      {<<: *p-standard, url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Direct/Direct.yaml ,                path: ./ruleset/Direct.yaml      }
-  special:      {<<: *p-standard, url: https://raw.githubusercontent.com/C2dark/oxJS/refs/heads/dev/Clash/rules/special.yaml ,                path: ./ruleset/special.yaml      }
-  
-  # 3. 国内应用
-  WeChat:      {<<: *p-standard, url: https://github.com/blackmatrix7/ios_rule_script/raw/refs/heads/master/rule/Clash/WeChat/WeChat.yaml ,                path: ./ruleset/WeChat.yaml      }
-  BiliBili:    {<<: *p-standard, url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/BiliBili/BiliBili.yaml ,              path: ./ruleset/BiliBili.yaml    }
-  SteamCN:     {<<: *p-standard, url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/SteamCN/SteamCN.yaml ,     path: ./ruleset/SteamCN.yaml  }
-  Game:        {<<: *p-standard, url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Game/Game.yaml ,                    path: ./ruleset/Game.yaml        }
-  GameDownloadCN:          {<<: *p-standard, url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Game/GameDownloadCN/GameDownloadCN.yaml , path: ./ruleset/GameDownloadCN.yaml }
-  GameDownload: {<<: *p-standard, url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Game/GameDownload/GameDownload.yaml ,      path: ./ruleset/GameDownload.yaml        }
-  Download:    {<<: *p-standard, url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Download/Download.yaml ,            path: ./ruleset/Download.yaml    }
-  PrivateTracker:          {<<: *p-standard, url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/PrivateTracker/PrivateTracker.yaml , path: ./ruleset/PrivateTracker.yaml }
-  
-  # 4. 特殊应用
-  iCloudPrivateRelay:      {<<: *p-standard, url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/iCloudPrivateRelay/iCloudPrivateRelay.yaml ,     path: ./ruleset/iCloudPrivateRelay.yaml      }
-  AmazonCN:    {<<: *p-standard, url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/AmazonCN/AmazonCN.yaml ,       path: ./ruleset/AmazonCN.yaml      }
-  Amazon:    {<<: *p-standard, url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Amazon/Amazon.yaml ,       path: ./ruleset/Amazon.yaml      }
-  AppleDev:    {<<: *p-standard, url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/AppleDev/AppleDev.yaml ,       path: ./ruleset/AppleDev.yaml      }
-  AppleProxy:    {<<: *p-standard, url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/AppleProxy/AppleProxy.yaml ,       path: ./ruleset/AppleProxy.yaml      }
+  AdBlock:      {<<: *p-standard, url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Advertising/Advertising.yaml, path: ./ruleset/Advertising.yaml }
+  Hijacking:    {<<: *p-standard, url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Hijacking/Hijacking.yaml, path: ./ruleset/Hijacking.yaml }
+  Privacy:      {<<: *p-standard, url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Privacy/Privacy.yaml, path: ./ruleset/Privacy.yaml }
+  BlockHttpDNS: {<<: *p-standard, url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/BlockHttpDNS/BlockHttpDNS.yaml, path: ./ruleset/BlockHttpDNS.yaml }
 
-  Imgur:       {<<: *p-standard, url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/refs/heads/master/rule/Clash/Imgur/Imgur.yaml ,       path: ./ruleset/Imgur.yaml       }
-  PayPal:      {<<: *p-standard, url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/refs/heads/master/rule/Clash/PayPal/PayPal.yaml ,       path: ./ruleset/PayPal.yaml      }
-  Speedtest:   {<<: *p-standard, url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/refs/heads/master/rule/Clash/Speedtest/Speedtest.yaml , path: ./ruleset/Speedtest.yaml   }
-  Cloudflare:      {<<: *p-standard, url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Cloudflare/Cloudflare.yaml ,       path: ./ruleset/Cloudflare.yaml      }
+  # 2. 特殊直连
+  PayPal:       {<<: *p-standard, url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/refs/heads/master/rule/Clash/PayPal/PayPal.yaml, path: ./ruleset/PayPal.yaml }
+  AmazonCN:     {<<: *p-standard, url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/AmazonCN/AmazonCN.yaml, path: ./ruleset/AmazonCN.yaml }
+  Speedtest:    {<<: *p-standard, url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/refs/heads/master/rule/Clash/Speedtest/Speedtest.yaml, path: ./ruleset/Speedtest.yaml }
+
+  # 3. 国内直连与下载
+  WeChat:       {<<: *p-standard, url: https://github.com/blackmatrix7/ios_rule_script/raw/refs/heads/master/rule/Clash/WeChat/WeChat.yaml, path: ./ruleset/WeChat.yaml }
+  BiliBili:     {<<: *p-standard, url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/BiliBili/BiliBili.yaml, path: ./ruleset/BiliBili.yaml }
+  Game:         {<<: *p-standard, url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Game/Game.yaml, path: ./ruleset/Game.yaml }
+  SteamCN:      {<<: *p-standard, url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/SteamCN/SteamCN.yaml, path: ./ruleset/SteamCN.yaml }
+  GameDownload: {<<: *p-standard, url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Game/GameDownload/GameDownload.yaml, path: ./ruleset/GameDownload.yaml }
+  GameDownloadCN: {<<: *p-standard, url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Game/GameDownloadCN/GameDownloadCN.yaml, path: ./ruleset/GameDownloadCN.yaml }
+  PrivateTracker: {<<: *p-standard, url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/PrivateTracker/PrivateTracker.yaml, path: ./ruleset/PrivateTracker.yaml }
+
+  # 4. 前置特殊代理
+  special:      {<<: *p-standard, url: https://raw.githubusercontent.com/C2dark/oxJS/refs/heads/dev/Clash/rules/special.yaml, path: ./ruleset/special.yaml }
+  Imgur:        {<<: *p-standard, url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/refs/heads/master/rule/Clash/Imgur/Imgur.yaml, path: ./ruleset/Imgur.yaml }
+  AppleDev:     {<<: *p-standard, url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/AppleDev/AppleDev.yaml, path: ./ruleset/AppleDev.yaml }
+  AppleProxy:   {<<: *p-standard, url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/AppleProxy/AppleProxy.yaml, path: ./ruleset/AppleProxy.yaml }
+  iCloudPrivateRelay: {<<: *p-standard, url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/iCloudPrivateRelay/iCloudPrivateRelay.yaml, path: ./ruleset/iCloudPrivateRelay.yaml }
+
   # 5. 国际媒体/社交
-  Copilot:      {<<: *p-standard, url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Copilot/Copilot.yaml , path: ./ruleset/Copilot.yaml }
-  Claude:      {<<: *p-standard, url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Claude/Claude.yaml , path: ./ruleset/Claude.yaml }
-  Gemini:      {<<: *p-standard, url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Gemini/Gemini.yaml , path: ./ruleset/Gemini.yaml }
-  OpenAI:      {<<: *p-standard, url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/OpenAI/OpenAI.yaml , path: ./ruleset/OpenAI.yaml }
-  AI:          {<<: *p-standard, url: https://gist.githubusercontent.com/ddgksf2013/cb4121e8b5c5d865cc949cb8120320c4/raw/Ai.yaml , path: ./ruleset/AI.yaml }
-  Developer:          {<<: *p-standard, url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Developer/Developer.yaml , path: ./ruleset/Developer.yaml }
-  Spotify:     {<<: *p-standard, url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Spotify/Spotify.yaml ,   path: ./ruleset/Spotify.yaml     }
-  Notion:      {<<: *p-standard, url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Notion/Notion.yaml ,   path: ./ruleset/Notion.yaml     }
-  Discord:     {<<: *p-standard, url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Discord/Discord.yaml ,   path: ./ruleset/Discord.yaml     }
-  GitHub:      {<<: *p-standard, url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/GitHub/GitHub.yaml , path: ./ruleset/GitHub.yaml }
-  Line:        {<<: *p-standard, url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Line/Line.yaml ,   path: ./ruleset/Line.yaml     }
-  Twitch:      {<<: *p-standard, url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Twitch/Twitch.yaml ,   path: ./ruleset/Twitch.yaml     }
-  Whatsapp:    {<<: *p-standard, url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Whatsapp/Whatsapp.yaml ,   path: ./ruleset/Whatsapp.yaml     }
+  AI:           {<<: *p-standard, url: https://gist.githubusercontent.com/ddgksf2013/cb4121e8b5c5d865cc949cb8120320c4/raw/Ai.yaml, path: ./ruleset/AI.yaml }
+  GitHub:       {<<: *p-standard, url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/GitHub/GitHub.yaml, path: ./ruleset/GitHub.yaml }
+  Cloudflare:   {<<: *p-standard, url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Cloudflare/Cloudflare.yaml, path: ./ruleset/Cloudflare.yaml }
+  Developer:    {<<: *p-standard, url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Developer/Developer.yaml, path: ./ruleset/Developer.yaml }
+  Spotify:      {<<: *p-standard, url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Spotify/Spotify.yaml, path: ./ruleset/Spotify.yaml }
+  Twitch:       {<<: *p-standard, url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Twitch/Twitch.yaml, path: ./ruleset/Twitch.yaml }
+  Notion:       {<<: *p-standard, url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Notion/Notion.yaml, path: ./ruleset/Notion.yaml }
+  Line:         {<<: *p-standard, url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Line/Line.yaml, path: ./ruleset/Line.yaml }
+  Discord:      {<<: *p-standard, url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Discord/Discord.yaml, path: ./ruleset/Discord.yaml }
+  Whatsapp:     {<<: *p-standard, url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Whatsapp/Whatsapp.yaml, path: ./ruleset/Whatsapp.yaml }
 
-  Bing:        {<<: *p-standard, url: https://rule.kelee.one/Clash/Bing.yaml ,                               path: ./ruleset/Bing.yaml        }
-  Twitter:     {<<: *p-standard, url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Twitter/Twitter.yaml ,   path: ./ruleset/Twitter.yaml     }
-  TelegramUS:    {<<: *p-standard, url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/TelegramUS/TelegramUS.yaml ,            path: ./ruleset/TelegramUS.yaml    }
-  TelegramSG:    {<<: *p-standard, url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/TelegramSG/TelegramSG.yaml ,            path: ./ruleset/TelegramSG.yaml    }
-  TelegramNL:    {<<: *p-standard, url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/TelegramNL/TelegramNL.yaml ,            path: ./ruleset/TelegramNL.yaml    }
-  Telegram:    {<<: *p-standard, url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Telegram/Telegram.yaml ,            path: ./ruleset/Telegram.yaml    }
-  YouTube:     {<<: *p-standard, url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/refs/heads/master/rule/Clash/YouTube/YouTube.yaml ,   path: ./ruleset/YouTube.yaml     }
-  TikTok:      {<<: *p-standard, url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/refs/heads/master/rule/Clash/TikTok/TikTok.yaml ,     path: ./ruleset/TikTok.yaml      }
-  Netflix:     {<<: *p-standard, url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/refs/heads/master/rule/Clash/Netflix/Netflix.yaml ,   path: ./ruleset/Netflix.yaml     }
-  Emby:     {<<: *p-standard, url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Emby/Emby.yaml ,   path: ./ruleset/Emby.yaml     }
+  Bing:         {<<: *p-standard, url: https://rule.kelee.one/Clash/Bing.yaml, path: ./ruleset/Bing.yaml }
+  Twitter:      {<<: *p-standard, url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Twitter/Twitter.yaml, path: ./ruleset/Twitter.yaml }
+  TelegramUS:   {<<: *p-standard, url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/TelegramUS/TelegramUS.yaml, path: ./ruleset/TelegramUS.yaml }
+  TelegramSG:   {<<: *p-standard, url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/TelegramSG/TelegramSG.yaml, path: ./ruleset/TelegramSG.yaml }
+  TelegramNL:   {<<: *p-standard, url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/TelegramNL/TelegramNL.yaml, path: ./ruleset/TelegramNL.yaml }
+  Telegram:     {<<: *p-standard, url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Telegram/Telegram.yaml, path: ./ruleset/Telegram.yaml }
+  YouTube:      {<<: *p-standard, url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/refs/heads/master/rule/Clash/YouTube/YouTube.yaml, path: ./ruleset/YouTube.yaml }
+  TikTok:       {<<: *p-standard, url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/refs/heads/master/rule/Clash/TikTok/TikTok.yaml, path: ./ruleset/TikTok.yaml }
+  Netflix:      {<<: *p-standard, url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/refs/heads/master/rule/Clash/Netflix/Netflix.yaml, path: ./ruleset/Netflix.yaml }
+  Emby:         {<<: *p-standard, url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Emby/Emby.yaml, path: ./ruleset/Emby.yaml }
 
-  # 6. 国际大厂服务
-  Apple:       {<<: *p-standard, url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Apple/Apple_Classical.yaml ,          path: ./ruleset/Apple.yaml       }
-  Google:      {<<: *p-standard, url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Google/Google.yaml ,                path: ./ruleset/Google.yaml      }
-  Microsoft:   {<<: *p-standard, url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Microsoft/Microsoft.yaml ,          path: ./ruleset/Microsoft.yaml   }
-  Facebook:    {<<: *p-standard, url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/refs/heads/master/rule/Clash/Facebook/Facebook.yaml ,          path: ./ruleset/Facebook.yaml    }
-  
-  # 7. 国外下载
-  Dropbox:      {<<: *p-standard, url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Dropbox/Dropbox.yaml ,     path: ./ruleset/Dropbox.yaml      }
-  OneDrive:    {<<: *p-standard, url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/OneDrive/OneDrive.yaml ,            path: ./ruleset/OneDrive.yaml    }
-  GoogleDrive: {<<: *p-standard, url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/GoogleDrive/GoogleDrive.yaml ,      path: ./ruleset/GoogleDrive.yaml }
-  PikPak:      {<<: *p-standard, url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/refs/heads/master/rule/Clash/PikPak/PikPak.yaml ,     path: ./ruleset/PikPak.yaml      } 
-  TeraBox:      {<<: *p-standard, url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/TeraBox/TeraBox.yaml ,     path: ./ruleset/TeraBox.yaml      } 
-  
+  # 6. 国外下载
+  Dropbox:      {<<: *p-standard, url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Dropbox/Dropbox.yaml, path: ./ruleset/Dropbox.yaml }
+  OneDrive:     {<<: *p-standard, url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/OneDrive/OneDrive.yaml, path: ./ruleset/OneDrive.yaml }
+  GoogleDrive:  {<<: *p-standard, url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/GoogleDrive/GoogleDrive.yaml, path: ./ruleset/GoogleDrive.yaml }
+  PikPak:       {<<: *p-standard, url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/refs/heads/master/rule/Clash/PikPak/PikPak.yaml, path: ./ruleset/PikPak.yaml }
+  TeraBox:      {<<: *p-standard, url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/TeraBox/TeraBox.yaml, path: ./ruleset/TeraBox.yaml }
+
+  # 7. 国际大厂服务
+  Amazon:       {<<: *p-standard, url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Amazon/Amazon.yaml, path: ./ruleset/Amazon.yaml }
+  Apple:        {<<: *p-standard, url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Apple/Apple_Classical.yaml, path: ./ruleset/Apple.yaml }
+  Google:       {<<: *p-standard, url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Google/Google.yaml, path: ./ruleset/Google.yaml }
+  Microsoft:    {<<: *p-standard, url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Microsoft/Microsoft.yaml, path: ./ruleset/Microsoft.yaml }
+  Facebook:     {<<: *p-standard, url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/refs/heads/master/rule/Clash/Facebook/Facebook.yaml, path: ./ruleset/Facebook.yaml }
+
   # 8. 国外兜底
-  Proxy:       {<<: *p-standard, url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/refs/heads/master/rule/Clash/Proxy/Proxy_Classical.yaml , path: ./ruleset/Proxy_Classical.yaml     }
-  Global:      {<<: *p-standard, url: https://github.com/blackmatrix7/ios_rule_script/raw/refs/heads/master/rule/Clash/Global/Global_Classical.yaml ,      path: ./ruleset/Global_Classical.yaml      }
-  GlobalMedia: {<<: *p-standard, url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/GlobalMedia/GlobalMedia_Classical.yaml , path: ./ruleset/GlobalMedia_Classical.yaml }
-  
+  Proxy:        {<<: *p-standard, url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/refs/heads/master/rule/Clash/Proxy/Proxy_Classical.yaml, path: ./ruleset/Proxy_Classical.yaml }
+  Global:       {<<: *p-standard, url: https://github.com/blackmatrix7/ios_rule_script/raw/refs/heads/master/rule/Clash/Global/Global_Classical.yaml, path: ./ruleset/Global_Classical.yaml }
+  GlobalMedia:  {<<: *p-standard, url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/GlobalMedia/GlobalMedia_Classical.yaml, path: ./ruleset/GlobalMedia_Classical.yaml }
+
   # 9. 国内兜底
-  China:  {<<: *p-standard, url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/China/China.yaml ,      
-   path: ./ruleset/China.yaml    }
-  ChinaMedia:  {<<: *p-standard, url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/ChinaMedia/ChinaMedia.yaml ,     path: ./ruleset/ChinaMedia.yaml  }
-
-
-  ChinaASN:        {<<: *p-standard, url: https://rule.kelee.one/Clash/ChinaASN.yaml ,       path: ./ruleset/ChinaASN.yaml    } 
-  ChinaIPsBGP_IP:  {<<: *p-ip, url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/ChinaIPsBGP/ChinaIPsBGP_IP.yaml ,                  path: ./ruleset/ChinaIPsBGP_IP.yaml  }
-  ChinaIPs_IP:     {<<: *p-ip, url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/ChinaIPs/ChinaIPs_IP.yaml, 
-                   path: ./ruleset/ChinaIPs.yaml }
-  ChinaMax_IP:     {<<: *p-ip, url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/ChinaMax/ChinaMax_IP.yaml ,     path: ./ruleset/ChinaMax.yaml  }
+  Download:     {<<: *p-standard, url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Download/Download.yaml, path: ./ruleset/Download.yaml }
+  China:        {<<: *p-standard, url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/China/China.yaml, path: ./ruleset/China.yaml }
+  ChinaMedia:   {<<: *p-standard, url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/ChinaMedia/ChinaMedia.yaml, path: ./ruleset/ChinaMedia.yaml }
+  ChinaIPsBGP_IP: {<<: *p-ip, url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/ChinaIPsBGP/ChinaIPsBGP_IP.yaml, path: ./ruleset/ChinaIPsBGP_IP.yaml }
