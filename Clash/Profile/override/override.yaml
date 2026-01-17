@@ -69,6 +69,13 @@ sniffer:
     HTTP:
       ports: [80, 8080, 8880]
       override-destination: true
+  # [新增] 强制跳过嗅探的域名列表，这里主要填一些不需要或不能被嗅探的域名，防止日志报错
+  skip-domain:
+    - "+.apple.com"        # Apple 的部分服务被嗅探可能会卡顿
+    - "Mijia Cloud"        # 米家设备经常发空包，容易报错
+    - "dlg.io.mi.com"
+    - "+.push.apple.com"
+    - "+.push.xiaomi.com"
 # ==============================
 # 0. 全局配置模板 (定义锚点)
 # ==============================
