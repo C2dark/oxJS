@@ -1,53 +1,17 @@
-#override_V2.2
-#2026.01.17 更新
-# --- 1. 基础全局设置 (补全) ---
-port: 5090
-socks-port: 5091
-mixed-port: 5092
-allow-lan: true
-mode: rule
-log-level: info
-ipv6: true
-external-controller: 127.0.0.1:9090
-secret: ""
-profile:
-  store-selected: true
-  store-fake-ip: true
-tcp-concurrent: true
-unified-delay: true
-
-# --- 2. Geodata 源 (保证 GEOSITE/GEOIP 可用) ---
-geodata-mode: true
-geox-url:
-  geoip: "https://mirror.ghproxy.com/https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/geoip-lite.dat"
-  geosite: "https://mirror.ghproxy.com/https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/geosite.dat"
-  mmdb: "https://mirror.ghproxy.com/https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/country-lite.mmdb"
-  # [可选] ASN 数据库源
-  #asn: #"https://mirror.ghproxy.com/https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/GeoLite2-ASN.mmdb"
-
-# --- 3. DNS 设置 (优化) ---
+#override_V2.1
+#2026.01.16 更新
 dns:
   enable: true
-  listen: :1053        # <--- 建议添加这行 (冒号前面留空代表 0.0.0.0)
-  prefer-h3: true
   ipv6: true      #如网络环境不支持IPv6请设为false
   enhanced-mode: fake-ip
   fake-ip-range: 198.18.0.1/16
   fake-ip-filter:     #使用geosite域名集合以精简配置，也可使用规则集（ruleset）
     - geosite:private
     - geosite:category-ntp
-    - "+.lan"
-    - "+.local"
   # 新增：防止 Windows 网络探测误报
     - "dns.msftncsi.com"
     - "www.msftncsi.com"
     - "www.msftconnecttest.com"
-  # --- [新增] STUN 服务 (关键优化) ---
-    # 作用：让 Discord、Telegram 语音、WebRTC、游戏能正确获取你的公网 IP
-    # 如果走 Fake-IP，这些应用可能会获取到 198.18.x.x，导致连接失败或 NAT 类型严格
-    - "+.stun.*.*"
-    - "+.stun.*.*.*"
-    - "+.stun.*.*.*.*"
   use-hosts: false     #如有特殊需求请设为true
   use-system-hosts: true     #如有特殊需求请设为true
   nameserver:   #没有命中其他特定策略的兜底解析
@@ -108,30 +72,24 @@ common-config:
     hidden: true
     include-all: true
 
-  # 规则集模板1: 经典模式、YAML格式、一天一更
+  # 规则集模板: 经典模式、YAML格式、一天一更
   - &p-standard
     type: http
     behavior: classical
     format: yaml
     interval: 86400
-  # 规则集模板2: IPCIDR 模式、YAML格式、一天一更
+  # 规则集模板: IPCIDR 模式、YAML格式、一天一更
   - &p-ip
     type: http
     behavior: ipcidr
     format: yaml
     interval: 86400
-# 规则集模板3.1: MRS domain二进制格式
+# [新增] 规则集模板: MRS 二进制格式
   - &p-mrs
     type: http
     format: mrs
     interval: 86400
-    behavior: domain
-# 规则集模板3.2: MRS ipcidr 二进制格式
-  - &p-mrsip
-    type: http
-    format: mrs
-    interval: 86400
-    behavior: ipcidr 
+    behavior: domain # 默认用于域名，如果是 IP 类 MRS，需在 rule-providers 里手动写 behavior: ipcidr 覆盖
 # ==============================
 # 1. 代理组配置
 # ==============================
@@ -220,10 +178,7 @@ rules:
   - RULE-SET,Hijacking,REJECT
   - RULE-SET,Privacy,REJECT
   - RULE-SET,BlockHttpDNS,REJECT
-  # 局域网直连
-  - GEOIP,lan,DIRECT,no-resolve
-  - GEOIP,private,DIRECT,no-resolve
-  - GEOSITE,private,DIRECT
+
   # 2. 特殊直连
   - RULE-SET,PayPal,DIRECT
   - RULE-SET,AmazonCN,DIRECT
@@ -240,7 +195,7 @@ rules:
 
 
   # 4. 前置特殊代理
-  - DOMAIN-KEYWORD,emby, 手动切换
+  - RULE-SET,special,GlobalDL
   - RULE-SET,Imgur,香港策略
   - RULE-SET,AppleDev,Global
   - RULE-SET,AppleProxy,Global
@@ -268,6 +223,7 @@ rules:
   - RULE-SET,YouTube,YouTube
   - RULE-SET,TikTok,TikTok
   - RULE-SET,Netflix,Netflix
+  - RULE-SET,Emby,GlobalDL
   # 6. 国外下载
   - RULE-SET,Dropbox,GlobalDL
   - RULE-SET,OneDrive,GlobalDL
@@ -289,9 +245,13 @@ rules:
   - RULE-SET,Download,DIRECT
   - RULE-SET,China,DIRECT
   - RULE-SET,ChinaMedia,DIRECT
-  - GEOSITE,CN,DIRECT
-  - RULE-SET,ChinaIPsBGP_IP,DIRECT,no-resolve
+  - RULE-SET,ChinaIPsBGP_IP,DIRECT
+
+  - GEOIP,lan,DIRECT
+  - GEOIP,private,DIRECT
   - GEOIP,CN,DIRECT
+  - GEOSITE,private,DIRECT
+  - GEOSITE,CN,DIRECT
   - MATCH,FINAL
 
 # ==============================
@@ -319,6 +279,7 @@ rule-providers:
   PrivateTracker: {<<: *p-standard, url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/PrivateTracker/PrivateTracker.yaml, path: ./ruleset/PrivateTracker.yaml }
 
   # 4. 前置特殊代理
+  special:      {<<: *p-standard, url: https://raw.githubusercontent.com/C2dark/oxJS/refs/heads/dev/Clash/rules/special.yaml, path: ./ruleset/special.yaml }
   Imgur:        {<<: *p-standard, url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/refs/heads/master/rule/Clash/Imgur/Imgur.yaml, path: ./ruleset/Imgur.yaml }
   AppleDev:     {<<: *p-standard, url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/AppleDev/AppleDev.yaml, path: ./ruleset/AppleDev.yaml }
   AppleProxy:   {<<: *p-standard, url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/AppleProxy/AppleProxy.yaml, path: ./ruleset/AppleProxy.yaml }
@@ -345,6 +306,7 @@ rule-providers:
   YouTube:      {<<: *p-standard, url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/refs/heads/master/rule/Clash/YouTube/YouTube.yaml, path: ./ruleset/YouTube.yaml }
   TikTok:       {<<: *p-standard, url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/refs/heads/master/rule/Clash/TikTok/TikTok.yaml, path: ./ruleset/TikTok.yaml }
   Netflix:      {<<: *p-standard, url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/refs/heads/master/rule/Clash/Netflix/Netflix.yaml, path: ./ruleset/Netflix.yaml }
+  Emby:         {<<: *p-standard, url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Emby/Emby.yaml, path: ./ruleset/Emby.yaml }
 
   # 6. 国外下载
   Dropbox:      {<<: *p-standard, url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Dropbox/Dropbox.yaml, path: ./ruleset/Dropbox.yaml }
