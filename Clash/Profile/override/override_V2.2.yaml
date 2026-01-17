@@ -1,4 +1,4 @@
-#override_V2.3
+#override_V2.2
 #2026.01.17 更新
 # --- 1. 基础全局设置 (补全) ---
 port: 5090
@@ -19,11 +19,11 @@ unified-delay: true
 # --- 2. Geodata 源 (保证 GEOSITE/GEOIP 可用) ---
 geodata-mode: true
 geox-url:
-  geoip: "https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@release/geoip.dat"
-  geosite: "https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@release/geosite.dat"
-  mmdb: "https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@release/country.mmdb"
+  geoip: "https://mirror.ghproxy.com/https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/geoip-lite.dat"
+  geosite: "https://mirror.ghproxy.com/https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/geosite.dat"
+  mmdb: "https://mirror.ghproxy.com/https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/country-lite.mmdb"
   # [可选] ASN 数据库源
-  #asn: #"https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat/releases/download/latest/GeoLite2-ASN.mmdb"
+  #asn: #"https://mirror.ghproxy.com/https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/GeoLite2-ASN.mmdb"
 
 # --- 3. DNS 设置 (优化) ---
 dns:
@@ -71,24 +71,11 @@ sniffer:
       override-destination: true
   # [新增] 强制跳过嗅探的域名列表，这里主要填一些不需要或不能被嗅探的域名，防止日志报错
   skip-domain:
- # 1. 沉默的推送服务 & 智能家居 (解决报错)
+    - "+.apple.com"        # Apple 的部分服务被嗅探可能会卡顿
+    - "Mijia Cloud"        # 米家设备经常发空包，容易报错
+    - "dlg.io.mi.com"
     - "+.push.apple.com"
     - "+.push.xiaomi.com"
-    - "+.push.huawei.com"
-    - "Mijia Cloud"
-    - "dlg.io.mi.com"
-    
-    # 2. 腾讯系长连接 (解决你刚才的 150.x.x.x 报错)
-    - "+.qq.com"
-    - "+.tencent.com"
-    
-    # 3. 性能优化 & 乱七八糟的苹果服务
-    - "+.apple.com"
-    - "+.icloud.com"
-    - "+.itunes.com"
-    
-    # 4. 游戏 (如果有玩)
-    - "+.steamcontent.com"
 # ==============================
 # 0. 全局配置模板 (定义锚点)
 # ==============================
@@ -236,10 +223,10 @@ proxy-groups:
 rules:
   # 1. 广告拦截
   - GEOSITE,Category-ads-all,REJECT
-  - RULE-SET,AdBlock,REJECT,no-resolve
-  - RULE-SET,Hijacking,REJECT,no-resolve
-  - RULE-SET,Privacy,REJECT,no-resolve
-  - RULE-SET,BlockHttpDNS,REJECT,no-resolve
+  - RULE-SET,AdBlock,REJECT
+  - RULE-SET,Hijacking,REJECT
+  - RULE-SET,Privacy,REJECT
+  - RULE-SET,BlockHttpDNS,REJECT
   # 局域网直连
   - GEOIP,lan,DIRECT,no-resolve
   - GEOIP,private,DIRECT,no-resolve
@@ -252,7 +239,7 @@ rules:
   - RULE-SET,WeChat,DIRECT
   - RULE-SET,BiliBili,DIRECT
     #游戏下载
-  - RULE-SET,Game,DIRECT,no-resolve
+  - RULE-SET,Game,DIRECT
   - RULE-SET,SteamCN,DIRECT
   - RULE-SET,GameDownload,DIRECT
   - RULE-SET,GameDownloadCN,DIRECT
@@ -280,12 +267,12 @@ rules:
   #
   - RULE-SET,Bing,Bing
   - RULE-SET,Twitter,Twitter
-#  - RULE-SET,TelegramUS,Telegram
-#  - RULE-SET,TelegramSG,Telegram
-#  - RULE-SET,TelegramNL,Telegram
-  - RULE-SET,Telegram,Telegram,no-resolve
+  - RULE-SET,TelegramUS,Telegram
+  - RULE-SET,TelegramSG,Telegram
+  - RULE-SET,TelegramNL,Telegram
+  - RULE-SET,Telegram,Telegram
   #流媒体
-  - RULE-SET,YouTube,YouTube,no-resolve
+  - RULE-SET,YouTube,YouTube
   - RULE-SET,TikTok,TikTok
   - RULE-SET,Netflix,Netflix
   # 6. 国外下载
@@ -301,16 +288,16 @@ rules:
   - RULE-SET,Microsoft,Microsoft
   - RULE-SET,Facebook,Facebook
   # 8. 国外兜底
-  - RULE-SET,Proxy,Global,no-resolve
-  - RULE-SET,Global,Global,no-resolve
-  - RULE-SET,GlobalMedia,Global,no-resolve
+  - RULE-SET,Proxy,Global
+  - RULE-SET,Global,Global
+  - RULE-SET,GlobalMedia,Global
   
   # 9. 国内兜底
   - RULE-SET,Download,DIRECT
-  - RULE-SET,China,DIRECT,no-resolve
-  - RULE-SET,ChinaMedia,DIRECT,no-resolve
+  - RULE-SET,China,DIRECT
+  - RULE-SET,ChinaMedia,DIRECT
   - GEOSITE,CN,DIRECT
-  - RULE-SET,ChinaIPs,DIRECT,no-resolve
+  - RULE-SET,ChinaIPsBGP_IP,DIRECT,no-resolve
   - GEOIP,CN,DIRECT
   - MATCH,FINAL
 
@@ -319,10 +306,10 @@ rules:
 # ==============================
 rule-providers:
   # 1. 广告拦截
-  AdBlock:      {<<: *p-standard, url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Advertising/Advertising_No_Resolve.yaml, path: ./ruleset/Advertising.yaml }
-  Hijacking:    {<<: *p-standard, url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Hijacking/Hijacking_No_Resolve.yaml, path: ./ruleset/Hijacking.yaml }
-  Privacy:      {<<: *p-standard, url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Privacy/Privacy_No_Resolve.yaml, path: ./ruleset/Privacy.yaml }
-  BlockHttpDNS: {<<: *p-standard, url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/BlockHttpDNS/BlockHttpDNS_No_Resolve.yaml, path: ./ruleset/BlockHttpDNS.yaml }
+  AdBlock:      {<<: *p-standard, url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Advertising/Advertising.yaml, path: ./ruleset/Advertising.yaml }
+  Hijacking:    {<<: *p-standard, url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Hijacking/Hijacking.yaml, path: ./ruleset/Hijacking.yaml }
+  Privacy:      {<<: *p-standard, url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Privacy/Privacy.yaml, path: ./ruleset/Privacy.yaml }
+  BlockHttpDNS: {<<: *p-standard, url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/BlockHttpDNS/BlockHttpDNS.yaml, path: ./ruleset/BlockHttpDNS.yaml }
 
   # 2. 特殊直连
   PayPal:       {<<: *p-standard, url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/refs/heads/master/rule/Clash/PayPal/PayPal.yaml, path: ./ruleset/PayPal.yaml }
@@ -332,7 +319,7 @@ rule-providers:
   # 3. 国内直连与下载
   WeChat:       {<<: *p-standard, url: https://github.com/blackmatrix7/ios_rule_script/raw/refs/heads/master/rule/Clash/WeChat/WeChat.yaml, path: ./ruleset/WeChat.yaml }
   BiliBili:     {<<: *p-standard, url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/BiliBili/BiliBili.yaml, path: ./ruleset/BiliBili.yaml }
-  Game:         {<<: *p-standard, url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Game/Game_No_Resolve.yaml, path: ./ruleset/Game.yaml }
+  Game:         {<<: *p-standard, url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Game/Game.yaml, path: ./ruleset/Game.yaml }
   SteamCN:      {<<: *p-standard, url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/SteamCN/SteamCN.yaml, path: ./ruleset/SteamCN.yaml }
   GameDownload: {<<: *p-standard, url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Game/GameDownload/GameDownload.yaml, path: ./ruleset/GameDownload.yaml }
   GameDownloadCN: {<<: *p-standard, url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Game/GameDownloadCN/GameDownloadCN.yaml, path: ./ruleset/GameDownloadCN.yaml }
@@ -361,8 +348,8 @@ rule-providers:
   TelegramUS:   {<<: *p-standard, url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/TelegramUS/TelegramUS.yaml, path: ./ruleset/TelegramUS.yaml }
   TelegramSG:   {<<: *p-standard, url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/TelegramSG/TelegramSG.yaml, path: ./ruleset/TelegramSG.yaml }
   TelegramNL:   {<<: *p-standard, url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/TelegramNL/TelegramNL.yaml, path: ./ruleset/TelegramNL.yaml }
-  Telegram:     {<<: *p-standard, url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Telegram/Telegram_No_Resolve.yaml, path: ./ruleset/Telegram.yaml }
-  YouTube:      {<<: *p-standard, url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/refs/heads/master/rule/Clash/YouTube/YouTube_No_Resolve.yaml, path: ./ruleset/YouTube.yaml }
+  Telegram:     {<<: *p-standard, url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Telegram/Telegram.yaml, path: ./ruleset/Telegram.yaml }
+  YouTube:      {<<: *p-standard, url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/refs/heads/master/rule/Clash/YouTube/YouTube.yaml, path: ./ruleset/YouTube.yaml }
   TikTok:       {<<: *p-standard, url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/refs/heads/master/rule/Clash/TikTok/TikTok.yaml, path: ./ruleset/TikTok.yaml }
   Netflix:      {<<: *p-standard, url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/refs/heads/master/rule/Clash/Netflix/Netflix.yaml, path: ./ruleset/Netflix.yaml }
 
@@ -381,12 +368,12 @@ rule-providers:
   Facebook:     {<<: *p-standard, url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/refs/heads/master/rule/Clash/Facebook/Facebook.yaml, path: ./ruleset/Facebook.yaml }
 
   # 8. 国外兜底
-  Proxy:        {<<: *p-standard, url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/refs/heads/master/rule/Clash/Proxy/Proxy_No_Resolve.yaml, path: ./ruleset/Proxy.yaml }
-  Global:       {<<: *p-standard, url: https://github.com/blackmatrix7/ios_rule_script/raw/refs/heads/master/rule/Clash/Global/Global_No_Resolve.yaml, path: ./ruleset/Global.yaml }
-  GlobalMedia:  {<<: *p-standard, url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/GlobalMedia/GlobalMedia_No_Resolve.yaml, path: ./ruleset/GlobalMedia.yaml }
+  Proxy:        {<<: *p-standard, url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/refs/heads/master/rule/Clash/Proxy/Proxy_Classical.yaml, path: ./ruleset/Proxy_Classical.yaml }
+  Global:       {<<: *p-standard, url: https://github.com/blackmatrix7/ios_rule_script/raw/refs/heads/master/rule/Clash/Global/Global_Classical.yaml, path: ./ruleset/Global_Classical.yaml }
+  GlobalMedia:  {<<: *p-standard, url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/GlobalMedia/GlobalMedia_Classical.yaml, path: ./ruleset/GlobalMedia_Classical.yaml }
 
   # 9. 国内兜底
   Download:     {<<: *p-standard, url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Download/Download.yaml, path: ./ruleset/Download.yaml }
-  China:        {<<: *p-standard, url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/China/China_No_Resolve.yaml, path: ./ruleset/China_No_Resolve.yaml }
-  ChinaMedia:   {<<: *p-standard, url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/ChinaMedia/ChinaMedia_No_Resolve.yaml, path: ./ruleset/ChinaMedia_No_Resolve.yaml }
-  ChinaIPs: {<<: *p-ip, url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/ChinaIPs/ChinaIPs_Classical_No_Resolve.yaml, path: ./ruleset/ChinaIPs.yaml }
+  China:        {<<: *p-standard, url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/China/China.yaml, path: ./ruleset/China.yaml }
+  ChinaMedia:   {<<: *p-standard, url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/ChinaMedia/ChinaMedia.yaml, path: ./ruleset/ChinaMedia.yaml }
+  ChinaIPsBGP_IP: {<<: *p-ip, url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/ChinaIPsBGP/ChinaIPsBGP_IP.yaml, path: ./ruleset/ChinaIPsBGP_IP.yaml }
