@@ -1,0 +1,104 @@
+proxy-groups:
+#分流分组
+  - {name: 手动切换, type: select, include-all: true, icon: https://raw.githubusercontent.com/Orz-3/mini/master/Color/Static.png }
+  - {name: Global, type: select, proxies: [手动切换, DIRECT, 自动选择, 香港策略, 日本策略, 台湾策略, 美国策略, 狮城策略], icon: https://raw.githubusercontent.com/Orz-3/mini/master/Color/Global.png }
+  - {name: Telegram, type: select, proxies: [手动切换, DIRECT, 自动选择, 香港策略, 日本策略, 台湾策略, 美国策略, 狮城策略], icon: https://raw.githubusercontent.com/Orz-3/mini/master/Color/Telegram.png }
+  - {name: YouTube,   type: select, proxies: [美国策略, 手动切换], icon: https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/YouTube.png }
+  - {name: TikTok,   type: select, proxies: [美国策略, 手动切换], icon: https://raw.githubusercontent.com/Orz-3/mini/master/Color/TikTok.png }
+  - {name: Facebook,   type: select, proxies: [美国策略, 手动切换], icon: https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Facebook.png }
+  - {name: Google, type: select, proxies: [手动切换, DIRECT, 自动选择, 香港策略, 日本策略, 台湾策略, 美国策略, 狮城策略], icon: https://raw.githubusercontent.com/Orz-3/mini/master/Color/Google.png }
+  - {name: Microsoft, type: select, proxies: [手动切换, DIRECT, 自动选择, 香港策略, 日本策略, 台湾策略, 美国策略, 狮城策略], icon: https://raw.githubusercontent.com/Orz-3/mini/master/Color/Microsoft.png }
+  - {name: Bing, type: select, proxies: [手动切换, DIRECT, 自动选择, 香港策略, 日本策略, 台湾策略, 美国策略, 狮城策略], icon: https://raw.githubusercontent.com/Orz-3/mini/master/Color/Bing.png }
+  - {name: Apple, type: select, proxies: [DIRECT, 手动切换, 自动选择, 香港策略, 日本策略, 台湾策略, 美国策略, 狮城策略], icon: https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Apple.png }
+  - {name: Netflix, type: select, proxies: [DIRECT, 香港策略, 台湾策略, 狮城策略], icon: https://raw.githubusercontent.com/Orz-3/mini/master/Color/Netflix.png }
+  - {name: Emby, type: select, proxies: [手动切换, DIRECT, 自动选择, 香港策略, 日本策略, 台湾策略, 美国策略, 狮城策略], icon: https://raw.githubusercontent.com/Orz-3/mini/master/Color/Emby.png }
+  - {name: GlobalDL, type: select, proxies: [手动切换, DIRECT, 自动选择, 香港策略, 日本策略, 台湾策略, 美国策略, 狮城策略], icon: https://raw.githubusercontent.com/Orz-3/mini/master/Color/Global.png }
+  - {name: AdBlock,  type: select, proxies: [REJECT, DIRECT], icon: https://raw.githubusercontent.com/Orz-3/mini/master/Color/Adblock.png }
+  - {name: 兜底分流, type: select, proxies: [手动切换, DIRECT, 自动选择, 香港策略, 日本策略, 台湾策略, 美国策略, 狮城策略], icon: https://raw.githubusercontent.com/Orz-3/mini/master/Color/Final.png }
+  
+#节点分组
+  - {name: 自动选择, type: url-test, include-all: true, interval: 600, tolerance: 50,  icon: https://raw.githubusercontent.com/Orz-3/mini/master/Color/Urltest.png }
+  - {name: 美国策略, type: url-test, include-all: true, interval: 600, tolerance: 50,  filter: "美|US|(?i)States|American", icon: https://raw.githubusercontent.com/Orz-3/mini/master/Color/US.png }
+  - {name: 香港策略, type: url-test, include-all: true, interval: 600, tolerance: 50,  filter: "港|HK|(?i)Hong", icon: https://raw.githubusercontent.com/Orz-3/mini/master/Color/HK.png }
+  - {name: 狮城策略, type: url-test, include-all: true, interval: 600, tolerance: 50,  filter: "新|坡|SG|(?i)Singapore", icon: https://raw.githubusercontent.com/Orz-3/mini/master/Color/SG.png }             
+  - {name: 日本策略, type: url-test, include-all: true, interval: 600, tolerance: 50,  filter: "日|东京|JP|(?i)Japan", icon: https://raw.githubusercontent.com/Orz-3/mini/master/Color/JP.png }
+  - {name: 台湾策略, type: url-test, include-all: true, interval: 600, tolerance: 50,  filter: "台|湾|TW|(?i)Taiwan", icon: https://raw.githubusercontent.com/Orz-3/mini/master/Color/TW.png }
+  
+
+# 分流Policy 
+rules:
+  - RULE-SET,AdBlock,AdBlock
+  - RULE-SET,PayPal,DIRECT
+  - RULE-SET,AI,美国策略
+  - RULE-SET,Imgur,香港策略
+  #- RULE-SET,1Password,美国策略
+  - RULE-SET,Speedtest,DIRECT
+  - RULE-SET,Telegram,Telegram
+  - RULE-SET,YouTube,YouTube
+  - RULE-SET,TikTok,TikTok
+  - RULE-SET,Facebook,Facebook
+  - RULE-SET,Microsoft,Microsoft
+  - RULE-SET,Bing,Bing
+  - RULE-SET,Google,Google
+  - RULE-SET,Apple,Apple
+  - RULE-SET,Emby,Emby
+  - RULE-SET,Netflix,Netflix
+  - RULE-SET,OneDrive,GlobalDL
+  - RULE-SET,GoogleDrive,GlobalDL
+  - RULE-SET,PikPak,GlobalDL
+  - RULE-SET,Proxy,Global
+  - RULE-SET,Global,Global
+  - RULE-SET,GlobalMedia,Global
+  - RULE-SET,Game,DIRECT
+  - RULE-SET,BiliBili,DIRECT
+  - RULE-SET,WeChat,DIRECT
+  - RULE-SET,ChinaIP,DIRECT
+  - RULE-SET,Direct,DIRECT
+  - RULE-SET,Lan,DIRECT
+  - RULE-SET,Download,DIRECT
+  - RULE-SET,ChinaASN,DIRECT
+  - RULE-SET,ChinaMedia,DIRECT
+  - RULE-SET,Game,DIRECT
+  - GEOIP,CN,DIRECT
+  - MATCH,兜底分流
+
+
+# 分流规则 
+rule-providers:
+  AdBlock:     {behavior: domain,    interval: 86400, format: text, type: http, url: https://raw.githubusercontent.com/Cats-Team/AdRules/main/adrules_domainset.txt }
+  Bing:    {behavior: classical, interval: 86400, format: yaml, type: http, url: https://rule.kelee.one/Clash/Bing.yaml ,path: ./ruleset/Bing.yaml     }
+  AI:    {behavior: classical, interval: 86400, format: yaml, type: http, url: https://gist.githubusercontent.com/ddgksf2013/cb4121e8b5c5d865cc949cb8120320c4/raw/Ai.yaml ,path: ./ruleset/AI.yaml     }   
+  PayPal:    {behavior: classical, interval: 86400, format: yaml, type: http, url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/refs/heads/master/rule/Clash/PayPal/PayPal.yaml ,                  path: ./ruleset/PayPal.yaml     }
+  Imgur:    {behavior: classical, interval: 86400, format: yaml, type: http, url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/refs/heads/master/rule/Clash/Imgur/Imgur.yaml ,                  path: ./ruleset/Imgur.yaml     }
+  Speedtest:    {behavior: classical, interval: 86400, format: yaml, type: http, url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/refs/heads/master/rule/Clash/Speedtest/Speedtest.yaml ,                  path: ./ruleset/Speedtest.yaml     }
+#  1Password:    {behavior: classical, interval: 86400, format: yaml, type: http, url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/refs/heads/master/rule/Clash/1Password/1Password.yaml ,                  path: ./ruleset/1Password.yaml     }
+  Telegram:    {behavior: classical, interval: 86400, format: yaml, type: http, url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Telegram/Telegram.yaml ,                  path: ./ruleset/Telegram.yaml     }
+  YouTube:    {behavior: classical, interval: 86400, format: yaml, type: http, url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/refs/heads/master/rule/Clash/YouTube/YouTube.yaml ,                  path: ./ruleset/YouTube.yaml     }
+  TikTok:    {behavior: classical, interval: 86400, format: yaml, type: http, url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/refs/heads/master/rule/Clash/TikTok/TikTok.yaml ,                  path: ./ruleset/TikTok.yaml     }
+  Facebook:    {behavior: classical, interval: 86400, format: yaml, type: http, url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/refs/heads/master/rule/Clash/Facebook/Facebook.yaml ,                  path: ./ruleset/Facebook.yaml     }
+  Microsoft:   {behavior: classical, interval: 86400, format: yaml, type: http, url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Microsoft/Microsoft.yaml ,                path: ./ruleset/Microsoft.yaml    }
+  Google:      {behavior: classical, interval: 86400, format: yaml, type: http, url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Google/Google.yaml ,                      path: ./ruleset/Google.yaml       }
+  Apple:       {behavior: classical, interval: 86400, format: yaml, type: http, url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Apple/Apple_Classical.yaml ,              path: ./ruleset/Apple.yaml        }
+  Netflix:    {behavior: classical, interval: 86400, format: yaml, type: http, url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/refs/heads/master/rule/Clash/Netflix/Netflix.yaml ,                  path: ./ruleset/Netflix.yaml     }
+  Emby:        {behavior: classical, interval: 86400, format: yaml, type: http, url: https://raw.githubusercontent.com/ddgksf2013/Filter/master/Emby.yaml ,                                                     path: ./ruleset/Emby.yaml         }
+  OneDrive:    {behavior: classical, interval: 86400, format: yaml, type: http, url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/OneDrive/OneDrive.yaml ,                  path: ./ruleset/OneDrive.yaml     }
+  GoogleDrive:    {behavior: classical, interval: 86400, format: yaml, type: http, url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/GoogleDrive/GoogleDrive.yaml ,                  path: ./ruleset/GoogleDrive.yaml     }
+  PikPak:    {behavior: classical, interval: 86400, format: yaml, type: http, url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/refs/heads/master/rule/Clash/PikPak/PikPak.yaml ,                  path: ./ruleset/PikPak.yaml     }  
+  Proxy:   {behavior: classical, interval: 86400, format: yaml, type: http, url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/refs/heads/master/rule/Clash/Proxy/Proxy_Classical.yaml ,                path: ./ruleset/Proxy.yaml    }
+  Global:     {behavior: classical, interval: 86400, format: yaml, type: http, url: https://github.com/blackmatrix7/ios_rule_script/raw/refs/heads/master/rule/Clash/Global/Global_Classical.yaml ,                    path: ./ruleset/Global.yaml      }
+  GlobalMedia: {behavior: classical, interval: 86400, format: yaml, type: http, url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/GlobalMedia/GlobalMedia_Classical.yaml ,  path: ./ruleset/GlobalMedia.yaml  }
+  Game:        {behavior: classical, interval: 86400, format: yaml, type: http, url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Game/Game.yaml ,                          path: ./ruleset/Game.yaml         }
+  BiliBili:    {behavior: classical, interval: 86400, format: yaml, type: http, url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/BiliBili/BiliBili.yaml ,                  path: ./ruleset/BiliBili.yaml     }
+  WeChat:    {behavior: classical, interval: 86400, format: yaml, type: http, url: https://github.com/blackmatrix7/ios_rule_script/raw/refs/heads/master/rule/Clash/WeChat/WeChat.yaml ,                  path: ./ruleset/WeChat.yaml     }
+  Direct:      {behavior: classical, interval: 86400, format: yaml, type: http, url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Direct/Direct.yaml ,                      path: ./ruleset/Direct.yaml       }
+  Lan:         {behavior: classical, interval: 86400, format: yaml, type: http, url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Lan/Lan.yaml ,                            path: ./ruleset/Lan.yaml          }
+  Download:    {behavior: classical, interval: 86400, format: yaml, type: http, url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Download/Download.yaml ,                  path: ./ruleset/Download.yaml     }
+  ChinaIP:     {behavior: ipcidr,    interval: 86400, format: yaml, type: http, url: https://raw.githubusercontent.com/soffchen/GeoIP2-CN/release/clash-rule-provider.yml ,                                     path: ./ruleset/ChinaIP.yaml      }
+
+  ChinaASN:    {behavior: classical, interval: 86400, format: yaml, type: http, url: https://rule.kelee.one/Clash/ChinaASN.yaml ,                  path: ./ruleset/ChinaASN.yaml     } 
+  ChinaMedia:    {behavior: classical, interval: 86400, format: yaml, type: http, url: https://rule.kelee.one/Clash/ChinaMedia.yaml ,                  path: ./ruleset/ChinaMedia.yaml     }
+  
+
+
+
+ 
