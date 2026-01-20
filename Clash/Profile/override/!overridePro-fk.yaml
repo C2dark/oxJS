@@ -1,7 +1,179 @@
-#override_V3.0
-#2026.01.19 更新
 # ==============================
-# 0. 全局配置模板 (定义锚点)
+# overridePro_FakeIP_V1.0 (Mihomo Fake-IP 极速版)
+# 2026.01.20 更新
+# ==============================
+# --- 1. 基础监听配置 ---
+mixed-port: 5090
+socks-port: 5080
+port: 5060
+allow-lan: false
+bind-address: "*"
+ipv6: true
+log-level: info
+find-process-mode: always
+keep-alive-interval: 1800
+
+# --- 2. 外部控制 ---
+external-controller: 127.0.0.1:9090
+external-ui: ui
+secret: ""
+
+# --- 3. 自动更新与性能参数 (已补充缺失项) ---
+# 全局并发，提高多连接场景下的加载速度
+tcp-concurrent: true
+# 统一延迟，消除节点测速波动
+unified-delay: true
+# 模拟浏览器指纹，防止被识别为代理工具
+global-client-fingerprint: chrome
+
+geodata-mode: true
+geodata-loader: standard
+geo-auto-update: true
+geo-update-interval: 24
+geox-url:
+  geoip: "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@release/geoip.dat"
+  geosite: "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@release/geosite.dat"
+  mmdb: "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@release/country.mmdb"
+
+# --- 4. Tun 模式配置 ---
+tun:
+  enable: true
+  stack: gvisor             # gvisor 兼容性最佳
+  device: Mihomo
+  dns-hijack:
+    - any:53
+  auto-route: true
+  auto-redirect: true
+  strict-route: true
+  mtu: 9000
+  # 启用 GSO/GRO 提升吞吐量 (视网卡支持情况，现代网卡建议开启)
+  gso: true 
+
+profile:
+  store-selected: true
+  store-fake-ip: true       # Fake-IP 模式建议开启，保持 IP 映射持久化
+
+# --- 5. DNS 配置 (Fake-IP 核心重构) ---
+dns:
+  enable: true
+  listen: 0.0.0.0:53
+  ipv6: true
+  
+  # 核心修改：切换为 Fake-IP 模式
+  enhanced-mode: fake-ip
+  fake-ip-range: 198.18.0.1/16
+  
+  # 核心修改：Fake-IP 过滤列表 (解决兼容性问题)
+  # 这些域名将解析为真实 IP，而不是 Fake-IP
+  fake-ip-filter:
+    - "+.lan"
+    - "+.local"
+    - "msftconnecttest.com"
+    - "msftncsi.com"
+    - "*.msftconnecttest.com"
+    - "*.msftncsi.com"
+    - "time.*.com"
+    - "time.*.gov"
+    - "time.*.edu.cn"
+    - "time.*.apple.com"
+    - "ntp.*.com"
+    - "+.pool.ntp.org"
+    - "*.ntp.org.cn"
+    - "+.stun.*.*"
+    - "+.stun.*"
+    - "+.whoer.net"
+    - "+.nintendo.net"
+    - "+.sony.net"
+    - "+.xboxlive.com"
+    - "xbox.*.*.microsoft.com"
+    - "+.battlenet.com.cn"
+    - "+.battlenet.com"
+    - "+.blizzard.com"
+  
+  # 核心修改：移除 respect-rules，使用 policy 控制
+  # Fake-IP 模式下，策略优先级：
+  # 1. 命中 fake-ip-filter -> 走 nameserver/policy 解析真实 IP
+  # 2. 未命中 filter -> 立即返回 Fake-IP
+  # 3. 核心在"出站"时：Mihomo 还原域名，若规则为 DIRECT，则使用 policy 解析真实目标 IP 进行连接
+
+  prefer-h3: true
+  use-hosts: true
+  use-system-hosts: true
+  default-nameserver:
+    - tls://223.5.5.5
+    - tls://119.29.29.29
+  # 默认 DNS (用于代理节点解析和 fallback)
+  nameserver:
+    - https://dns.alidns.com/dns-query#h3=true
+    - https://doh.pub/dns-query#h3=true
+
+  # 核心优化：精细化分流策略
+  # 国内域名：解析为真实 IP (保证 CDN 友好)
+  # 国外域名：在 Fake-IP 模式下，此处主要用于"非 Fake-IP 流量"或"代理节点本身"的解析
+  nameserver-policy:
+    "geosite:cn,private":
+      - https://dns.alidns.com/dns-query#h3=true
+      - https://doh.pub/dns-query#h3=true
+    "geosite:geolocation-!cn":
+      - https://1.1.1.1/dns-query#h3=true
+      - https://8.8.8.8/dns-query#h3=true
+
+  # 代理节点域名的解析
+  proxy-server-nameserver:
+    - https://dns.alidns.com/dns-query
+    - https://doh.pub/dns-query
+
+# --- 6. 嗅探器配置 (Sniffer) ---
+sniffer:
+  enable: true
+  parse-pure-ip: true
+  force-dns-mapping: true
+  override-destination: true    # Fake-IP 模式必须为 true，用于流量重定向
+  
+  sniff:
+    HTTP:
+      ports: [80, 8080-8888]
+    TLS:
+      ports: [443, 8443]
+    QUIC:
+      ports: [443, 8443]
+  
+  skip-domain:
+    - "Mijia Cloud"
+    - "+.push.apple.com"
+    - "+.qq.com"
+    - "vm.gtimg.cn"
+    - "+.music.163.com"
+    - "*.baidu.com"
+    - "tqos.anticheatexpert.com"
+    - "tracker"
+    - "peer"
+    - "bittorrent"
+    - "+.lan"
+    - "+.local"
+  
+  skip-dst-address:
+    - 91.105.192.0/23
+    - 91.108.4.0/22
+    - 91.108.8.0/21
+    - 91.108.16.0/21
+    - 91.108.56.0/22
+    - 95.161.64.0/20
+    - 149.154.160.0/20
+    - 185.76.151.0/24
+    - 2001:67c:4e8::/48
+    - 2001:b28:f23c::/47
+    - 2001:b28:f23f::/48
+    - 2a0a:f280:203::/48
+
+  force-domain:
+    - google.com
+    - youtube.com
+    - live.com
+    - t.me
+
+# ==============================
+# 0. 全局配置模板 (定义锚点) - 保持原样
 # ==============================
 common-config:
   # 模板1: 时延优选 (自动选择)

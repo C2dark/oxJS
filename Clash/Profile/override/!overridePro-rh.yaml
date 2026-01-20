@@ -1,7 +1,163 @@
-#override_V3.0
-#2026.01.19 更新
 # ==============================
-# 0. 全局配置模板 (定义锚点)
+# overridePro-rh_V1.0 (Mihomo Redir-Host 修正版)
+# 2026.01.20 更新
+# ==============================
+# --- 1. 基础监听配置 ---
+mixed-port: 5090
+socks-port: 5080
+port: 5060
+allow-lan: false
+bind-address: "*"
+ipv6: true                  # 开启 IPv6 支持
+log-level: info             # 建议改为 info，debug 日志太多影响性能
+find-process-mode: always
+keep-alive-interval: 1800   # 保持连接活跃时间
+
+# --- 2. 外部控制 (缺失模块已补充) ---
+external-controller: 127.0.0.1:9090
+external-ui: ui
+secret: ""                  # 如果需要面板密码，请在这里填写
+
+# --- 3. 自动更新 (建议补充) ---
+# 全局并发，提高多连接场景下的加载速度
+tcp-concurrent: true
+# 统一延迟，消除节点测速波动
+unified-delay: true
+# 模拟浏览器指纹，防止被识别为代理工具
+global-client-fingerprint: chrome
+geodata-mode: true
+geodata-loader: standard
+geo-auto-update: true       # 自动更新 Geo 数据库
+geo-update-interval: 24
+geox-url:
+  geoip: "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@release/geoip.dat"
+  geosite: "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@release/geosite.dat"
+  mmdb: "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@release/country.mmdb"
+
+# --- 4. Tun 模式配置 (透明代理核心) ---
+tun:
+  enable: true
+  stack: gvisor             # gvisor 兼容性最好，system 性能最好
+  device: Mihomo
+  dns-hijack:
+    - any:53
+  auto-route: true          # 自动配置路由
+  auto-redirect: true       # 自动重定向
+  strict-route: true        # 严格路由，防止漏网之鱼
+  mtu: 9000                 # 巨型帧优化，常用 1500 或 9000
+  # 启用 GSO/GRO 提升吞吐量 (视网卡支持情况，现代网卡建议开启)
+  gso: true 
+profile:
+  store-selected: true
+  store-fake-ip: false      # Redir-Host 模式下不需要存储 Fake-IP
+
+# --- 5. DNS 配置 (Redir-Host 核心优化) ---
+dns:
+  enable: true
+  listen: 0.0.0.0:53
+  ipv6: true
+  
+  # 核心修改：指定为 redir-host 模式
+  enhanced-mode: redir-host 
+  
+  # 核心修改：DNS 请求遵循分流规则 (防止 DNS 泄露的关键)
+  respect-rules: true       
+  prefer-h3: true
+  use-hosts: true
+  use-system-hosts: true
+  default-nameserver:
+    - tls://223.5.5.5
+    - tls://119.29.29.29
+  # 默认 DNS (用于非 CN 域名，走代理)
+  nameserver:
+    - https://cloudflare-dns.com/dns-query#h3=true
+    - https://dns.google/dns-query#h3=true
+
+  # 兜底 DNS (防止污染)
+  fallback:
+    - https://1.1.1.1/dns-query
+    - https://8.8.8.8/dns-query
+
+  # 核心优化：DNS 精细化分流策略
+  # 效果：国内域名直接用国内 DNS 解析（快），国外域名用国外 DNS（准）
+  nameserver-policy:
+    "geosite:cn,private":
+      - https://dns.alidns.com/dns-query#h3=true
+      - https://doh.pub/dns-query#h3=true
+    "geosite:geolocation-!cn":
+      - https://1.1.1.1/dns-query#h3=true
+      - https://8.8.8.8/dns-query#h3=true
+
+  # 代理节点本身的域名解析 (必须直连，且必须可靠)
+  proxy-server-nameserver:
+    - https://dns.alidns.com/dns-query#h3=true
+    - https://223.5.5.5/dns-query#h3=true
+
+  # 直连域名解析器
+  direct-nameserver:
+    - https://dns.alidns.com/dns-query
+    - https://223.5.5.5/dns-query
+
+  # 污染防御过滤
+  fallback-filter:
+    geoip: true
+    geoip-code: CN
+    ipcidr:
+      - 240.0.0.0/4
+
+# --- 6. 嗅探器配置 (Sniffer) ---
+sniffer:
+  enable: true
+  parse-pure-ip: true           # 核心：解析纯 IP 流量中的域名
+  force-dns-mapping: true       # 核心：强制映射回内核 DNS 表
+  override-destination: true    # 核心：将目标修改为域名，使规则匹配生效
+  sniff:
+    HTTP:
+      ports: [80, 8080-8888]
+    TLS:
+      ports: [443, 8443]
+    QUIC:
+      ports: [443, 8443]
+  
+  # 排除不需要嗅探的域名 (避免各种证书错误)
+  skip-domain:
+    - "Mijia Cloud"
+    - "+.push.apple.com"
+    - "+.qq.com"
+    - "vm.gtimg.cn"
+    - "+.music.163.com"
+    - "*.baidu.com"
+    - "tqos.anticheatexpert.com"
+    - "tracker"
+    - "peer"
+    - "bittorrent"
+    - "+.lan"
+    - "+.local"
+  
+  # 排除不需要嗅探的 IP 段 (主要是 Telegram)
+  skip-dst-address:
+    - 91.105.192.0/23
+    - 91.108.4.0/22
+    - 91.108.8.0/21
+    - 91.108.16.0/21
+    - 91.108.56.0/22
+    - 95.161.64.0/20
+    - 149.154.160.0/20
+    - 185.76.151.0/24
+    - 2001:67c:4e8::/48
+    - 2001:b28:f23c::/47
+    - 2001:b28:f23f::/48
+    - 2a0a:f280:203::/48
+    
+  # 强制嗅探的域名
+  force-domain:
+    - google.com
+    - youtube.com
+    - live.com
+    - t.me
+
+# ==============================
+# 0. 全局配置模板 (定义锚点) - 保持原样
 # ==============================
 common-config:
   # 模板1: 时延优选 (自动选择)
