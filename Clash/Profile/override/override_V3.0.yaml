@@ -1,5 +1,5 @@
-#override_V3.2
-#2026.01.24 更新
+#override_V3.0
+#2026.01.19 更新
 # ==============================
 # 0. 全局配置模板 (定义锚点)
 # ==============================
@@ -74,7 +74,6 @@ proxy-groups:
   - {name: FINAL, type: select, proxies: [手动切换, DIRECT, 美国策略, 香港策略, 狮城策略, 台湾策略, 日本策略, 韩国策略, 欧洲策略], icon: https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Final.png }
   
   # 应用分组
-  - {name: Gemini, type: select, proxies: [手动切换, 美国策略, 香港策略, 狮城策略, 台湾策略, 日本策略, 韩国策略, 欧洲策略], icon: https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/apps/Gemini_01.png }
   - {name: AI, type: select, proxies: [手动切换, 美国策略, 香港策略, 狮城策略, 台湾策略, 日本策略, 韩国策略, 欧洲策略], icon: https://raw.githubusercontent.com/lige47/QuanX-icon-rule/main/icon/04ProxySoft/chatgpt(white1).png }
   - {name: Telegram, type: select, proxies: [手动切换, 美国策略, 香港策略, 狮城策略, 台湾策略, 日本策略, 韩国策略, 欧洲策略], icon: https://raw.githubusercontent.com/Orz-3/mini/master/Color/Telegram.png }
   - {name: YouTube,   type: select, proxies: [手动切换, 美国策略, 香港策略, 狮城策略, 台湾策略, 日本策略, 韩国策略, 欧洲策略], icon: https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/YouTube.png }
@@ -177,10 +176,9 @@ rules:
   - RULE-SET,AppleDev,Global
   - RULE-SET,AppleProxy,Global
   - RULE-SET,iCloudPrivateRelay,Global
-  - RULE-SET,Google,Google
  
   # 5. 国际媒体/社交
-  - RULE-SET,Gemini,Gemini
+  - RULE-SET,Gemini,AI
   - RULE-SET,AI,AI
   - RULE-SET,GitHub,香港策略
   - RULE-SET,Cloudflare,香港策略
@@ -211,7 +209,7 @@ rules:
   # 7. 国际大厂服务
   - RULE-SET,Amazon,香港策略
   - RULE-SET,Apple,Apple
-
+  - RULE-SET,Google,Google
   - RULE-SET,Microsoft,Microsoft
   - RULE-SET,Facebook,Facebook
   # 8. 国外兜底

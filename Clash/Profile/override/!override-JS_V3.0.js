@@ -1,3 +1,6 @@
+// override-JS_V3.0
+// 2026.01.21 更新
+
 module.exports.parse = async (config, profileName) => {
   // ==============================
   // 0. 通用配置模板 (对应 YAML 锚点)
@@ -129,6 +132,7 @@ module.exports.parse = async (config, profileName) => {
     { name: "FINAL", type: "select", proxies: ["手动切换", "DIRECT", "美国策略", "香港策略", "狮城策略", "台湾策略", "日本策略", "韩国策略", "欧洲策略"], icon: "https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Final.png" },
 
     // 应用分组
+    { name: "Gemini", type: "select", proxies: ["手动切换", "美国策略", "香港策略", "狮城策略", "台湾策略", "日本策略", "韩国策略", "欧洲策略"], icon: "https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/apps/Gemini_01.png" },
     { name: "AI", type: "select", proxies: ["手动切换", "美国策略", "香港策略", "狮城策略", "台湾策略", "日本策略", "韩国策略", "欧洲策略"], icon: "https://raw.githubusercontent.com/lige47/QuanX-icon-rule/main/icon/04ProxySoft/chatgpt(white1).png" },
     { name: "Telegram", type: "select", proxies: ["手动切换", "美国策略", "香港策略", "狮城策略", "台湾策略", "日本策略", "韩国策略", "欧洲策略"], icon: "https://raw.githubusercontent.com/Orz-3/mini/master/Color/Telegram.png" },
     { name: "YouTube", type: "select", proxies: ["手动切换", "美国策略", "香港策略", "狮城策略", "台湾策略", "日本策略", "韩国策略", "欧洲策略"], icon: "https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/YouTube.png" },
