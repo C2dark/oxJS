@@ -74,6 +74,7 @@ proxy-groups:
   - {name: FINAL, type: select, proxies: [手动切换, DIRECT, 美国策略, 香港策略, 狮城策略, 台湾策略, 日本策略, 韩国策略, 欧洲策略], icon: https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Final.png }
   
   # 应用分组
+  - {name: Google, type: select, proxies: [手动切换, 美国策略, 香港策略, 狮城策略, 台湾策略, 日本策略, 韩国策略, 欧洲策略], icon: https://raw.githubusercontent.com/Orz-3/mini/master/Color/Google.png }
   - {name: Gemini, type: select, proxies: [手动切换, 美国策略, 香港策略, 狮城策略, 台湾策略, 日本策略, 韩国策略, 欧洲策略], icon: https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/apps/Gemini_01.png }
   - {name: AI, type: select, proxies: [手动切换, 美国策略, 香港策略, 狮城策略, 台湾策略, 日本策略, 韩国策略, 欧洲策略], icon: https://raw.githubusercontent.com/lige47/QuanX-icon-rule/main/icon/04ProxySoft/chatgpt(white1).png }
   - {name: Telegram, type: select, proxies: [手动切换, 美国策略, 香港策略, 狮城策略, 台湾策略, 日本策略, 韩国策略, 欧洲策略], icon: https://raw.githubusercontent.com/Orz-3/mini/master/Color/Telegram.png }
@@ -83,7 +84,6 @@ proxy-groups:
   - {name: Netflix, type: select, proxies: [手动切换, 美国策略, 香港策略, 狮城策略, 台湾策略, 日本策略, 韩国策略, 欧洲策略], icon: https://raw.githubusercontent.com/Orz-3/mini/master/Color/Netflix.png }
   - {name: Bing, type: select, proxies: [手动切换, DIRECT, 美国策略, 香港策略, 狮城策略, 台湾策略, 日本策略, 韩国策略, 欧洲策略], icon: https://raw.githubusercontent.com/Orz-3/mini/master/Color/Bing.png }
   - {name: Apple, type: select, proxies: [DIRECT, 手动切换, 美国策略, 香港策略, 狮城策略, 台湾策略, 日本策略, 韩国策略, 欧洲策略], icon: https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Apple.png }
-  - {name: Google, type: select, proxies: [手动切换, 美国策略, 香港策略, 狮城策略, 台湾策略, 日本策略, 韩国策略, 欧洲策略], icon: https://raw.githubusercontent.com/Orz-3/mini/master/Color/Google.png }
   - {name: Microsoft, type: select, proxies: [手动切换, DIRECT, 美国策略, 香港策略, 狮城策略, 台湾策略, 日本策略, 韩国策略, 欧洲策略], icon: https://raw.githubusercontent.com/Orz-3/mini/master/Color/Microsoft.png }
   - {name: Facebook,   type: select, proxies: [手动切换, 美国策略, 香港策略, 狮城策略, 台湾策略, 日本策略, 韩国策略, 欧洲策略], icon: https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Facebook.png }
 
@@ -225,7 +225,7 @@ rules:
   - RULE-SET,ChinaMedia,DIRECT,no-resolve
   - GEOSITE,CN,DIRECT
   - RULE-SET,ChinaIPs,DIRECT,no-resolve
-  - GEOIP,CN,DIRECT
+  - GEOIP,CN,DIRECT,no-resolve
   - MATCH,FINAL
 
 # ==============================
