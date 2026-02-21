@@ -7,6 +7,11 @@
 // @match        *://*/*
 // @grant        GM_addStyle
 // @run-at       document-idle
+// @supportURL        https://github.com/C2dark/oxJS
+// @homepageURL       https://github.com/C2dark/oxJS
+// @downloadURL https://raw.githubusercontent.com/C2dark/oxJS/refs/heads/dev/Tampermonkey/English%20Bionic%20Reading%20V2%20(%E5%BC%BA%E5%8A%9B%E7%89%88).js
+// @updateURL https://raw.githubusercontent.com/C2dark/oxJS/refs/heads/dev/Tampermonkey/English%20Bionic%20Reading%20V2%20(%E5%BC%BA%E5%8A%9B%E7%89%88).js
+// ==/UserScript==
 // ==/UserScript==
 
 (function() {
