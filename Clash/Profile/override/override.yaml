@@ -1,5 +1,6 @@
-#override_V3.3
-#2026.02.10 更新
+#version: override_V3.4
+#date: 2026.02.26
+#describe: 
 # ==============================
 # 0. 全局配置模板 (定义锚点)
 # ==============================
@@ -70,7 +71,7 @@ proxy-groups:
 # --- 核心功能组 ---
   - {name: 手动切换, type: select, include-all: true, icon: https://raw.githubusercontent.com/Orz-3/mini/master/Color/Static.png }
   - {name: Global, type: select, proxies: [手动切换, DIRECT, 美国策略, 香港策略, 狮城策略, 台湾策略, 日本策略, 韩国策略, 欧洲策略], icon: https://raw.githubusercontent.com/Orz-3/mini/master/Color/Global.png }
-  - {name: GlobalDL, type: select, proxies: [手动切换, DIRECT, 美国策略, 香港策略, 狮城策略, 台湾策略, 日本策略, 韩国策略, 欧洲策略, 低倍率策略, IPv6策略], icon: https://raw.githubusercontent.com/Orz-3/mini/master/Color/Global.png }
+  - {name: ProxyDL, type: select, proxies: [手动切换, DIRECT, 美国策略, 香港策略, 狮城策略, 台湾策略, 日本策略, 韩国策略, 欧洲策略, 低倍率策略, IPv6策略], icon: https://raw.githubusercontent.com/Orz-3/mini/master/Color/Global.png }
   - {name: FINAL, type: select, proxies: [手动切换, DIRECT, 美国策略, 香港策略, 狮城策略, 台湾策略, 日本策略, 韩国策略, 欧洲策略], icon: https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Final.png }
   
   # 应用分组
@@ -156,11 +157,11 @@ rules:
   - GEOIP,lan,DIRECT,no-resolve
   - GEOIP,private,DIRECT,no-resolve
   - GEOSITE,private,DIRECT
-  # 2. 特殊直连
+  # 2. 前置特殊直连
   - RULE-SET,PayPal,DIRECT
   - RULE-SET,AmazonCN,DIRECT
   - RULE-SET,Speedtest,DIRECT
-  # 3. 国内直连与下载
+  # 3. 国内直连
   - RULE-SET,WeChat,DIRECT
   - RULE-SET,BiliBili,DIRECT
     #游戏下载
@@ -170,10 +171,9 @@ rules:
   - RULE-SET,GameDownloadCN,DIRECT
   - RULE-SET,PrivateTracker,DIRECT
 
-
   # 4. 前置特殊代理
   - DOMAIN-KEYWORD,emby, 手动切换
-  - RULE-SET,Imgur,香港策略
+  - RULE-SET,Imgur,Global
   - RULE-SET,AppleDev,Global
   - RULE-SET,AppleProxy,Global
   - RULE-SET,iCloudPrivateRelay,Global
@@ -181,18 +181,20 @@ rules:
   - RULE-SET,Google,Google
  
   # 5. 国际媒体/社交
+   #AI
   - RULE-SET,Gemini,Gemini
   - RULE-SET,AI,AI
-  - RULE-SET,GitHub,香港策略
-  - RULE-SET,Cloudflare,香港策略
-  - RULE-SET,Developer,香港策略
-  - RULE-SET,Spotify,香港策略
-  - RULE-SET,Twitch,香港策略
-  - RULE-SET,Notion,香港策略
-  - RULE-SET,Line,香港策略
-  - RULE-SET,Discord,香港策略
-  - RULE-SET,Whatsapp,香港策略
-  #
+  #统一Global组
+  - RULE-SET,GitHub,Global
+  #- RULE-SET,Cloudflare,Global
+  - RULE-SET,Developer,Global
+  - RULE-SET,Spotify,Global
+  - RULE-SET,Twitch,Global
+  - RULE-SET,Notion,Global
+  - RULE-SET,Line,Global
+  - RULE-SET,Discord,Global
+  - RULE-SET,Whatsapp,Global
+  #自选组
   - RULE-SET,Bing,Bing
   - RULE-SET,Twitter,Twitter
 #  - RULE-SET,TelegramUS,Telegram
@@ -204,15 +206,14 @@ rules:
   - RULE-SET,TikTok,TikTok
   - RULE-SET,Netflix,Netflix
   # 6. 国外下载
-  - RULE-SET,Dropbox,GlobalDL
-  - RULE-SET,OneDrive,GlobalDL
-  - RULE-SET,GoogleDrive,GlobalDL
-  - RULE-SET,PikPak,GlobalDL
-  - RULE-SET,TeraBox,GlobalDL
+  - RULE-SET,Dropbox,ProxyDL
+  - RULE-SET,OneDrive,ProxyDL
+  - RULE-SET,GoogleDrive,ProxyDL
+  - RULE-SET,PikPak,ProxyDL
+  - RULE-SET,TeraBox,ProxyDL
   # 7. 国际大厂服务
-  - RULE-SET,Amazon,香港策略
+  - RULE-SET,Amazon,Global
   - RULE-SET,Apple,Apple
-
   - RULE-SET,Microsoft,Microsoft
   - RULE-SET,Facebook,Facebook
   # 8. 国外兜底
@@ -239,7 +240,7 @@ rule-providers:
   Privacy:      {<<: *p-standard, url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Privacy/Privacy_No_Resolve.yaml, path: ./ruleset/Privacy.yaml }
   BlockHttpDNS: {<<: *p-standard, url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/BlockHttpDNS/BlockHttpDNS_No_Resolve.yaml, path: ./ruleset/BlockHttpDNS.yaml }
 
-  # 2. 特殊直连
+  # 2. 前置特殊直连
   PayPal:       {<<: *p-standard, url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/refs/heads/master/rule/Clash/PayPal/PayPal.yaml, path: ./ruleset/PayPal.yaml }
   AmazonCN:     {<<: *p-standard, url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/AmazonCN/AmazonCN.yaml, path: ./ruleset/AmazonCN.yaml }
   Speedtest:    {<<: *p-standard, url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/refs/heads/master/rule/Clash/Speedtest/Speedtest.yaml, path: ./ruleset/Speedtest.yaml }
@@ -264,7 +265,7 @@ rule-providers:
   Gemini:       {<<: *p-standard, url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/refs/heads/master/rule/Clash/Gemini/Gemini.yaml, path: ./ruleset/Gemini.yaml }
   AI:           {<<: *p-standard, url: https://gist.githubusercontent.com/ddgksf2013/cb4121e8b5c5d865cc949cb8120320c4/raw/Ai.yaml, path: ./ruleset/AI.yaml }
   GitHub:       {<<: *p-standard, url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/GitHub/GitHub.yaml, path: ./ruleset/GitHub.yaml }
-  Cloudflare:   {<<: *p-standard, url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Cloudflare/Cloudflare.yaml, path: ./ruleset/Cloudflare.yaml }
+  #Cloudflare:   {<<: *p-standard, url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Cloudflare/Cloudflare.yaml, path: ./ruleset/Cloudflare.yaml }
   Developer:    {<<: *p-standard, url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Developer/Developer.yaml, path: ./ruleset/Developer.yaml }
   Spotify:      {<<: *p-standard, url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Spotify/Spotify.yaml, path: ./ruleset/Spotify.yaml }
   Twitch:       {<<: *p-standard, url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Twitch/Twitch.yaml, path: ./ruleset/Twitch.yaml }
