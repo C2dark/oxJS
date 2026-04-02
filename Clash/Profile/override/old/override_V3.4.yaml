@@ -1,5 +1,5 @@
-#version: override_V3.5
-#date: 2026.04.02
+#version: override_V3.4
+#date: 2026.02.26
 #describe: 
 # ==============================
 # 0. 全局配置模板 (定义锚点)
@@ -77,7 +77,6 @@ proxy-groups:
   # 应用分组
   - {name: Google, type: select, proxies: [手动切换, IPv6策略,美国策略, 香港策略, 狮城策略, 台湾策略, 日本策略, 韩国策略, 欧洲策略], icon: https://raw.githubusercontent.com/Orz-3/mini/master/Color/Google.png }
   - {name: Gemini, type: select, proxies: [手动切换, IPv6策略, 美国策略, 香港策略, 狮城策略, 台湾策略, 日本策略, 韩国策略, 欧洲策略], icon: https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/apps/Gemini_01.png }
-  - {name: Claude, type: select, proxies: [手动切换, IPv6策略, 美国策略, 香港策略, 狮城策略, 台湾策略, 日本策略, 韩国策略, 欧洲策略], icon: https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/apps/Claude_01.png }
   - {name: AI, type: select, proxies: [手动切换, IPv6策略,美国策略, 香港策略, 狮城策略, 台湾策略, 日本策略, 韩国策略, 欧洲策略], icon: https://raw.githubusercontent.com/lige47/QuanX-icon-rule/main/icon/04ProxySoft/chatgpt(white1).png }
   - {name: Telegram, type: select, proxies: [手动切换, 美国策略, 香港策略, 狮城策略, 台湾策略, 日本策略, 韩国策略, 欧洲策略], icon: https://raw.githubusercontent.com/Orz-3/mini/master/Color/Telegram.png }
   - {name: YouTube,   type: select, proxies: [手动切换, 美国策略, 香港策略, 狮城策略, 台湾策略, 日本策略, 韩国策略, 欧洲策略], icon: https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/YouTube.png }
@@ -90,7 +89,7 @@ proxy-groups:
   - {name: Facebook,   type: select, proxies: [手动切换, 美国策略, 香港策略, 狮城策略, 台湾策略, 日本策略, 韩国策略, 欧洲策略], icon: https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Facebook.png }
 
 
-# 全局时延优选
+  # 全局时延优选
   - {name: 时延优选, <<: *auto, hidden: false, icon: https://raw.githubusercontent.com/Orz-3/mini/master/Color/Urltest.png }
 
 # --- 地区主策略 ---
@@ -165,7 +164,6 @@ rules:
   # 3. 国内直连
   - RULE-SET,WeChat,DIRECT
   - RULE-SET,BiliBili,DIRECT
-  - RULE-SET,DouYin,DIRECT
     #游戏下载
   - RULE-SET,Game,DIRECT,no-resolve
   - RULE-SET,SteamCN,DIRECT
@@ -184,7 +182,6 @@ rules:
  
   # 5. 国际媒体/社交
    #AI
-  - RULE-SET,Claude,Claude
   - RULE-SET,Gemini,Gemini
   - RULE-SET,AI,AI
   #统一Global组
@@ -226,9 +223,10 @@ rules:
   
   # 9. 国内兜底
   - RULE-SET,Download,DIRECT
-#  - RULE-SET,China,DIRECT,no-resolve
-#  - RULE-SET,ChinaMedia,DIRECT,no-resolve
+  - RULE-SET,China,DIRECT,no-resolve
+  - RULE-SET,ChinaMedia,DIRECT,no-resolve
   - GEOSITE,CN,DIRECT
+  - RULE-SET,ChinaIPs,DIRECT,no-resolve
   - GEOIP,CN,DIRECT,no-resolve
   - MATCH,FINAL
 
@@ -248,9 +246,8 @@ rule-providers:
   Speedtest:    {<<: *p-standard, url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/refs/heads/master/rule/Clash/Speedtest/Speedtest.yaml, path: ./ruleset/Speedtest.yaml }
 
   # 3. 国内直连与下载
-  WeChat:       {<<: *p-standard, url: https://github.com/blackmatrix7/ios_rule_script/raw/refs/heads/master/rule/Clash/WeChat/WeChat_No_Resolve.yaml, path: ./ruleset/WeChat.yaml }
-  BiliBili:     {<<: *p-standard, url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/BiliBili/BiliBili_No_Resolve.yaml, path: ./ruleset/BiliBili.yaml }
-  DouYin:     {<<: *p-standard, url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/DouYin/DouYin_No_Resolve.yaml, path: ./ruleset/DouYin.yaml }
+  WeChat:       {<<: *p-standard, url: https://github.com/blackmatrix7/ios_rule_script/raw/refs/heads/master/rule/Clash/WeChat/WeChat.yaml, path: ./ruleset/WeChat.yaml }
+  BiliBili:     {<<: *p-standard, url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/BiliBili/BiliBili.yaml, path: ./ruleset/BiliBili.yaml }
   Game:         {<<: *p-standard, url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Game/Game_No_Resolve.yaml, path: ./ruleset/Game.yaml }
   SteamCN:      {<<: *p-standard, url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/SteamCN/SteamCN.yaml, path: ./ruleset/SteamCN.yaml }
   GameDownload: {<<: *p-standard, url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Game/GameDownload/GameDownload.yaml, path: ./ruleset/GameDownload.yaml }
@@ -265,7 +262,6 @@ rule-providers:
   1Password:   {<<: *p-standard, url: https://raw.githubusercontent.com/C2dark/oxJS/refs/heads/dev/Clash/rules/1Password.yaml, path: ./ruleset/1Password.yaml }
 
   # 5. 国际媒体/社交
-  Claude:       {<<: *p-standard, url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/refs/heads/master/rule/Clash/Claude/Claude.yaml, path: ./ruleset/Claude.yaml }
   Gemini:       {<<: *p-standard, url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/refs/heads/master/rule/Clash/Gemini/Gemini.yaml, path: ./ruleset/Gemini.yaml }
   AI:           {<<: *p-standard, url: https://gist.githubusercontent.com/ddgksf2013/cb4121e8b5c5d865cc949cb8120320c4/raw/Ai.yaml, path: ./ruleset/AI.yaml }
   GitHub:       {<<: *p-standard, url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/GitHub/GitHub.yaml, path: ./ruleset/GitHub.yaml }
@@ -280,9 +276,9 @@ rule-providers:
 
   Bing:         {<<: *p-standard, url: https://rule.kelee.one/Clash/Bing.yaml, path: ./ruleset/Bing.yaml }
   Twitter:      {<<: *p-standard, url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Twitter/Twitter.yaml, path: ./ruleset/Twitter.yaml }
-#  TelegramUS:   {<<: *p-standard, url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/TelegramUS/TelegramUS.yaml, path: ./ruleset/TelegramUS.yaml }
-#  TelegramSG:   {<<: *p-standard, url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/TelegramSG/TelegramSG.yaml, path: ./ruleset/TelegramSG.yaml }
-#  TelegramNL:   {<<: *p-standard, url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/TelegramNL/TelegramNL.yaml, path: ./ruleset/TelegramNL.yaml }
+  TelegramUS:   {<<: *p-standard, url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/TelegramUS/TelegramUS.yaml, path: ./ruleset/TelegramUS.yaml }
+  TelegramSG:   {<<: *p-standard, url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/TelegramSG/TelegramSG.yaml, path: ./ruleset/TelegramSG.yaml }
+  TelegramNL:   {<<: *p-standard, url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/TelegramNL/TelegramNL.yaml, path: ./ruleset/TelegramNL.yaml }
   Telegram:     {<<: *p-standard, url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Telegram/Telegram_No_Resolve.yaml, path: ./ruleset/Telegram.yaml }
   YouTube:      {<<: *p-standard, url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/refs/heads/master/rule/Clash/YouTube/YouTube_No_Resolve.yaml, path: ./ruleset/YouTube.yaml }
   TikTok:       {<<: *p-standard, url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/refs/heads/master/rule/Clash/TikTok/TikTok.yaml, path: ./ruleset/TikTok.yaml }
@@ -309,5 +305,6 @@ rule-providers:
 
   # 9. 国内兜底
   Download:     {<<: *p-standard, url: https://raw.githubusercontent.com/C2dark/oxJS/refs/heads/dev/Clash/rules/Download.yaml, path: ./ruleset/Download.yaml }
-#  China:        {<<: *p-standard, url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/China/China_No_Resolve.yaml, path: ./ruleset/China_No_Resolve.yaml }
-#  ChinaMedia:   {<<: *p-standard, url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/ChinaMedia/ChinaMedia_No_Resolve.yaml, path: ./ruleset/ChinaMedia_No_Resolve.yaml }
+  China:        {<<: *p-standard, url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/China/China_No_Resolve.yaml, path: ./ruleset/China_No_Resolve.yaml }
+  ChinaMedia:   {<<: *p-standard, url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/ChinaMedia/ChinaMedia_No_Resolve.yaml, path: ./ruleset/ChinaMedia_No_Resolve.yaml }
+  ChinaIPs:     {<<: *p-standard, url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/ChinaIPs/ChinaIPs_Classical_No_Resolve.yaml, path: ./ruleset/ChinaIPs.yaml }
