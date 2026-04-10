@@ -16,6 +16,11 @@ arg3 = switch,true,tag=Spotify_lyrics_translation
 arg4 = switch,true,tag=QQ_Redirect
 arg5 = switch,true,tag=微信外部链接解锁
 arg6 = switch,true,tag=移动查询接口
+arg7 = switch,true,tag=建行生活净化
+arg8 = switch,true,tag=酷安链接重定向
+
+
+
 
 [Script]
 #1 SoraRemoveWatermark
@@ -44,6 +49,15 @@ http-response ^https\:\/\/(weixin110\.qq|security.wechat)\.com\/cgi-bin\/mmspams
 
 #6 移动余量查询接口
 http-request ^https?:\/\/api\.example\.com\/10086\/query script-path=https://raw.githubusercontent.com/C2dark/oxJS/refs/heads/dev/Loon/Scripts/enhancement/10086.js, requires-body=true, timeout=60, enable = {arg6},tag=移动查询接口
+
+#7 建行生活净化
+http-response ^https?:\/\/yunbusiness\.ccb\.com\/(basic_service|clp_service)\/txCtrl\?txcode=A3341AB0(3|5|8) script-path=https://raw.githubusercontent.com/C2dark/oxJS/refs/heads/dev/Loon/Scripts/adBlock/jhsh.js, requires-body=true, timeout=20, enable = {arg7}, tag=建行生活净化
+
+#8酷安链接重定向
+http-request ^https:\/\/www\.coolapk\.com\/link.* script-path=https://raw.githubusercontent.com/C2dark/oxJS/refs/heads/dev/Loon/Scripts/enhancement/Coolapk_Redirect.js, requires-body=false, timeout=10, enable = {arg8}, tag=酷安链接重定向
+
+
+
 
 
 [General]
@@ -84,6 +98,6 @@ use-local-host-item-for-proxy = true
 
 
 [MITM]
-hostname = videos.openai.com,in.m.jd.com, apapia-sqk-weblogic.manmanbuy.com,api.spotify.com, spclient.wg.spotify.com,pingtas.qq.com, c.pc.qq.com, cgi.connect.qq.com,weixin110.qq.com, security.wechat.com,api.example.com,hostname=api.zsxq.com
+hostname = videos.openai.com,in.m.jd.com, apapia-sqk-weblogic.manmanbuy.com,api.spotify.com, spclient.wg.spotify.com,pingtas.qq.com, c.pc.qq.com, cgi.connect.qq.com,weixin110.qq.com, security.wechat.com,api.example.com,hostname=api.zsxq.com, www.coolapk.com
 
 

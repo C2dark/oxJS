@@ -31,7 +31,7 @@ arg17 = switch,true,tag=Adobe Creative Cloud解锁
 arg18 = switch,true,tag=FT中文网
 arg19 = switch,true,tag=闪电水印
 arg20 = switch,true,tag=haijiaoshequ1
-arg21 = switch,true,tag=haijiaoshequ2
+arg21 = switch,true,tag=海角社区
 arg22 = switch,true,tag=扫描全能王
 arg23 = switch,true,tag=filmix
 
@@ -104,8 +104,8 @@ http-response ^https?:\/\/watershandiana.yunxiaoguo.cn\/user\/info script-path=h
 #HJ社区插件版
 http-response ^https:\/\/api2\.xivjndn\.xyz\/api\/(?:mv\/detail|users\/base_info|home\/getconfig|novel\/detail|novel\/recommend|novel\/chaptersList|novel\/chapterDetail|navigation\/index_aw) script-path=https://raw.githubusercontent.com/Yu9191/Rewrite/refs/heads/main/haijiaoshequ.js, requires-body=true, timeout=60, enable ={arg20}, tag=haijiaoshequ1
 
-#hj社区转换版
-http-response ^https:\/\/api2\.xivjndn\.xyz\/(?:api\.php\/api|api)\/(?:mv\/detail|users\/base_info|home\/getconfig|novel\/detail|novel\/recommend|novel\/chaptersList|novel\/chapterDetail|navigation\/index(?:_aw)?|tabnew\/list_construct|porngame\/nav)(?:\?.*)?$ script-path=https://raw.githubusercontent.com/Yu9191/Rewrite/refs/heads/main/haijiaoshequ.js, requires-body=true, timeout=60, enable ={arg21}, tag=haijiaoshequ2
+#21 海角社区
+http-response https:\/\/haijiao\.com\/api\/(user\/current|topic\/\d+|attachment|banner\/banner_list) requires-body=1, max-size=0, script-path=https://raw.githubusercontent.com/chmg2025/js/refs/heads/main/haijiao.js, requires-body=true, timeout=60, enable ={arg21}, tag=海角社区
 
 #22扫描全能王
 http-response https:\/\/(api|api-cs)\.intsig\.net\/purchase\/cs\/query_property\? requires-body=1, script-path=https://raw.githubusercontent.com/NobyDa/Script/master/Surge/JS/CamScanner.js, enable ={arg22}, tag=扫描全能王
@@ -129,4 +129,4 @@ http-response ^https:\/\/appv3\.filmix\.com\.cn\/api\/v2\/user\/user\/info scrip
 
 
 [MITM]
-hostname = license.pdfexpert.com,appraven.net,cubox.pro,cubox.cc,pan.baidu.com,appwk.baidu.com,backend.getdrafts.com,mb3admin.com,license.enpass.io,restore-access.indream.app,notability.com,*-slidebox-ios-prod.cloudfunctions.net,www.xmind.cn,www.xmind.net,www.xmind.app,aliyun.example.com, quark.example.com, pikpak.example.com,account.wps.cn,*account.wps.com,spclient.wg.spotify.com,*spclient.spotify.com,aiqicha.baidu.com,lcs-mobile-cops.adobe.io,createpdf.acrobat.com,*.cloudfront.net, ftmailbox.cn,watershandiana.yunxiaoguo.cn,*.upwqjcun.cc, api2.xivjndn.xyz,ap*.intsig.net,appv3.filmix.com.cn
+hostname = license.pdfexpert.com,appraven.net,cubox.pro,cubox.cc,pan.baidu.com,appwk.baidu.com,backend.getdrafts.com,mb3admin.com,license.enpass.io,restore-access.indream.app,notability.com,*-slidebox-ios-prod.cloudfunctions.net,www.xmind.cn,www.xmind.net,www.xmind.app,aliyun.example.com, quark.example.com, pikpak.example.com,account.wps.cn,*account.wps.com,spclient.wg.spotify.com,*spclient.spotify.com,aiqicha.baidu.com,lcs-mobile-cops.adobe.io,createpdf.acrobat.com,*.cloudfront.net, ftmailbox.cn,watershandiana.yunxiaoguo.cn,*.upwqjcun.cc, api2.xivjndn.xyz,ap*.intsig.net,appv3.filmix.com.cn,haijiao.com

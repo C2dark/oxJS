@@ -22,6 +22,7 @@ arg7 = switch,true,tag=weibo_intl Rewrite不可控制
 arg8 = switch,true,tag=zhihu
 arg9 = switch,true,tag=豆瓣不可控
 arg10 = switch,true,tag=酷安不可控
+arg11 = switch,true,tag=建行生活净化
 
 
 
