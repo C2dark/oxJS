@@ -91,8 +91,9 @@ arg47 = switch, true, false, tag = [汇率]Task
 arg48 = input, "0 0 9 * * *", tag = [汇率]定时参数Cron
 
 #Pingme
-arg49 = switch, true, false, tag = [Pingme]Task
-arg50 = input, "30 8,20 * * *", tag = [Pingme]定时参数Cron
+arg49 = switch, true, false, tag = [PingmeToken]
+arg50= switch, true, false, tag = [PingmeTask]
+arg51 = input, "30 8,20 * * *", tag = [Pingme]定时参数Cron
 
 
 
@@ -163,8 +164,9 @@ cron {arg46} script-path=https://raw.githubusercontent.com/lowking/Scripts/maste
 cron {arg48} script-path=https://raw.githubusercontent.com/Peng-YM/QuanX/master/Tasks/exchange.js, enable= {arg47}, tag=汇率
 
 #Pingme
-http-request ^https:\/\/api\.pingmeapp\.net\/app\/queryBalanceAndBonus script-path=https://raw.githubusercontent.com/ZenmoFeiShi/Qx/refs/heads/main/PingMe.js, timeout=60, enable= {arg49}, tag=PingMe
-cron {arg50} script-path=https://raw.githubusercontent.com/ZenmoFeiShi/Qx/refs/heads/main/PingMe.js, timeout=120, enable= {arg51}, tag=PingMe签到
+http-request ^https:\/\/api\.pingmeapp\.net\/app\/queryBalanceAndBonus script-path=https://raw.githubusercontent.com/ZenmoFeiShi/Qx/refs/heads/main/PingMe.js, requires-body=true, timeout=60, enable= {arg49}, tag=PingMeToken
+
+cron {arg51} script-path=https://raw.githubusercontent.com/ZenmoFeiShi/Qx/refs/heads/main/PingMe.js, timeout=120, enable= {arg50}, tag=PingMeTask
 
 [MitM]
 hostname = payapp.weixin.qq.com, auth.alipan.com, auth.aliyundrive.com, api.weibo.cn, cm.bilibili.com, m.bilibili.com, *.kugou.com, i.meituan.com,mall.meituan.com,promotion.waimai.meituan.com, mcs-mimp-web.sf-express.com, apis.folidaymall.com, *.amap.com, mxsa.mxbc.net, webapi2.qmai.cn, webapi.qmai.cn, qmwebapi.qmai.cn, developer.aliyun.com, www.v2ex.com, api.pingmeapp.net,
