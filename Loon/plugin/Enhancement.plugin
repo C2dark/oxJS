@@ -97,7 +97,10 @@ use-local-host-item-for-proxy = true
 ^https:\/\/articles\.zsxq\.com\/inline_form\/id_[a-z0-9]+\.html response-body-replace-regex name="group_enable_watermark"\x20value="true" name="group_enable_watermark"\x20value="false"
 
 
+#
+^https:\/\/fluxapi\.vvebo\.vip\/v1\/(purchase\/iap\/subscription) header https://mock.forward1.workers.dev/forward/v1/$1
+
 [MITM]
-hostname = videos.openai.com,in.m.jd.com, apapia-sqk-weblogic.manmanbuy.com,api.spotify.com, spclient.wg.spotify.com,pingtas.qq.com, c.pc.qq.com, cgi.connect.qq.com,weixin110.qq.com, security.wechat.com,api.example.com,hostname=api.zsxq.com, www.coolapk.com
+hostname = videos.openai.com,in.m.jd.com, apapia-sqk-weblogic.manmanbuy.com,api.spotify.com, spclient.wg.spotify.com,pingtas.qq.com, c.pc.qq.com, cgi.connect.qq.com,weixin110.qq.com, security.wechat.com,api.example.com,hostname=api.zsxq.com, www.coolapk.com,assppweb.com
 
 
