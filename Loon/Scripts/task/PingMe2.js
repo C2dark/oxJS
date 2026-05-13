@@ -1,12 +1,12 @@
-/*
-@Name：PingMe 自动化签到+视频奖励
-@Author：怎么肥事
+ /*
+@Name：PingMe 自动化签到+视频奖励 (Loon版)
+@Author：怎么肥事 (转换适配)
 
-[rewrite_local]
-^https:\/\/api\.pingmeapp\.net\/app\/queryBalanceAndBonus url script-request-header https://raw.githubusercontent.com/ZenmoFeiShi/Qx/refs/heads/main/PingMe.js
+[Script]
+http-request ^https:\/\/api\.pingmeapp\.net\/app\/queryBalanceAndBonus script-path=https://raw.githubusercontent.com/ZenmoFeiShi/Qx/refs/heads/main/PingMe_Loon.js, requires-body=false, timeout=10, tag=PingMe获取Cookie
 
-[task_local]
-30 8,20 * * * https://raw.githubusercontent.com/ZenmoFeiShi/Qx/refs/heads/main/PingMe.js, tag=PingMe签到, enabled=true
+[Cron]
+cron "30 8,20 * * *" script-path=https://raw.githubusercontent.com/ZenmoFeiShi/Qx/refs/heads/main/PingMe_Loon.js, timeout=60, tag=PingMe签到
 
 [MITM]
 hostname = api.pingmeapp.net
@@ -150,22 +150,40 @@ function buildHeaders(capture) {
 }
 
 function notifyDone(title, body) {
-  $notify(scriptName, title, body);
+  // Loon 使用 $notification.post
+  if (typeof $notification !== 'undefined') {
+    $notification.post(scriptName, title, body);
+  } else if (typeof $notify !== 'undefined') {
+    $notify(scriptName, title, body);
+  }
 }
 
+// Loon 使用 $request 获取请求信息 (与QX相同)
 if (typeof $request !== 'undefined' && $request) {
   const capture = {
     url: $request.url,
     paramsRaw: parseRawQuery($request.url),
     headers: normalizeHeaderNameMap($request.headers || {})
   };
-  $prefs.setValueForKey(JSON.stringify(capture), ckKey);
+  // Loon 使用 $persistentStore 替代 $prefs
+  if (typeof $persistentStore !== 'undefined') {
+    $persistentStore.write(JSON.stringify(capture), ckKey);
+  } else {
+    $prefs.setValueForKey(JSON.stringify(capture), ckKey);
+  }
   const keys = Object.keys(capture.paramsRaw).filter(k => k !== 'sign').join(', ');
   notifyDone('✅ 参数抓取成功', `已保存请求头+参数`);
   console.log(`【${scriptName}】capture:\n${JSON.stringify(capture, null, 2)}`);
-  $done({});
+  $done();
 } else {
-  const raw = $prefs.valueForKey(ckKey);
+  // 定时任务执行部分
+  let raw;
+  if (typeof $persistentStore !== 'undefined') {
+    raw = $persistentStore.read(ckKey);
+  } else {
+    raw = $prefs.valueForKey(ckKey);
+  }
+  
   if (!raw) {
     notifyDone('⚠️ 未抓到参数', '先打开 PingMe 触发一次 ');
     $done();
@@ -180,8 +198,29 @@ if (typeof $request !== 'undefined' && $request) {
     const headers = buildHeaders(capture);
     const msgs = [];
 
+    // Loon 使用 $httpClient 替代 $task.fetch
     function fetchApi(path) {
-      return $task.fetch({ url: buildUrl(path, capture), method: 'GET', headers });
+      return new Promise((resolve, reject) => {
+        const url = buildUrl(path, capture);
+        const options = {
+          url: url,
+          method: 'GET',
+          headers: headers
+        };
+        
+        if (typeof $httpClient !== 'undefined') {
+          $httpClient.get(options, (error, response, data) => {
+            if (error) {
+              reject({ error: error });
+            } else {
+              resolve({ body: data });
+            }
+          });
+        } else {
+          // 兼容 QX
+          $task.fetch(options).then(resolve).catch(reject);
+        }
+      });
     }
 
     function doVideoLoop(count) {

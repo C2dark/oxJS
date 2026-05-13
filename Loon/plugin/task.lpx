@@ -166,6 +166,12 @@ cron {arg48} script-path=https://raw.githubusercontent.com/Peng-YM/QuanX/master/
 #Pingme
 http-request ^https:\/\/api\.pingmeapp\.net\/app\/queryBalanceAndBonus script-path=https://raw.githubusercontent.com/ZenmoFeiShi/Qx/refs/heads/main/PingMe.js, requires-body=true, timeout=60, enable= {arg49}, tag=PingMeToken
 
+
+
+http-request ^https:\/\/api\.pingmeapp\.net\/app\/queryBalanceAndBonus script-path=https://axhani.pages.dev/refs/heads/main/Script%20/Tasks/PingMe.js, timeout=300, enable = {arg2}, tag=token
+
+
+
 cron {arg51} script-path=https://raw.githubusercontent.com/ZenmoFeiShi/Qx/refs/heads/main/PingMe.js, timeout=120, enable= {arg50}, tag=PingMeTask
 
 [MitM]
