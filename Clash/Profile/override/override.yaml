@@ -148,6 +148,8 @@ proxy-groups:
 # 2. 分流规则
 # ==============================
 rules:
+  - DOMAIN-SUFFIX,cloudflare-dns.com,Global
+  - DOMAIN-SUFFIX,dns.google,Global
   # 1. 广告拦截
   - GEOSITE,Category-ads-all,REJECT
   - RULE-SET,AdBlock,REJECT,no-resolve
