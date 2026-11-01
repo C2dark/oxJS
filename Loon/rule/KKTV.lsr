@@ -1,0 +1,8 @@
+# Update：2026-11-01 14:32:28
+# Amount：6
+DOMAIN, theater-kktv.cdn.hinet.net
+DOMAIN, kktv-theater.kk.stream
+DOMAIN-SUFFIX, kktv.me
+DOMAIN-SUFFIX, kktv.com.tw
+USER-AGENT, KKTV*
+USER-AGENT, com.kktv.ios.kktv*

@@ -1,0 +1,10 @@
+# Update：2026-11-01 14:32:28
+# Amount：7
+payload:
+  - DOMAIN-SUFFIX,edge.api.brightcove.com
+  - DOMAIN-SUFFIX,tver.co.jp
+  - DOMAIN-SUFFIX,dogatch.jp
+  - DOMAIN-SUFFIX,gorin.jp
+  - DOMAIN-SUFFIX,screens-lab.jp
+  - DOMAIN-SUFFIX,tver.jp
+  - USER-AGENT,TVer-Release*

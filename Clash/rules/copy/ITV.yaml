@@ -1,0 +1,7 @@
+# Update：2026-11-01 14:32:28
+# Amount：4
+payload:
+  - DOMAIN,itvpnpmobile-a.akamaihd.net
+  - DOMAIN-SUFFIX,itv.com
+  - DOMAIN-SUFFIX,itvstatic.com
+  - USER-AGENT,ITV_Player*

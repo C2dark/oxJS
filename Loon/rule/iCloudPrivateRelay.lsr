@@ -1,0 +1,8 @@
+# Update：2026-11-01 14:32:28
+# Amount：6
+DOMAIN, mask-api.icloud.com
+DOMAIN, mask-api.fe.apple-dns.net
+DOMAIN, mask.apple-dns.net
+DOMAIN, mask-t.apple-dns.net
+DOMAIN-SUFFIX, mask.icloud.com
+DOMAIN-SUFFIX, mask-h2.icloud.com

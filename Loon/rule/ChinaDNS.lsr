@@ -1,0 +1,6 @@
+# Update：2026-11-01 14:32:28
+# Amount：4
+DOMAIN-SUFFIX, doh.360.cn
+DOMAIN-SUFFIX, dns.alidns.com
+DOMAIN-SUFFIX, doh.pub
+IP-CIDR, 1.12.12.12/32, no-resolve

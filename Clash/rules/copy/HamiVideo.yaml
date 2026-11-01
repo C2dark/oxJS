@@ -1,0 +1,7 @@
+# Update：2026-11-01 14:32:28
+# Amount：4
+payload:
+  - DOMAIN,hls-hichannel.cdn.hinet.net
+  - DOMAIN-SUFFIX,hamivideo.hinet.net
+  - DOMAIN-SUFFIX,ott.hinet.net
+  - DOMAIN-KEYWORD,hamivideo.cdn.hinet.net

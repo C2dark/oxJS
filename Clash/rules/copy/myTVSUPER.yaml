@@ -1,0 +1,10 @@
+# Update：2026-11-01 14:32:28
+# Amount：7
+payload:
+  - DOMAIN,mytvsuperlimited.hb.omtrdc.net
+  - DOMAIN,mytvsuperlimited.sc.omtrdc.net
+  - DOMAIN-SUFFIX,mytvsuper.com
+  - DOMAIN-SUFFIX,tvb.com
+  - DOMAIN-KEYWORD,nowtv100
+  - DOMAIN-KEYWORD,rthklive
+  - USER-AGENT,mytv*

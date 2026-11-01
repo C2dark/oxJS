@@ -1,0 +1,9 @@
+# Update：2026-11-01 14:32:28
+# Amount：6
+payload:
+  - DOMAIN,edge.api.brightcove.com
+  - DOMAIN,content.jwplatform.com
+  - DOMAIN,videos-f.jwpsrv.com
+  - DOMAIN,bcbolt446c5271-a.akamaihd.net
+  - DOMAIN-SUFFIX,encoretvb.com
+  - USER-AGENT,encoreTVB*

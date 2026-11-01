@@ -1,0 +1,9 @@
+# Update：2026-11-01 14:32:28
+# Amount：6
+payload:
+  - DOMAIN-SUFFIX,tidal-cms.s3.amazonaws.com
+  - DOMAIN-SUFFIX,tidal.com
+  - DOMAIN-SUFFIX,tidalhifi.com
+  - DOMAIN-SUFFIX,wimpmusic.com
+  - USER-AGENT,TIDAL*
+  - USER-AGENT,TIDAL*dia

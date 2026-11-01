@@ -1,0 +1,7 @@
+# Update：2026-11-01 14:32:28
+# Amount：4
+payload:
+  - DOMAIN,appleid.apple.com
+  - DOMAIN,gsa.apple.com
+  - DOMAIN,idmsa.apple.com
+  - DOMAIN,appleid.cdn-apple.com

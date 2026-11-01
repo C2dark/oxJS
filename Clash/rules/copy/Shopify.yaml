@@ -1,0 +1,11 @@
+# Update：2026-11-01 14:32:28
+# Amount：8
+payload:
+  - DOMAIN-SUFFIX,shop.app
+  - DOMAIN-SUFFIX,myshopify.com
+  - DOMAIN-SUFFIX,shopify.com
+  - DOMAIN-SUFFIX,shopifycdn.com
+  - DOMAIN-SUFFIX,shopifycloud.com
+  - DOMAIN-SUFFIX,shopifystatus.com
+  - DOMAIN-SUFFIX,shopifysvc.com
+  - DOMAIN-SUFFIX,shopify.dev
