@@ -1,0 +1,22 @@
+# Set default behavior: auto-detect text files and normalize line endings to LF
+* text=auto eol=lf
+
+# Explicitly ensure all script, rule, and config files use LF
+*.lsr text eol=lf
+*.plugin text eol=lf
+*.conf text eol=lf
+*.list text eol=lf
+*.snippet text eol=lf
+*.js text eol=lf
+*.json text eol=lf
+*.yaml text eol=lf
+*.yml text eol=lf
+*.md text eol=lf
+*.txt text eol=lf
+
+# Binary files
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary

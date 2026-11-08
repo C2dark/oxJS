@@ -1,3 +1,6 @@
+# NAME: AI
+# UPDATED: 2026-11-08
+
 payload:
 # > Ai general rules
   - DOMAIN,api.statsig.com
@@ -23,10 +26,15 @@ payload:
   - DOMAIN,cdn.usefathom.com
   - DOMAIN-SUFFIX,anthropic.com
   - DOMAIN-SUFFIX,claude.ai
+  - DOMAIN-SUFFIX,claude.com
   - DOMAIN-SUFFIX,claudeusercontent.com
 
 # > Cursor
   - DOMAIN-SUFFIX,cursor.sh
+  - DOMAIN-SUFFIX,cursor.com
+  - DOMAIN-SUFFIX,cursor-cdn.com
+  - DOMAIN-SUFFIX,cursorapi.com
+  - DOMAIN-SUFFIX,cursorvm.com
 
 # > Dify AI
   - DOMAIN-SUFFIX,dify.ai
@@ -54,6 +62,22 @@ payload:
 # > Meta
   - DOMAIN-SUFFIX,meta.ai
   - DOMAIN-SUFFIX,meta.com
+  - DOMAIN-SUFFIX,atmeta.com
+  - DOMAIN-SUFFIX,llamameta.net
+  - DOMAIN-SUFFIX,llama.com
+
+# > Muse AI
+  - DOMAIN-SUFFIX,muse.ai
+  - DOMAIN,production.museai.com
+  - DOMAIN,connect.facebook.net
+  - DOMAIN,meta-ohttp-config-prod.fastly-edge.com
+  - DOMAIN,meta-ohttp-relay-prod.fastly-edge.com
+  - DOMAIN-SUFFIX,facebook.com
+  - DOMAIN-SUFFIX,fbcdn.net
+
+# > Notebooklm
+  - DOMAIN-SUFFIX,notebooklm.google.com
+  - DOMAIN-SUFFIX,notebooklm.google
 
 # > Microsoft Copilot
   - DOMAIN,api.msn.com
@@ -102,3 +126,15 @@ payload:
 # > xAI/Grok
   - DOMAIN-SUFFIX,x.ai
   - DOMAIN-SUFFIX,grok.com
+  
+# > Mistral AI
+  - DOMAIN-SUFFIX,mistral.ai
+
+# > Hugging Face
+  - DOMAIN-SUFFIX,huggingface.co
+  - DOMAIN-SUFFIX,hf.co
+  - DOMAIN-SUFFIX,hf.space
+
+# > Manus
+  - DOMAIN-SUFFIX,manus.im
+  - DOMAIN-SUFFIX,manuscdn.com

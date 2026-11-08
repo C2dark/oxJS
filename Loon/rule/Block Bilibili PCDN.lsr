@@ -1,0 +1,9 @@
+#!name = Block Bilibili PCDN
+# Update：2026-11-08
+# Amount：5
+[Rule]
+DOMAIN-WILDCARD, pcdn.biliapi.net, REJECT 
+DOMAIN-SUFFIX, mcdn.bilivideo.cn, REJECT 
+DOMAIN-SUFFIX, mcdn.bilivideo.com, REJECT 
+DOMAIN-SUFFIX, szbdyd.com, REJECT 
+DOMAIN-SUFFIX, mountaintoys.cn, REJECT
